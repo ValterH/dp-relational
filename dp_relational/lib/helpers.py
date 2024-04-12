@@ -4,6 +4,8 @@
 # code from https://github.com/terranceliu/dp-query-release
 
 import math
+import torch
+from typing import List
 
 """
 Functions for converting between concentrated and approximate DP
@@ -120,3 +122,22 @@ def get_per_round_privacy_budget(
         eps0 = (2 * rho) / (num_workloads * (alpha**2 + (1 - alpha) ** 2))
     eps0 = math.pow(eps0, 0.5)
     return eps0, rho
+
+"""PyTorch helpers"""
+
+def torch_cat_sparse_coo(tensors: List[torch.Tensor], dim=0, is_coalesced=True):
+    indices_list = []
+    values_list = []
+    curr_shift = 0
+    for tensor in tensors:
+        # TODO: dimensionality assertion
+        indices = tensor.indices().detach().clone()
+        indices[dim, :] += curr_shift
+        indices_list.append(indices)
+        values_list.append(tensor.values())
+        curr_shift += tensor.size(dim)
+    
+    new_size = list(tensors[0].size())
+    new_size[dim] = curr_shift
+    
+    return torch.sparse_coo_tensor(torch.cat(indices_list, dim=1), torch.cat(values_list), size=new_size)._coalesced_(is_coalesced)

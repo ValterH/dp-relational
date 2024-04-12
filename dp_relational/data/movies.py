@@ -45,4 +45,4 @@ ratings_df = ratings_df.reset_index()
 movies_table = Table(movies_df, 'ID', do_onehot_encode=[])
 users_table = Table(users_df, 'ID')
 
-dataset = RelationalDataset(movies_table, users_table, ratings_df, 'MovieID', 'UserID', dmax=10)
+dataset = lambda dmax: RelationalDataset(movies_table, users_table, ratings_df, 'MovieID', 'UserID', dmax=dmax)
