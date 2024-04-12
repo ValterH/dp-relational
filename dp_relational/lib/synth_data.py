@@ -331,28 +331,46 @@ class QueryManagerTorch(QueryManager):
             true_vals = self.true_ans_tensor[range_low:range_high]
             
             indices_row = np.zeros((vec_len, ))
-            indices_col = torch.arange(start=0, end=vec_len)
+            indices_col = np.arange(0, vec_len)
             
             pbar = tqdm(total=vec_len, disable=not self.verbose)
+            
+            table_t1 = self.df1_synth[list(workload[0])]
+            table_t1 = tuple(table_t1[x].iloc[:].values for x in workload[0])
+            
+            dim1 = self.workload_dict[workload]['dim_1']
+            dim2 = self.workload_dict[workload]['dim_2']
+            dim = dim1 + dim2
+            total_dim = 1
+            for i in dim:
+                total_dim *= i
+                
+            t1_dimsizes = []
+            for subdim_size in dim1:
+                total_dim = total_dim/subdim_size
+                t1_dimsizes.append(total_dim)
+            t2_dimsizes = []
+            for subdim_size in dim2:
+                total_dim = total_dim/subdim_size
+                t2_dimsizes.append(total_dim)
+
+            offsets = np.zeros(shape=table_t1[0].shape)
+            for t1_col in range(len(t1_dimsizes)):
+                offsets += table_t1[t1_col] * t1_dimsizes[t1_col]
+            
             for y in range(self.n_syn2):
-                for x in range(self.n_syn1):
-                    pbar.update(1)
-                    # get the rows from both tables
-                    row_t1 = self.df1_synth[list(workload[0])].iloc[x]
-                    row_t2 = self.df2_synth[list(workload[1])].iloc[y]
-                    
-                    row_t1 = tuple(row_t1[x] for x in workload[0])
-                    row_t2 = tuple(row_t2[x] for x in workload[1])
-                    # find the value index of this one
-                    val_index = self.query_ind(workload, (row_t1, row_t2), zero_index=True)
-                    #query_mat[val_index, x + (y * self.n_syn1)] = 1
-                    indices_row[x + (y * self.n_syn1)] = val_index
+                row_t2 = self.df2_synth[list(workload[1])].iloc[y]
+                row_t2 = tuple(row_t2[x] for x in workload[1]) # get the integer values
+                
+                val_index = np.copy(offsets)
+                for t2_col in range(len(t2_dimsizes)):
+                    val_index += row_t2[t2_col] * t2_dimsizes[t2_col]
+                indices_row[(y * self.n_syn1):((y + 1) * self.n_syn1)] = val_index
             pbar.close()
-            indices_row = torch.from_numpy(indices_row)
-            indices = torch.stack((indices_row, indices_col))
-            query_mat = torch.sparse_coo_tensor(indices, 1, size=(num_queries, vec_len))
-            print(torch.sum(query_mat))
-            print(vec_len)
+            indices = np.stack((indices_row, indices_col))
+            query_mat = torch.sparse_coo_tensor(indices, np.ones(shape=(vec_len, )), size=(num_queries, vec_len))
+            # print(torch.sparse.sum(query_mat, dim=1))
+            # print(vec_len)
             self.workload_query_answers[workload] = (query_mat, true_vals)
             return self.get_query_mat_full_table(workload)
 # TODO: rename
