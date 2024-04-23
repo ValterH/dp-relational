@@ -157,7 +157,7 @@ def learn_relationship_vector_basic(qm: QueryManagerBasic, epsilon_relationship=
     rho_rel = cdp_rho(epsilon_relationship, delta_relationship)
 
     # privacy budget per iteration
-    per_round_rho_rel = rho_rel / T
+    per_round_rho_rel = (rho_rel / 0.0001) if T == 0 else rho_rel / T
 
     # intialization
     unselected_workload = [i for i in range(len(qm.workload_names))]
@@ -214,7 +214,7 @@ def learn_relationship_vector_torch(qm: QueryManagerTorch, epsilon_relationship=
     rho_rel = cdp_rho(epsilon_relationship, delta_relationship)
 
     # privacy budget per iteration
-    per_round_rho_rel = rho_rel / T
+    per_round_rho_rel = (rho_rel / 0.0001) if T == 0 else rho_rel / T
 
     # intialization
     unselected_workload = [i for i in range(len(qm.workload_names))]
@@ -274,7 +274,7 @@ def learn_relationship_vector_torch_masked(qm: QueryManagerTorch, epsilon_relati
     rho_rel = cdp_rho(epsilon_relationship, delta_relationship)
 
     # privacy budget per iteration
-    per_round_rho_rel = rho_rel / T
+    per_round_rho_rel = (rho_rel / 0.0001) if T == 0 else rho_rel / T
 
     # intialization
     unselected_workload = [i for i in range(len(qm.workload_names))]
