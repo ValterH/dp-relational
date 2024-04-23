@@ -13,7 +13,7 @@ device = torch.device('cuda')
 print("cuda_available", torch.cuda.is_available())
 print("using device: ", device)
 
-# EPSILON_PYTORCH_EXPERIMENT_DATASET = uuid.UUID('not-run-yet')
+# EXPERIMENT_DATASET = uuid.UUID('0c96cc62-014b-11ef-9020-d21cd07a44f3')
 
 def qm_generator_torch(rel_dataset, k, df1_synth, df2_synth):
     return dp_relational.lib.synth_data.QueryManagerTorch(rel_dataset, k=k, df1_synth=df1_synth, df2_synth=df2_synth, device=device)
@@ -28,6 +28,7 @@ runner.update(dataset_generator=dp_relational.data.movies.dataset, n_syn1=int(77
               synth='mst', epsilon=4.0, eps1=1.0, eps2=1.0, k=2, dmax=10,
               qm_generator=qm_generator_torch, cross_generation_strategy=cross_generator_torch,
               T=12)
+runner.load_artifacts('0c96cc62-014b-11ef-9020-d21cd07a44f3')
 
 Ts = [0, 1, 5, 10, 15, 20, 50, 100]
 
