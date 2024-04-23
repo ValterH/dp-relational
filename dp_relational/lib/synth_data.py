@@ -13,6 +13,8 @@ from tqdm import tqdm
 
 from .qm import QueryManager, QueryManagerBasic, QueryManagerTorch
 
+import gc
+
 def mirror_descent_torch(Q, b, a, step_size = 0.01, T_mirror = 50):
     # b is a vector whose sum is 1
     assert isinstance(Q, torch.Tensor)
@@ -45,18 +47,19 @@ def mirror_descent_torch(Q, b, a, step_size = 0.01, T_mirror = 50):
         b = mirror_descent_update(b, grad)
         # print("B update step: ", b)
     return b
-def GM_torch(inp, rho, num_relationship):
-    rand = torch.normal(0.0, (np.sqrt(2)/(num_relationship * np.sqrt(rho))).item(), inp.size())
+def GM_torch(inp, rho, n_relationship_orig):
+    rand = torch.normal(0.0, (np.sqrt(2)/(n_relationship_orig * np.sqrt(rho))).item(), inp.size())
     return inp + rand
-def expround_torch(b):
-    m = int(torch.sum(b).numpy(force=True))
+def expround_torch(b, m=None, device="cpu"):
+    if m is None:
+        m = int(torch.sum(b).numpy(force=True))
     X_dist = torch.distributions.exponential.Exponential(1 / b)
     X = X_dist.sample()
     # finding the index of top m elements
     values, indices = torch.topk(X, m)
     indices = indices.unsqueeze(0)
     
-    bu = torch.sparse_coo_tensor(indices, torch.ones([m]), b.size()).coalesce()
+    bu = torch.sparse_coo_tensor(indices, torch.ones([m], device=device), b.size()).coalesce()
     return bu
 
 def compute_single_table_synth_data(df, n1, synthesizer='patectgan', epsilon=3, preprocessor_eps=0.5):
@@ -87,8 +90,8 @@ def compute_single_table_synth_data(df, n1, synthesizer='patectgan', epsilon=3, 
 def learn_relationship_vector_basic(qm: QueryManagerBasic, epsilon_relationship=1.0, T=100,
                                    delta_relationship = 1e-5, verbose=False):
     Q = qm.Q
-    num_relationship = qm.num_relationship
-    n_relationship_synt = num_relationship
+    n_relationship_orig = qm.n_relationship_orig
+    n_relationship_synt = qm.n_relationship_synth
     
     def mirror_descent(Q, b, a, step_size = 0.01, T_mirror = 50):
         # b is a vector whose sum is 1
@@ -129,7 +132,7 @@ def learn_relationship_vector_basic(qm: QueryManagerBasic, epsilon_relationship=
         num = len(inp)
         out = []
         for i in range(num):
-            val = inp[i] + np.random.normal(0, np.sqrt(2)/(num_relationship * np.sqrt(rho)))
+            val = inp[i] + np.random.normal(0, np.sqrt(2)/(n_relationship_orig * np.sqrt(rho)))
             out.append(val)
         return out
     def expround(b):
@@ -197,8 +200,8 @@ def learn_relationship_vector_basic(qm: QueryManagerBasic, epsilon_relationship=
 def learn_relationship_vector_torch(qm: QueryManagerTorch, epsilon_relationship=1.0, T=100, T_mirror=50,
                                     num_workload_ite = 2, delta_relationship = 1e-5,
                                     verbose=False, device="cpu"):
-    num_relationship = qm.num_relationship
-    n_relationship_synt = num_relationship
+    n_relationship_orig = qm.n_relationship_orig
+    n_relationship_synt = qm.n_relationship_synth
     
     assert n_relationship_synt < qm.n_syn1 * qm.n_syn2
     
@@ -215,9 +218,9 @@ def learn_relationship_vector_torch(qm: QueryManagerTorch, epsilon_relationship=
 
     # intialization
     unselected_workload = [i for i in range(len(qm.workload_names))]
-    Q_set = torch.empty((0, qm.n_syn1 * qm.n_syn2)).to_sparse_coo().float().coalesce()
+    Q_set = torch.empty((0, qm.n_syn1 * qm.n_syn2)).to_sparse_coo().to(device=device).float().coalesce()
     noisy_ans = torch.empty((0,)).float()
-    b = torch.ones([qm.n_syn1 * qm.n_syn2]).float() / (qm.n_syn1 * qm.n_syn2)
+    b = torch.ones([qm.n_syn1 * qm.n_syn2]).to(device=device).float() / (qm.n_syn1 * qm.n_syn2)
 
     for t in tqdm(range(T)):
 
@@ -232,16 +235,16 @@ def learn_relationship_vector_torch(qm: QueryManagerTorch, epsilon_relationship=
 
             curr_Qmat, curr_true_answer = qm.get_query_mat_full_table(curr_workload)
 
-            noisy_curr_ans = GM_torch(curr_true_answer, per_round_rho_rel, num_relationship)
+            noisy_curr_ans = GM_torch(curr_true_answer, per_round_rho_rel, n_relationship_orig)
 
             noisy_ans = torch.cat([noisy_ans, noisy_curr_ans])
 
-            Q_set = torch_cat_sparse_coo([Q_set, curr_Qmat])
+            Q_set = torch_cat_sparse_coo([Q_set, curr_Qmat], device=device)
 
         b = mirror_descent_torch(Q_set, b, noisy_ans, step_size = 0.01, T_mirror=T_mirror)
 
     b = b * n_relationship_synt
-    b_round = expround_torch(b)
+    b_round = expround_torch(b, device=device)
     
     return b_round
 
@@ -250,8 +253,8 @@ def learn_relationship_vector_torch_masked(qm: QueryManagerTorch, epsilon_relati
                                            num_workload_ite = 2, delta_relationship = 1e-5, subtable_size=100000,
                                            verbose=False, device="cpu"):
     """Learns only some subset of the relationship vector at a time."""
-    num_relationship = qm.num_relationship
-    n_relationship_synt = num_relationship
+    n_relationship_orig = qm.n_relationship_orig
+    n_relationship_synt = qm.n_relationship_synth
     
     assert n_relationship_synt < qm.n_syn1 * qm.n_syn2
 
@@ -279,21 +282,21 @@ def learn_relationship_vector_torch_masked(qm: QueryManagerTorch, epsilon_relati
     # do not store old queries: this will be too much of a mess
     rand_idxes = torch.randperm(qm.n_syn1 * qm.n_syn2)[None, :n_relationship_synt]
     b_round = torch.sparse_coo_tensor(indices=rand_idxes, values=torch.ones([n_relationship_synt]),
-                                      size=[qm.n_syn_cross]).float().coalesce()
+                                      size=[qm.n_syn_cross], device=device).float().coalesce()
     # print(b_round)
     for t in tqdm(range(T)):
         # choose a set to slice
-        slice_table1 = torch.randperm(qm.n_syn1)[:table1_slice_size]
-        slice_table2 = torch.randperm(qm.n_syn2)[:table2_slice_size]
+        slice_table1 = torch.randperm(qm.n_syn1, device=device)[:table1_slice_size]
+        slice_table2 = torch.randperm(qm.n_syn2, device=device)[:table2_slice_size]
         # identify which cells these are in b
         offsets_table1 = slice_table1.repeat_interleave(table2_slice_size) * qm.n_syn2
         offsets_table2 = slice_table2.repeat(table1_slice_size) # somethings up...
         offsets = offsets_table1 + offsets_table2
         # we will start optimising from here
-        sub_num_relationships = torch.index_select(b_round, 0, offsets)._nnz()
-        b_slice = torch.ones([cross_slice_size]).float() / (cross_slice_size)
+        sub_num_relationships = int(torch.sparse.sum(torch.index_select(b_round, 0, offsets)).numpy(force=True))
+        b_slice = torch.ones([cross_slice_size]).to(device=device).float() / (cross_slice_size)
         
-        Q_set = torch.empty((0, cross_slice_size)).to_sparse_coo().float().coalesce()
+        Q_set = torch.empty((0, cross_slice_size)).to_sparse_coo().to(device=device).float().coalesce()
         noisy_ans = torch.empty((0,)).float()
         
         # TODO: use exponential mechanism!!!
@@ -305,32 +308,47 @@ def learn_relationship_vector_torch_masked(qm: QueryManagerTorch, epsilon_relati
 
             curr_workload = qm.workload_names[i]
 
-            curr_Qmat, curr_true_answer = qm.get_query_mat_full_table(curr_workload)
-            curr_Qmat = torch.index_select(curr_Qmat, 1, offsets).coalesce()
+            curr_Qmat_full, curr_true_answer = qm.get_query_mat_full_table(curr_workload)
+            curr_Qmat = torch.index_select(curr_Qmat_full, 1, offsets).coalesce()
+            
+            del curr_Qmat_full
 
-            noisy_curr_ans = GM_torch(curr_true_answer, per_round_rho_rel, sub_num_relationships) # TODO: what to use??
+            noisy_curr_ans = GM_torch(curr_true_answer, per_round_rho_rel, n_relationship_orig) # TODO: what to use??
 
             noisy_ans = torch.cat([noisy_ans, noisy_curr_ans])
 
-            Q_set = torch_cat_sparse_coo([Q_set, curr_Qmat])
+            Q_set = torch_cat_sparse_coo([Q_set, curr_Qmat], device=device)
+            
+            del curr_Qmat
+            del noisy_curr_ans
         
-        b_slice = mirror_descent_torch(Q_set, b_slice, noisy_ans, step_size = 0.01, T_mirror = T_mirror)
+        b_slice = mirror_descent_torch(Q_set, b_slice, noisy_ans.to(device=device), step_size = 0.01, T_mirror = T_mirror)
         
         # put these back into the slice: this is slightly complicated!
-        b_slice *= n_relationship_synt
-        b_slice_round = expround_torch(b_slice)
+        b_slice *= sub_num_relationships
+        b_slice_round = expround_torch(b_slice, m=sub_num_relationships, device=device)
         
         # create a mask
-        mask = torch.sparse_coo_tensor(offsets[None, :], torch.ones_like(offsets), size=[qm.n_syn_cross]).coalesce()
+        mask = torch.sparse_coo_tensor(offsets[None, :], torch.ones_like(offsets), size=[qm.n_syn_cross], device=device).coalesce()
+        b_round.coalesce()
         b_round = b_round - (mask * b_round) # now the area is filled with zeros
-        
         # get nonzero indices in b_slice_round
         nz_indices = torch.squeeze(b_slice_round.indices())
         # lookup what offsets these were in the original tensor
         new_offsets = offsets[nz_indices]
         # create new values
-        new_values = torch.sparse_coo_tensor(new_offsets[None, :], torch.ones_like(new_offsets), size=[qm.n_syn_cross]).coalesce()
+        new_values = torch.sparse_coo_tensor(new_offsets[None, :], torch.ones_like(new_offsets), size=[qm.n_syn_cross], device=device).coalesce()
         b_round = b_round + new_values
+        
+        # clean TODO: is this necessary?
+        del slice_table1
+        del slice_table2
+        del offsets
+        del mask
+        del Q_set
+        gc.collect()
+        if device.type == 'cuda':
+            torch.cuda.empty_cache()
     
     return b_round
 
@@ -348,11 +366,17 @@ def make_synthetic_rel_table(qm: QueryManager, b_round):
     
     return relationship_syn
 
-def make_synthetic_rel_table_sparse(qm: QueryManager, b_round):
+def make_synthetic_rel_table_sparse(qm: QueryManager, b_round: torch.Tensor):
     ID_1 = qm.rel_dataset.rel_id1_col
     ID_2 = qm.rel_dataset.rel_id2_col
     
-    relationships = np.squeeze(b_round.coalesce().indices().numpy())
+    b_round = b_round.coalesce()
+    vals = b_round.values()
+    indices = b_round.indices()
+    idxes_nz = indices[0, torch.nonzero(vals)].cpu()
+    
+    relationships = np.squeeze(idxes_nz.numpy())
+    
     table2_nums = relationships % qm.n_syn2
     table1_nums = (relationships - table2_nums) // qm.n_syn2
     
@@ -394,18 +418,7 @@ def evaluate_synthetic_rel_table(qm: QueryManager, relationship_syn):
 
     ans_syn = ans_syn/num_relationship_syn
     
-    ave_error =100 * np.sum(np.abs(ans_syn - qm.true_ans)) / len(qm.true_ans)
-    max_error =100 * np.max(np.abs(ans_syn - qm.true_ans))
+    errors = np.abs(ans_syn - qm.true_ans)
+    ave_error =100 * np.sum(errors) / len(qm.true_ans)
     
-    return (ave_error, max_error)
-
-def synthesize_cross_table(rel_dataset: RelationalDataset, synth='mst', epsilon=3.0, T=100,
-                           n_syn1=776, n_syn2=1208, eps1=1.0, eps2=1.0, k=2, dmax=10, verbose=False):
-    """Generates synthetic data for a relational dataset""" 
-    df1_synth = compute_single_table_synth_data(rel_dataset.table1.df, n_syn1, synth, epsilon=eps1)
-    df2_synth = compute_single_table_synth_data(rel_dataset.table2.df, n_syn2, synth, epsilon=eps2)
-    
-    df_rel = rel_dataset.df_rel
-    
-    qm = QueryManager(rel_dataset, k=k, df1_synth=df1_synth, df2_synth=df2_synth)
-    # TODO!
+    return (ave_error, errors)

@@ -32,7 +32,8 @@ class QueryManager:
         # print(self.n_syn1)
         # print(self.n_syn2)
         orig_cross_size = self.rel_dataset.table1.df.shape[0] * self.rel_dataset.table2.df.shape[0]
-        self.num_relationship = int(self.n_syn_cross * (self.rel_dataset.df_rel.shape[0] / orig_cross_size))
+        self.n_relationship_synth = int(self.n_syn_cross * (self.rel_dataset.df_rel.shape[0] / orig_cross_size))
+        self.n_relationship_orig = self.rel_dataset.df_rel.shape[0]
         
         def make_cross_workloads():
             workload_names = []
@@ -314,12 +315,14 @@ class QueryManagerTorch(QueryManager):
         - Support for slicing to learn subsections of the query
         - Sparse Pytorch storage of query vectors (using COO)
     """
-    def __init__(self, rel_dataset: RelationalDataset, k, df1_synth, df2_synth, device="cpu", verbose=False) -> None:
+    def __init__(self, rel_dataset: RelationalDataset, k, df1_synth, df2_synth, device="cpu", cache_query_matrices=False, verbose=False) -> None:
         super().__init__(rel_dataset, k, df1_synth, df2_synth, verbose)
+        self.cache_query_matrices = cache_query_matrices
+        self.device = device
         self.workload_query_answers = {}
         for workload in self.workload_names:
             self.workload_query_answers[workload] = None
-        self.true_ans_tensor = torch.from_numpy(self.true_ans).float().to(device=device)
+        self.true_ans_tensor = torch.from_numpy(self.true_ans).float()
     def get_query_mat_full_table(self, workload):
         if self.workload_query_answers[workload] is not None:
             return self.workload_query_answers[workload]
@@ -343,11 +346,14 @@ class QueryManagerTorch(QueryManager):
             indices = np.stack((indices_row, indices_col))
             
             # TODO: there is no good reason for this to work this way?? This should not be necessary
-            query_mat = torch.sparse_coo_tensor(indices, np.ones(shape=(vec_len, )), size=(num_queries, vec_len)).float()._coalesced_(True)
+            query_mat = torch.sparse_coo_tensor(indices, np.ones(shape=(vec_len, )), size=(num_queries, vec_len), device=self.device).float().coalesce()
             # print(torch.sparse.sum(query_mat, dim=1))
             # print(vec_len)
-            self.workload_query_answers[workload] = (query_mat, true_vals)
-            return self.get_query_mat_full_table(workload)
+            if self.cache_query_matrices:
+                self.workload_query_answers[workload] = (query_mat, true_vals)
+                return self.get_query_mat_full_table(workload)
+            else:
+                return (query_mat, true_vals)
     # def get_query_mat_partial(self, workload, table1_indices, table2_indices):
     #     # no point in caching these
     #     # our full_table query mat generation is so fast that we can just do this:

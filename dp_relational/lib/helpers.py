@@ -125,7 +125,7 @@ def get_per_round_privacy_budget(
 
 """PyTorch helpers"""
 
-def torch_cat_sparse_coo(tensors: List[torch.Tensor], dim=0, is_coalesced=True):
+def torch_cat_sparse_coo(tensors: List[torch.Tensor], dim=0, device="cpu"):
     indices_list = []
     values_list = []
     curr_shift = 0
@@ -140,4 +140,4 @@ def torch_cat_sparse_coo(tensors: List[torch.Tensor], dim=0, is_coalesced=True):
     new_size = list(tensors[0].size())
     new_size[dim] = curr_shift
     
-    return torch.sparse_coo_tensor(torch.cat(indices_list, dim=1), torch.cat(values_list), size=new_size)._coalesced_(is_coalesced)
+    return torch.sparse_coo_tensor(torch.cat(indices_list, dim=1), torch.cat(values_list), size=new_size, device=device).coalesce()
