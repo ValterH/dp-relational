@@ -388,35 +388,7 @@ def make_synthetic_rel_table_sparse(qm: QueryManager, b_round: torch.Tensor):
     return relationship_syn
 
 def evaluate_synthetic_rel_table(qm: QueryManager, relationship_syn):
-    ID_1 = qm.rel_dataset.rel_id1_col
-    ID_2 = qm.rel_dataset.rel_id2_col
-    
-    num_relationship_syn = relationship_syn.shape[0]
-    ans_syn = np.zeros(qm.num_all_queries)
-
-    for i in range(num_relationship_syn):
-
-        # TODO: assert ID_1 and ID_2 correspond to index
-
-        ID1 = relationship_syn.iloc[i][ID_1]
-
-        ID2 = relationship_syn.iloc[i][ID_2]
-
-        for w in qm.workload_names:
-            cols1 = w[0]
-            cols2 = w[1]
-            v1 = []
-            for c1 in cols1:
-                v1.append(qm.df1_synth.iloc[ID1][c1])
-
-            v2 = []
-            for c2 in cols2:
-                v2.append(qm.df2_synth.iloc[ID2][c2])
-
-            ind = qm.query_ind(w, [v1,v2])
-            ans_syn[int(ind)] += 1
-
-    ans_syn = ans_syn/num_relationship_syn
+    ans_syn = qm.calculate_ans_from_rel_dataset(relationship_syn, is_synth=True)
     
     errors = np.abs(ans_syn - qm.true_ans)
     ave_error =100 * np.sum(errors) / len(qm.true_ans)

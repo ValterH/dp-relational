@@ -131,8 +131,33 @@ class QueryManager:
             return true_ans
         
         self.rand_ans = calculate_rand_ans()
-        self.true_ans = calculate_true_ans()
+        self.true_ans = self.calculate_true_ans()
         
+    def calculate_ans_from_rel_dataset(self, df_rel, is_synth):
+        num_relationship = df_rel.shape[0]
+        
+        ID1s = df_rel.iloc[:][self.rel_dataset.rel_id1_col].values
+        ID2s = df_rel.iloc[:][self.rel_dataset.rel_id2_col].values
+        
+        ans = np.zeros(self.num_all_queries) 
+        for w in self.workload_names:
+            w_dict = self.workload_dict[w]
+            
+            offsets_t1 = self.get_offsets(w, 0, is_synth=is_synth)
+            offsets_t2 = self.get_offsets(w, 1, is_synth=is_synth)
+            
+            offsets = offsets_t1[ID1s] + offsets_t2[ID2s]
+            values, counts = np.unique(offsets, return_counts=True)
+            for val, count in zip(values, counts):
+                ans[w_dict["range_low"] + val] = count
+        
+        ans = ans/num_relationship
+        
+        return ans
+    
+    def calculate_true_ans(self):
+        return self.calculate_ans_from_rel_dataset(self.rel_dataset.df_rel, is_synth=False)
+    
     def query_ind(self, workload, val, zero_index=False):
         assert len(workload) == 2 #since only two tables
         assert len(workload[0]) + len(workload[1]) == self.k # k features?
