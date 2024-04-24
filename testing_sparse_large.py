@@ -23,7 +23,7 @@ runner = ModelRunner()
 runner.update(dataset_generator=dp_relational.data.movies.dataset, n_syn1=int(7760 / 2), n_syn2=int(12080 / 2),
               synth='mst', epsilon=3.0, eps1=1.0, eps2=1.0, k=2, dmax=10,
               qm_generator=qm_generator_torch, cross_generation_strategy=cross_generator_torch,
-              T=12)
+              T=1)
 runner.load_artifacts('53b3b6a5-fe75-11ee-9cb7-a059507978f3')
 
 epsilons = [2.5, 3.0, 4.0, 6.0]

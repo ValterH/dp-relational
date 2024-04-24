@@ -53,13 +53,15 @@ filter_exp_masked_vlrge = lambda experiment: experiment['artifacts']['rel_datase
 runner = ModelRunner(save_to='./runs')
 
 epsilons, ave_errors, error_bars = get_errors_by_eps_rel(runner, filter_exp_orig)
-epsilons_o, ave_errors_o, error_bars_o = get_errors_by_eps_rel(runner, filter_exp_masked_large)
-epsilons_l, ave_errors_l, error_bars_l = get_errors_by_eps_rel(runner, filter_exp_masked_vlrge)
+epsilons_o, ave_errors_o, error_bars_o = get_errors_by_eps_rel(runner, filter_exp_ojas)
+epsilons_l, ave_errors_l, error_bars_l = get_errors_by_eps_rel(runner, filter_exp_masked_large)
+epsilons_v, ave_errors_v, error_bars_v = get_errors_by_eps_rel(runner, filter_exp_masked_vlrge)
 
 plt.figure()
 plt.errorbar(epsilons, ave_errors, error_bars, fmt='-o', capsize=5, label="Original generation")
 plt.errorbar(epsilons_o, ave_errors_o, error_bars_o, fmt='-o', capsize=5, label="Ojas masking method")
 plt.errorbar(epsilons_l, ave_errors_l, error_bars_l, fmt='-o', capsize=5, label="Masking large dataset")
+plt.errorbar(epsilons_v, ave_errors_v, error_bars_v, fmt='-o', capsize=5, label="Masking very large dataset")
 plt.title("Average workload error vs privacy budget")
 plt.xlabel("Relational privacy budget")
 plt.ylabel("Average % error")
