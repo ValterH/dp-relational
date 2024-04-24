@@ -1,4 +1,5 @@
 .venv
+venv
 *.pickle
 prev_data.zip
 runs
