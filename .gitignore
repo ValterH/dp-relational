@@ -4,3 +4,4 @@ venv
 prev_data.zip
 runs
 __pycache__/
+*.pyc
