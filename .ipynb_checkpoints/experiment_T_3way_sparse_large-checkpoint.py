@@ -27,17 +27,20 @@ runner = ModelRunner()
 runner.update(dataset_generator=dp_relational.data.movies.dataset, n_syn1=int(7760 / 2), n_syn2=int(12080 / 2),
               synth='mst', epsilon=4.0, eps1=1.0, eps2=1.0, k=3, dmax=10,
               qm_generator=qm_generator_torch, cross_generation_strategy=cross_generator_torch,
-              T=110)
+              T=12)
 runner.load_artifacts('0c96cc62-014b-11ef-9020-d21cd07a44f3')
 
-epsilons = [2.5, 3.0, 4.0, 5.0, 6.0, 8.0, 12.0]
+Ts = [0, 5, 10, 20, 40, 60, 100, 150, 200]
+
 run_count = 0
 while True:
-    for epsilon in epsilons:
-        runner.update(epsilon=epsilon)
+    for T_num in Ts:
+        runner.update(T=T_num)
         runner.regenerate_qm = True
-        results = runner.run(extra_params={ "T_mirror": 150, "run_set": 210 }) # 150 }) this run was with the old, poor T
+        results = runner.run(extra_params={ "T_mirror": 150, "run_set": 250 }) # 230 for eps_rel = 2  # 170 for eps_rel = 8 }) # 170 }) this set was with the old, incorrect m_syn
         print(runner.relationship_syn.shape[0])
         run_count += 1
-        print(f"epsilon: {epsilon}, error_ave: {results['error_ave']}")
+        if run_count == 1:
+            print("Initial dataset: ", runner.rel_dataset_runid)
+        print(f"T: {T_num}, error_ave: {results['error_ave']}")
         print(f"###### COMPLETED {run_count} RUNS ######")

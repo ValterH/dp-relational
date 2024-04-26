@@ -32,7 +32,8 @@ class QueryManager:
         # print(self.n_syn1)
         # print(self.n_syn2)
         orig_cross_size = self.rel_dataset.table1.df.shape[0] * self.rel_dataset.table2.df.shape[0]
-        self.n_relationship_synth = int(self.n_syn_cross * (self.rel_dataset.df_rel.shape[0] / orig_cross_size))
+        # print(np.sqrt(self.n_syn_cross / orig_cross_size))
+        self.n_relationship_synth = int(self.rel_dataset.df_rel.shape[0] * np.sqrt(self.n_syn_cross / orig_cross_size))
         self.n_relationship_orig = self.rel_dataset.df_rel.shape[0]
         
         def make_cross_workloads():
