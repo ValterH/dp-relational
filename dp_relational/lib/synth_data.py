@@ -416,7 +416,7 @@ def learn_relationship_vector_torch_masked_query_reuse(qm: QueryManagerTorch, ep
             selected_workloads.append(i)
             noisy_ans_list.append(noisy_curr_ans)
 
-        curr_workload_idxes = random.sample(selected_workloads, k=min(queries_to_reuse, len(selected_workloads)))
+        curr_workload_idxes = random.sample(list(range(selected_workloads)), k=min(queries_to_reuse, len(selected_workloads)))
         iter_selected_workloads = [selected_workloads[i] for i in curr_workload_idxes]
         iter_noisy_ans = torch.cat([noisy_ans_list[i] for i in curr_workload_idxes])
         for i in iter_selected_workloads:
