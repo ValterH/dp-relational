@@ -379,6 +379,13 @@ class QueryManagerTorch(QueryManager):
                 return self.get_query_mat_full_table(workload)
             else:
                 return (query_mat, true_vals)
+    def get_true_answers(self, workload):
+        range_low = self.workload_dict[workload]["range_low"]
+        range_high = self.workload_dict[workload]["range_high"] + 1
+        
+        true_vals = self.true_ans_tensor[range_low:range_high]
+        
+        return true_vals
     # def get_query_mat_partial(self, workload, table1_indices, table2_indices):
     #     # no point in caching these
     #     # our full_table query mat generation is so fast that we can just do this:
