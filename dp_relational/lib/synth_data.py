@@ -353,7 +353,7 @@ def learn_relationship_vector_torch_masked(qm: QueryManagerTorch, epsilon_relati
     return b_round
 
 def learn_relationship_vector_torch_masked_query_reuse(qm: QueryManagerTorch, epsilon_relationship=1.0, T=100, T_mirror=150,
-                                           num_workload_ite = 2, delta_relationship = 1e-5, subtable_size=100000,
+                                           num_workload_ite = 2, delta_relationship = 1e-5, subtable_size=100000, queries_to_reuse=6,
                                            verbose=False, device="cpu"):
     """Learns only some subset of the relationship vector at a time."""
     n_relationship_orig = qm.n_relationship_orig
@@ -384,7 +384,7 @@ def learn_relationship_vector_torch_masked_query_reuse(qm: QueryManagerTorch, ep
     
     # we are now storing old queries!
     selected_workloads = []
-    noisy_ans = torch.empty((0,)).float()
+    noisy_ans_list = []
     
     rand_idxes = torch.randperm(qm.n_syn1 * qm.n_syn2)[None, :n_relationship_synt]
     b_round = torch.sparse_coo_tensor(indices=rand_idxes, values=torch.ones([n_relationship_synt]),
@@ -408,15 +408,18 @@ def learn_relationship_vector_torch_masked_query_reuse(qm: QueryManagerTorch, ep
         # Here I randomly choose 2 workloads
         select_workload = random.choices(unselected_workload, k=num_workload_ite)
         unselected_workload = [i for i in unselected_workload if i not in select_workload] # (disallow repeated workload selection)
-        selected_workloads.extend(select_workload)
 
         for i in select_workload:
             curr_workload = qm.workload_names[i]
             curr_true_answer = qm.get_true_answers(curr_workload)
             noisy_curr_ans = GM_torch(curr_true_answer, per_round_rho_rel, n_relationship_orig)
-            noisy_ans = torch.cat([noisy_ans, noisy_curr_ans])
+            selected_workloads.append(i)
+            noisy_ans_list.append(noisy_curr_ans)
 
-        for i in selected_workloads:
+        curr_workload_idxes = random.sample(selected_workloads, k=min(queries_to_reuse, len(selected_workloads)))
+        iter_selected_workloads = [selected_workloads[i] for i in curr_workload_idxes]
+        iter_noisy_ans = torch.cat([noisy_ans_list[i] for i in curr_workload_idxes])
+        for i in iter_selected_workloads:
 
             curr_workload = qm.workload_names[i]
 
@@ -429,7 +432,7 @@ def learn_relationship_vector_torch_masked_query_reuse(qm: QueryManagerTorch, ep
             
             del curr_Qmat
         
-        b_slice = mirror_descent_torch(Q_set, b_slice, noisy_ans.to(device=device), step_size = 0.01, T_mirror = T_mirror)
+        b_slice = mirror_descent_torch(Q_set, b_slice, iter_noisy_ans.to(device=device), step_size = 0.01, T_mirror = T_mirror)
         
         # put these back into the slice: this is slightly complicated!
         b_slice *= sub_num_relationships
