@@ -1,0 +1,4348 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?xml-stylesheet type="text/xsl" href="ipums-ddi-xslt.xsl"?>
+<codeBook ID="ddi2-856add10-e363-013c-b093-0242ac190004-usa_00001.dat-usa.ipums.org" version="2.5" xmlns="ddi:codebook:2_5" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="ddi:codebook:2_5 http://www.ddialliance.org/Specification/DDI-Codebook/2.5/XMLSchema/codebook.xsd">
+  <docDscr>
+    <citation>
+      <titlStmt>
+        <titl>Codebook for an IPUMS USA Data Extract</titl>
+        <subTitl>DDI 2.5 metadata describing the extract file  'usa_00001.dat'</subTitl>
+        <IDNo>ddi2-856add10-e363-013c-b093-0242ac190004-usa_00001.dat-usa.ipums.org</IDNo>
+      </titlStmt>
+      <rspStmt>
+        <AuthEnty affiliation="University of Minnesota">IPUMS</AuthEnty>
+      </rspStmt>
+      <prodStmt>
+        <producer abbr="IPUMS" affiliation="University of Minnesota" role="Documentation">IPUMS</producer>
+        <prodDate date="2024-04-29">April 29, 2024</prodDate>
+        <prodPlac>IPUMS, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
+      </prodStmt>
+      <distStmt>
+        <contact URI="https://ipums.org" affiliation="University of Minnesota">IPUMS</contact>
+      </distStmt>
+    </citation>
+  </docDscr>
+  <stdyDscr>
+    <citation>
+      <titlStmt>
+        <titl>User Extract usa_00001.dat</titl>
+      </titlStmt>
+      <rspStmt>
+        <AuthEnty affiliation="University of Minnesota">IPUMS</AuthEnty>
+      </rspStmt>
+      <prodStmt>
+        <producer abbr="IPUMS" affiliation="University of Minnesota" role="Documentation">IPUMS</producer>
+        <prodDate date="2024-04-29">April 29, 2024</prodDate>
+        <prodPlac>IPUMS, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</prodPlac>
+      </prodStmt>
+      <distStmt>
+        <contact URI="https://ipums.org" affiliation="University of Minnesota">IPUMS</contact>
+      </distStmt>
+      <serStmt>
+        <serName abbr="usa">IPUMS USA</serName>
+        <serInfo>DOI:10.18128/D010.V15.0</serInfo>
+      </serStmt>
+      <verStmt>
+        <version date="2024-04-29"/>
+      </verStmt>
+    </citation>
+    <stdyInfo>
+      <subject>
+        <topcClas vocab="IPUMS">Technical Variables -- HOUSEHOLD</topcClas>
+        <topcClas vocab="IPUMS">Geographic Variables -- HOUSEHOLD</topcClas>
+        <topcClas vocab="IPUMS">Group Quarters Variables -- HOUSEHOLD</topcClas>
+        <topcClas vocab="IPUMS">Economic Characteristic Variables -- HOUSEHOLD</topcClas>
+        <topcClas vocab="IPUMS">Appliances, Mechanical, Other Variables -- HOUSEHOLD</topcClas>
+        <topcClas vocab="IPUMS">Household Composition Variables -- HOUSEHOLD</topcClas>
+        <topcClas vocab="IPUMS">Technical Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Family Interrelationship Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Demographic Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Race, Ethnicity, and Nativity Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Health Insurance Variables -- PERSON</topcClas>
+        <topcClas vocab="IPUMS">Work Variables -- PERSON</topcClas>
+      </subject>
+      <sumDscr ID="sdatref-2721">
+        <timePrd date="2022" event="single">2022</timePrd>
+        <nation abbr="us">United States</nation>
+      </sumDscr>
+      <notes><![CDATA[Additional notes on a sample that is part of this study:  2022 ACS
+            Density of the full data file:  1.0%
+            Density of this extract: 1.0%
+]]></notes>
+    </stdyInfo>
+    <dataAccs>
+      <useStmt>
+        <confDec required="no"><![CDATA[None]]></confDec>
+        <contact URI="http://usa.ipums.org" affiliation="IPUMS">IPUMS USA</contact>
+        <citReq><![CDATA[Publications and research reports based on the IPUMS USA database must cite it appropriately. The citation should include the following:
+
+Steven Ruggles, Sarah Flood, Matthew Sobek, Daniel Backman, Annie Chen, Grace Cooper, Stephanie Richards, Renae Rodgers, and Megan Schouweiler. IPUMS USA: Version 15.0 [dataset]. Minneapolis, MN: IPUMS, 2024. https://doi.org/10.18128/D010.V15.0
+
+The licensing agreement for use of IPUMS USA data requires that users supply us with the title and full citation for any publications, research reports, or educational materials making use of the data or documentation. Please add your citation to the IPUMS bibliography at http://bibliography.ipums.org/.]]></citReq>
+        <conditions><![CDATA[Users of IPUMS USA data must agree to abide by the conditions of use. A user's license is valid for one year and may be renewed.  Users must agree to the following conditions:
+
+(1) No fees may be charged for use or distribution of the data.
+
+(2) Cite IPUMS appropriately.  For information on proper citation,  refer to the citation requirement section of this DDI document.
+
+(3) Tell us about any work you do using the IPUMS.  Publications, research  reports, or presentations making use of IPUMS USA should be added to our  Bibliography. Continued funding for the IPUMS depends on our ability to  show our sponsor agencies that researchers are using the data for productive  purposes.
+
+(4) The IPUMS cannot be used for genealogical research
+
+(5) It is difficult to use the IPUMS to study small geographic areas.  In the  IPUMS census samples for years 1940-present, no places having a population  of fewer than 100,000 persons can be identified.
+
+(6) Use it for GOOD -- never for EVIL.
+
+(7) Please notify ipums@umn.edu regarding errors in the data or documentation.]]></conditions>
+        <disclaimer>The user of the data acknowledges that the original collector of the data, the authorized distributor of the data, and the relevant funding agency bear no responsibility for use of the data or for interpretations or inferences based upon such uses.</disclaimer>
+      </useStmt>
+    </dataAccs>
+    <notes><![CDATA[User-provided description:  Initial extract, decent amount of data for a few experiments]]></notes>
+  </stdyDscr>
+  <fileDscr ID="ExtractData">
+    <fileTxt>
+      <fileName>usa_00001.dat</fileName>
+      <fileCont>Microdata records</fileCont>
+      <fileStrc type="rectangular"/>
+      <fileType charset="ISO-8859-1">ISO-8859-1 data file</fileType>
+      <format>fixed length fields</format>
+      <filePlac>IPUMS, 50 Willey Hall, 225 - 19th Avenue South, Minneapolis, MN 55455</filePlac>
+    </fileTxt>
+  </fileDscr>
+  <dataDscr><var ID="YEAR" dcml="0" files="ExtractData" intrvl="discrete" name="YEAR">
+  <location EndPos="4" StartPos="1" width="4"/>
+  <labl>Census year</labl>
+  <txt><![CDATA[YEAR reports the four-digit year when the household was enumerated or included in the census, the ACS, and the PRCS.
+
+For the multi-year ACS/PRCS samples, YEAR indicates the last year of data included (e.g., 2007 for the 2005-2007 3-year ACS/PRCS; 2008 for the 2006-2008 3-year ACS/PRCS; and so on).  For the actual year of survey in these multi-year data, see MULTYEAR.]]></txt>
+  <catgry>
+    <catValu>1850</catValu>
+    <labl>1850</labl>
+  </catgry>
+  <catgry>
+    <catValu>1860</catValu>
+    <labl>1860</labl>
+  </catgry>
+  <catgry>
+    <catValu>1870</catValu>
+    <labl>1870</labl>
+  </catgry>
+  <catgry>
+    <catValu>1880</catValu>
+    <labl>1880</labl>
+  </catgry>
+  <catgry>
+    <catValu>1900</catValu>
+    <labl>1900</labl>
+  </catgry>
+  <catgry>
+    <catValu>1910</catValu>
+    <labl>1910</labl>
+  </catgry>
+  <catgry>
+    <catValu>1920</catValu>
+    <labl>1920</labl>
+  </catgry>
+  <catgry>
+    <catValu>1930</catValu>
+    <labl>1930</labl>
+  </catgry>
+  <catgry>
+    <catValu>1940</catValu>
+    <labl>1940</labl>
+  </catgry>
+  <catgry>
+    <catValu>1950</catValu>
+    <labl>1950</labl>
+  </catgry>
+  <catgry>
+    <catValu>1960</catValu>
+    <labl>1960</labl>
+  </catgry>
+  <catgry>
+    <catValu>1970</catValu>
+    <labl>1970</labl>
+  </catgry>
+  <catgry>
+    <catValu>1980</catValu>
+    <labl>1980</labl>
+  </catgry>
+  <catgry>
+    <catValu>1990</catValu>
+    <labl>1990</labl>
+  </catgry>
+  <catgry>
+    <catValu>2000</catValu>
+    <labl>2000</labl>
+  </catgry>
+  <catgry>
+    <catValu>2001</catValu>
+    <labl>2001</labl>
+  </catgry>
+  <catgry>
+    <catValu>2002</catValu>
+    <labl>2002</labl>
+  </catgry>
+  <catgry>
+    <catValu>2003</catValu>
+    <labl>2003</labl>
+  </catgry>
+  <catgry>
+    <catValu>2004</catValu>
+    <labl>2004</labl>
+  </catgry>
+  <catgry>
+    <catValu>2005</catValu>
+    <labl>2005</labl>
+  </catgry>
+  <catgry>
+    <catValu>2006</catValu>
+    <labl>2006</labl>
+  </catgry>
+  <catgry>
+    <catValu>2007</catValu>
+    <labl>2007</labl>
+  </catgry>
+  <catgry>
+    <catValu>2008</catValu>
+    <labl>2008</labl>
+  </catgry>
+  <catgry>
+    <catValu>2009</catValu>
+    <labl>2009</labl>
+  </catgry>
+  <catgry>
+    <catValu>2010</catValu>
+    <labl>2010</labl>
+  </catgry>
+  <catgry>
+    <catValu>2011</catValu>
+    <labl>2011</labl>
+  </catgry>
+  <catgry>
+    <catValu>2012</catValu>
+    <labl>2012</labl>
+  </catgry>
+  <catgry>
+    <catValu>2013</catValu>
+    <labl>2013</labl>
+  </catgry>
+  <catgry>
+    <catValu>2014</catValu>
+    <labl>2014</labl>
+  </catgry>
+  <catgry>
+    <catValu>2015</catValu>
+    <labl>2015</labl>
+  </catgry>
+  <catgry>
+    <catValu>2016</catValu>
+    <labl>2016</labl>
+  </catgry>
+  <catgry>
+    <catValu>2017</catValu>
+    <labl>2017</labl>
+  </catgry>
+  <catgry>
+    <catValu>2018</catValu>
+    <labl>2018</labl>
+  </catgry>
+  <catgry>
+    <catValu>2019</catValu>
+    <labl>2019</labl>
+  </catgry>
+  <catgry>
+    <catValu>2020</catValu>
+    <labl>2020</labl>
+  </catgry>
+  <catgry>
+    <catValu>2021</catValu>
+    <labl>2021</labl>
+  </catgry>
+  <catgry>
+    <catValu>2022</catValu>
+    <labl>2022</labl>
+  </catgry>
+  <concept vocab="IPUMS">Technical Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="SAMPLE" dcml="0" files="ExtractData" intrvl="discrete" name="SAMPLE">
+  <location EndPos="10" StartPos="5" width="6"/>
+  <labl>IPUMS sample identifier</labl>
+  <txt><![CDATA[SAMPLE identifies the IPUMS sample from which the case is drawn. Each sample receives a unique 6-digit code. The codes are structured as follows:
+
+The first four digits are the year of the census/survey.
+
+The next two digits identify the sample within the year.
+For most censuses, IPUMS has multiple datasets which were constructed using different sampling techniques (i.e. size/demographic of the sample population, geographic coverage level or location, or duration of the sampling period for the ACS/PRCS samples).  
+
+The availability table for each variable indicates whether that variable is available in only certain samples for a given year. For further discussion of sample differences, see "Sample Designs.".
+
+Note: SAMPLE replaces DATANUM. Though the last two digits in SAMPLE do not correlate exactly with the now-deprecated DATANUM, the variable serves the same purpose of assigning a unique id to all cases that belong to the same dataset.]]></txt>
+  <catgry>
+    <catValu>202204</catValu>
+    <labl>2018-2022, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>202203</catValu>
+    <labl>2018-2022, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>202202</catValu>
+    <labl>2022 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>202201</catValu>
+    <labl>2022 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>202104</catValu>
+    <labl>2017-2021, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>202103</catValu>
+    <labl>2017-2021, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>202102</catValu>
+    <labl>2021 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>202101</catValu>
+    <labl>2021 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>202004</catValu>
+    <labl>2016-2020, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>202003</catValu>
+    <labl>2016-2020, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>202001</catValu>
+    <labl>2020 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201904</catValu>
+    <labl>2015-2019, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201903</catValu>
+    <labl>2015-2019, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201902</catValu>
+    <labl>2019 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201901</catValu>
+    <labl>2019 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201804</catValu>
+    <labl>2014-2018, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201803</catValu>
+    <labl>2014-2018, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201802</catValu>
+    <labl>2018 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201801</catValu>
+    <labl>2018 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201704</catValu>
+    <labl>2013-2017, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201703</catValu>
+    <labl>2013-2017, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201702</catValu>
+    <labl>2017 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201701</catValu>
+    <labl>2017 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201604</catValu>
+    <labl>2012-2016, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201603</catValu>
+    <labl>2012-2016, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201602</catValu>
+    <labl>2016 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201601</catValu>
+    <labl>2016 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201504</catValu>
+    <labl>2011-2015, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201503</catValu>
+    <labl>2011-2015, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201502</catValu>
+    <labl>2015 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201501</catValu>
+    <labl>2015 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201404</catValu>
+    <labl>2010-2014, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201403</catValu>
+    <labl>2010-2014, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201402</catValu>
+    <labl>2014 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201401</catValu>
+    <labl>2014 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201306</catValu>
+    <labl>2009-2013, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201305</catValu>
+    <labl>2009-2013, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201304</catValu>
+    <labl>2011-2013, PRCS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201303</catValu>
+    <labl>2011-2013, ACS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201302</catValu>
+    <labl>2013 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201301</catValu>
+    <labl>2013 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201206</catValu>
+    <labl>2008-2012, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201205</catValu>
+    <labl>2008-2012, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201204</catValu>
+    <labl>2010-2012, PRCS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201203</catValu>
+    <labl>2010-2012, ACS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201202</catValu>
+    <labl>2012 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201201</catValu>
+    <labl>2012 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201106</catValu>
+    <labl>2007-2011, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201105</catValu>
+    <labl>2007-2011, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201104</catValu>
+    <labl>2009-2011, PRCS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201103</catValu>
+    <labl>2009-2011, ACS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201102</catValu>
+    <labl>2011 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201101</catValu>
+    <labl>2011 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201008</catValu>
+    <labl>2010 Puerto Rico 10%</labl>
+  </catgry>
+  <catgry>
+    <catValu>201007</catValu>
+    <labl>2010 10%</labl>
+  </catgry>
+  <catgry>
+    <catValu>201006</catValu>
+    <labl>2006-2010, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201005</catValu>
+    <labl>2006-2010, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201004</catValu>
+    <labl>2008-2010, PRCS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201003</catValu>
+    <labl>2008-2010, ACS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>201002</catValu>
+    <labl>2010 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>201001</catValu>
+    <labl>2010 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200906</catValu>
+    <labl>2005-2009, PRCS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>200905</catValu>
+    <labl>2005-2009, ACS 5-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>200904</catValu>
+    <labl>2007-2009, PRCS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>200903</catValu>
+    <labl>2007-2009, ACS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>200902</catValu>
+    <labl>2009 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200901</catValu>
+    <labl>2009 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200804</catValu>
+    <labl>2006-2008, PRCS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>200803</catValu>
+    <labl>2006-2008, ACS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>200802</catValu>
+    <labl>2008 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200801</catValu>
+    <labl>2008 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200704</catValu>
+    <labl>2005-2007, PRCS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>200703</catValu>
+    <labl>2005-2007, ACS 3-year</labl>
+  </catgry>
+  <catgry>
+    <catValu>200702</catValu>
+    <labl>2007 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200701</catValu>
+    <labl>2007 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200602</catValu>
+    <labl>2006 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200601</catValu>
+    <labl>2006 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200502</catValu>
+    <labl>2005 PRCS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200501</catValu>
+    <labl>2005 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200401</catValu>
+    <labl>2004 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200301</catValu>
+    <labl>2003 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200201</catValu>
+    <labl>2002 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200101</catValu>
+    <labl>2001 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200008</catValu>
+    <labl>2000 Puerto Rico 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>200007</catValu>
+    <labl>2000 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>200006</catValu>
+    <labl>2000 Puerto Rico 1% sample (old version)</labl>
+  </catgry>
+  <catgry>
+    <catValu>200005</catValu>
+    <labl>2000 Puerto Rico 5%</labl>
+  </catgry>
+  <catgry>
+    <catValu>200004</catValu>
+    <labl>2000 ACS</labl>
+  </catgry>
+  <catgry>
+    <catValu>200003</catValu>
+    <labl>2000 Unweighted 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>200002</catValu>
+    <labl>2000 1% sample (old version)</labl>
+  </catgry>
+  <catgry>
+    <catValu>200001</catValu>
+    <labl>2000 5%</labl>
+  </catgry>
+  <catgry>
+    <catValu>199007</catValu>
+    <labl>1990 Puerto Rico 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>199006</catValu>
+    <labl>1990 Puerto Rico 5%</labl>
+  </catgry>
+  <catgry>
+    <catValu>199005</catValu>
+    <labl>1990 Labor Market Area</labl>
+  </catgry>
+  <catgry>
+    <catValu>199004</catValu>
+    <labl>1990 Elderly</labl>
+  </catgry>
+  <catgry>
+    <catValu>199003</catValu>
+    <labl>1990 Unweighted 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>199002</catValu>
+    <labl>1990 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>199001</catValu>
+    <labl>1990 5%</labl>
+  </catgry>
+  <catgry>
+    <catValu>198007</catValu>
+    <labl>1980 Puerto Rico 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>198006</catValu>
+    <labl>1980 Puerto Rico 5%</labl>
+  </catgry>
+  <catgry>
+    <catValu>198005</catValu>
+    <labl>1980 Detailed metro/non-metro</labl>
+  </catgry>
+  <catgry>
+    <catValu>198004</catValu>
+    <labl>1980 Labor Market Area</labl>
+  </catgry>
+  <catgry>
+    <catValu>198003</catValu>
+    <labl>1980 Urban/Rural</labl>
+  </catgry>
+  <catgry>
+    <catValu>198002</catValu>
+    <labl>1980 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>198001</catValu>
+    <labl>1980 5%</labl>
+  </catgry>
+  <catgry>
+    <catValu>197009</catValu>
+    <labl>1970 Puerto Rico Neighborhood</labl>
+  </catgry>
+  <catgry>
+    <catValu>197008</catValu>
+    <labl>1970 Puerto Rico Municipio</labl>
+  </catgry>
+  <catgry>
+    <catValu>197007</catValu>
+    <labl>1970 Puerto Rico State</labl>
+  </catgry>
+  <catgry>
+    <catValu>197006</catValu>
+    <labl>1970 Form 2 Neighborhood</labl>
+  </catgry>
+  <catgry>
+    <catValu>197005</catValu>
+    <labl>1970 Form 1 Neighborhood</labl>
+  </catgry>
+  <catgry>
+    <catValu>197004</catValu>
+    <labl>1970 Form 2 Metro</labl>
+  </catgry>
+  <catgry>
+    <catValu>197003</catValu>
+    <labl>1970 Form 1 Metro</labl>
+  </catgry>
+  <catgry>
+    <catValu>197002</catValu>
+    <labl>1970 Form 2 State</labl>
+  </catgry>
+  <catgry>
+    <catValu>197001</catValu>
+    <labl>1970 Form 1 State</labl>
+  </catgry>
+  <catgry>
+    <catValu>196002</catValu>
+    <labl>1960 5%</labl>
+  </catgry>
+  <catgry>
+    <catValu>196001</catValu>
+    <labl>1960 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>195002</catValu>
+    <labl>1950 100% database</labl>
+  </catgry>
+  <catgry>
+    <catValu>195001</catValu>
+    <labl>1950 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>194002</catValu>
+    <labl>1940 100% database</labl>
+  </catgry>
+  <catgry>
+    <catValu>194001</catValu>
+    <labl>1940 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>193004</catValu>
+    <labl>1930 100% database</labl>
+  </catgry>
+  <catgry>
+    <catValu>193003</catValu>
+    <labl>1930 Puerto Rico</labl>
+  </catgry>
+  <catgry>
+    <catValu>193002</catValu>
+    <labl>1930 5%</labl>
+  </catgry>
+  <catgry>
+    <catValu>193001</catValu>
+    <labl>1930 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>192003</catValu>
+    <labl>1920 100% database</labl>
+  </catgry>
+  <catgry>
+    <catValu>192002</catValu>
+    <labl>1920 Puerto Rico sample</labl>
+  </catgry>
+  <catgry>
+    <catValu>192001</catValu>
+    <labl>1920 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>191004</catValu>
+    <labl>1910 100% database</labl>
+  </catgry>
+  <catgry>
+    <catValu>191003</catValu>
+    <labl>1910 1.4% sample with oversamples</labl>
+  </catgry>
+  <catgry>
+    <catValu>191002</catValu>
+    <labl>1910 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>191001</catValu>
+    <labl>1910 Puerto Rico</labl>
+  </catgry>
+  <catgry>
+    <catValu>190004</catValu>
+    <labl>1900 100% database</labl>
+  </catgry>
+  <catgry>
+    <catValu>190003</catValu>
+    <labl>1900 1% sample with oversamples</labl>
+  </catgry>
+  <catgry>
+    <catValu>190002</catValu>
+    <labl>1900 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>190001</catValu>
+    <labl>1900 5%</labl>
+  </catgry>
+  <catgry>
+    <catValu>188003</catValu>
+    <labl>1880 100% database</labl>
+  </catgry>
+  <catgry>
+    <catValu>188002</catValu>
+    <labl>1880 10%</labl>
+  </catgry>
+  <catgry>
+    <catValu>188001</catValu>
+    <labl>1880 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>187003</catValu>
+    <labl>1870 100% database</labl>
+  </catgry>
+  <catgry>
+    <catValu>187002</catValu>
+    <labl>1870 1% sample with black oversample</labl>
+  </catgry>
+  <catgry>
+    <catValu>187001</catValu>
+    <labl>1870 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>186003</catValu>
+    <labl>1860 100% database</labl>
+  </catgry>
+  <catgry>
+    <catValu>186002</catValu>
+    <labl>1860 1% sample with black oversample</labl>
+  </catgry>
+  <catgry>
+    <catValu>186001</catValu>
+    <labl>1860 1%</labl>
+  </catgry>
+  <catgry>
+    <catValu>185002</catValu>
+    <labl>1850 100% database</labl>
+  </catgry>
+  <catgry>
+    <catValu>185001</catValu>
+    <labl>1850 1%</labl>
+  </catgry>
+  <concept vocab="IPUMS">Technical Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="SERIAL" dcml="0" files="ExtractData" intrvl="contin" name="SERIAL">
+  <location EndPos="18" StartPos="11" width="8"/>
+  <labl>Household serial number</labl>
+  <txt><![CDATA[SERIAL is an identifying number unique to each household record in a given sample. All person records are assigned the same serial number as the household record that they follow. (Person records also have their own unique identifiers - see PERNUM.) A combination of SAMPLE and SERIAL provides a unique identifier for every household in the IPUMS; the combination of SAMPLE, SERIAL, and PERNUM uniquely identifies every person in the database.
+
+For 1850-1930, households that are part of a multi-household dwelling can be identified by using the DWELLING and DWSEQ variables. See "Sample Designs" for further discussion of sampling from within multi-household dwellings.]]></txt>
+  <codInstr><![CDATA[CodesSERIAL is an 8-digit numeric variable which assigns a unique identification number to each household record in a given sample (See PERNUM for the analogous person record identifier). A combination of SAMPLE and SERIAL provides a unique identifier for every household in the IPUMS; the combination of SAMPLE, SERIAL, and PERNUM uniquely identifies every person in the database. SERIAL specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).
+
+SERIAL Specific Variable Codes]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="CBSERIAL" dcml="0" files="ExtractData" intrvl="contin" name="CBSERIAL">
+  <location EndPos="31" StartPos="19" width="13"/>
+  <labl>Original Census Bureau household serial number</labl>
+  <txt><![CDATA[CBSERIAL is the unique, original identification number assigned to each household record in a given sample by the Census Bureau. All person records are assigned the same serial number as the household record that they follow. (The original person record unique identification numbers assigned by the Census Bureau are provided by CBPERNUM.) 
+
+A combination of SAMPLE and CBSERIAL provides a unique identifier for every household in the IPUMS; the combination of SAMPLE, CBSERIAL, and CBPERNUM uniquely identifies every person in the database.]]></txt>
+  <codInstr><![CDATA[CodesCBSERIAL is an 8-digit numeric variable which assigns a unique identification number to each household record in a given sample (See CBPERNUM for the analogous person record identifier). CBSERIAL specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).
+
+CBSERIAL Specific Variable Codes]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="HHWT" dcml="2" files="ExtractData" intrvl="contin" name="HHWT">
+  <location EndPos="41" StartPos="32" width="10"/>
+  <labl>Household weight</labl>
+  <txt><![CDATA[HHWT indicates how many households in the U.S. population are represented by a given household in an IPUMS sample. 
+
+It is generally a good idea to use HHWT when conducting a household-level analysis of any IPUMS sample. The use of HHWT is optional when analyzing one of the "flat" or unweighted IPUMS samples. Flat IPUMS samples include the 1% samples from 1850-1930, all samples from 1960, 1970, and 1980, the 1% unweighted samples from 1990 and 2000, the 10% 2010 sample, and any of the full count 100% census datasets. HHWT must be used to obtain nationally representative statistics for household-level analyses of any sample other than those.
+
+Users should also be sure to select one person (e.g., PERNUM = 1) to represent the entire household.
+
+For further explanation of the sample weights, see "Sample Designs" and "Sample Weights". See also PERWT for a corresponding variable at the person level, and SLWT for a weight variable used with sample-line records in 1940 1% and 1950.]]></txt>
+  <codInstr><![CDATA[CodesHHWT is a 6-digit numeric variable which indicates how many households in the U.S. population are represented by a given household in an IPUMS sample and has two implied decimals. For example, a HHWT value of 010461 should be interpreted as 104.61. HHWT specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).
+
+User Note: Users should also be sure to select one person (e.g., PERNUM = 1) to represent the entire household when using HHWT.
+
+HHWT Specific Variable Codes]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="CLUSTER" dcml="0" files="ExtractData" intrvl="contin" name="CLUSTER">
+  <location EndPos="54" StartPos="42" width="13"/>
+  <labl>Household cluster for variance estimation</labl>
+  <txt><![CDATA[CLUSTER is designed for use with STRATA in Taylor series linear approximation for correction of complex sample design characteristics. See the STRATA variable description for more details.]]></txt>
+  <codInstr><![CDATA[CodesCLUSTER is an 11-digit numeric variable designed for use with STRATA in Taylor series linear approximation for correction of complex sample design characteristics (See the Description of STRATA for more details). CLUSTER specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).
+
+CLUSTER Specific Variable Codes]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="METRO" dcml="0" files="ExtractData" intrvl="discrete" name="METRO">
+  <location EndPos="55" StartPos="55" width="1"/>
+  <labl>Metropolitan status (where determinable)</labl>
+  <txt><![CDATA[METRO indicates whether the household resided within a metropolitan area and, for households in metropolitan areas, whether the household resided within or outside of a central/principal city.
+
+In many public-use microdata samples, metropolitan and central/principal-city status are not directly identified. In such cases, IPUMS derives METRO codes based on other available geographic information, e.g., county groups (CNTYGP97 and CNTYGP98) or Public Use Microdata Areas (PUMA). If a county group or PUMA lies only partially within metropolitan areas or central/principal cities, then METRO indicates that the status is "indeterminable (mixed)."]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>Metropolitan status indeterminable (mixed)</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Not in metropolitan area</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>In metropolitan area: In central/principal city</labl>
+  </catgry>
+  <catgry>
+    <catValu>3</catValu>
+    <labl>In metropolitan area: Not in central/principal city</labl>
+  </catgry>
+  <catgry>
+    <catValu>4</catValu>
+    <labl>In metropolitan area: Central/principal city status indeterminable (mixed)</labl>
+  </catgry>
+  <concept vocab="IPUMS">Geographic Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="STRATA" dcml="0" files="ExtractData" intrvl="contin" name="STRATA">
+  <location EndPos="67" StartPos="56" width="12"/>
+  <labl>Household strata for variance estimation</labl>
+  <txt><![CDATA[STRATA is designed for use with CLUSTER in Taylor series linear approximation for correction of complex sample design characteristics.
+
+While appropriate use of the sampling weights PERWT and HHWT allow users to produce correct point estimates (such as means and proportions), many researchers believe that additional statistical techniques are also necessary to produce correct standard errors and statistical tests that account for complex sample design. 
+
+For further information on why and how to use STRATA and CLUSTER, see  Analysis and Variance Estimation with the IPUMS . For more details on the mathematics behind this method, see  Issues Concerning the Calculation of Standard Errors Using IPUMS Data Products .]]></txt>
+  <codInstr><![CDATA[CodesSTRATA is a 12-digit numeric variable designed for use with CLUSTER in Taylor series linear approximation for correction of complex sample design characteristics. While appropriate use of the sampling weights PERWT and HHWT allow users to produce correct point estimates (such as means and proportions), many researchers believe that additional statistical techniques are also necessary to produce correct standard errors and statistical tests that account for complex sample design. STRATA specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).
+
+User Note: For further information on why and how to use STRATA and CLUSTER, see Analysis and Variance Estimation with the IPUMS. For more details on the mathematics behind this method, see Issues Concerning the Calculation of Standard Errors Using IPUMS Data Products.  
+
+STRATA Specific Variable Codes]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="GQ" dcml="0" files="ExtractData" intrvl="discrete" name="GQ">
+  <location EndPos="68" StartPos="68" width="1"/>
+  <labl>Group quarters status</labl>
+  <txt><![CDATA[GQ classifies all housing units as falling into one of three main categories: households, group quarters, or vacant units. It also identifies fragmentary sample units for 1850-1930 (see below). In all years, the data available about a person and their co-residents depend on whether the person lives in a household or in group quarters. Households are sampled as units, meaning that everyone in the household is included in the sample, and most household-level variables are available. People living in group quarters are generally sampled as individuals; other people in their unit may or may not be included in the sample, and there is no way of linking co-residents' records to one another. If, however, a sampled person in group quarters was living with relatives, the related group was sampled for 1850-1930. Most household-level variables are not available for group quarters or for vacant units.
+
+Group quarters are largely institutions and other group living arrangements, such as rooming houses and military barracks. The definitions vary from year to year, but the pre-1940 samples have generally used a definition of group quarters that includes units with 10 or more individuals unrelated to the householder. See the comparability discussion below and "Sample Designs" for more details about changing definitions of group quarters.  Group-quarters types are identified in further detail by GQTYPE and GQFUNDS.]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>Vacant unit</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Households under 1970 definition</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Additional households under 1990 definition</labl>
+  </catgry>
+  <catgry>
+    <catValu>3</catValu>
+    <labl>Group quarters--Institutions</labl>
+  </catgry>
+  <catgry>
+    <catValu>4</catValu>
+    <labl>Other group quarters</labl>
+  </catgry>
+  <catgry>
+    <catValu>5</catValu>
+    <labl>Additional households under 2000 definition</labl>
+  </catgry>
+  <catgry>
+    <catValu>6</catValu>
+    <labl>Fragment</labl>
+  </catgry>
+  <concept vocab="IPUMS">Group Quarters Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="FARM" dcml="0" files="ExtractData" intrvl="discrete" name="FARM">
+  <location EndPos="69" StartPos="69" width="1"/>
+  <labl>Farm status</labl>
+  <txt><![CDATA[FARM identifies farm households. All group quarters are coded as non-farm, as are all housing units defined as outside the universe for FARM, above.]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>N/A</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Non-Farm</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Farm</labl>
+  </catgry>
+  <catgry>
+    <catValu>9</catValu>
+    <labl>Blank/missing</labl>
+  </catgry>
+  <concept vocab="IPUMS">Economic Characteristic Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="OWNERSHP" dcml="0" files="ExtractData" intrvl="discrete" name="OWNERSHP">
+  <location EndPos="70" StartPos="70" width="1"/>
+  <labl>Ownership of dwelling (tenure) [general version]</labl>
+  <txt><![CDATA[OWNERSHP indicates whether the housing unit was rented or owned by its inhabitants. Housing units acquired with a mortgage or other lending arrangement(s) are classified as "owned," even if repayment was not yet completed.]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>N/A</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Owned or being bought (loan)</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Rented</labl>
+  </catgry>
+  <concept vocab="IPUMS">Economic Characteristic Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="OWNERSHPD" dcml="0" files="ExtractData" intrvl="discrete" name="OWNERSHPD">
+  <location EndPos="72" StartPos="71" width="2"/>
+  <labl>Ownership of dwelling (tenure) [detailed version]</labl>
+  <txt><![CDATA[OWNERSHP indicates whether the housing unit was rented or owned by its inhabitants. Housing units acquired with a mortgage or other lending arrangement(s) are classified as "owned," even if repayment was not yet completed.]]></txt>
+  <catgry>
+    <catValu>00</catValu>
+    <labl>N/A</labl>
+  </catgry>
+  <catgry>
+    <catValu>10</catValu>
+    <labl>Owned or being bought</labl>
+  </catgry>
+  <catgry>
+    <catValu>11</catValu>
+    <labl>Check mark (owns?)</labl>
+  </catgry>
+  <catgry>
+    <catValu>12</catValu>
+    <labl>Owned free and clear</labl>
+  </catgry>
+  <catgry>
+    <catValu>13</catValu>
+    <labl>Owned with mortgage or loan</labl>
+  </catgry>
+  <catgry>
+    <catValu>20</catValu>
+    <labl>Rented</labl>
+  </catgry>
+  <catgry>
+    <catValu>21</catValu>
+    <labl>No cash rent</labl>
+  </catgry>
+  <catgry>
+    <catValu>22</catValu>
+    <labl>With cash rent</labl>
+  </catgry>
+  <concept vocab="IPUMS">Economic Characteristic Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="FRIDGE" dcml="0" files="ExtractData" intrvl="discrete" name="FRIDGE">
+  <location EndPos="73" StartPos="73" width="1"/>
+  <labl>Refrigerator</labl>
+  <txt><![CDATA[FRIDGE indicates whether the housing unit provided access to a refrigerator.
+
+In the 2008 ACS/PRCS and 2006-8 multiyear ACS/PRCS, a Census Bureau processing error led to an increase in the allocation rate for FRIDGE (see the data quality flag QFRIDGE). The Census Bureau calls the effect of this error "negligible."  Please see ACS Errata #53 and #64 for more information about the errors and the revisions. In November 2010, the Census Bureau released revised data. The revised releases correct this error. FRIDGE reports these revised values.
+
+We provide the original values in FRIDGEORIG so that users can analyze the differences in the revisions or replicate previous analyses. However, we recommend that users analyze the revised variable FRIDGE in their research.]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>N/A</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>No, no refrigerator</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Yes</labl>
+  </catgry>
+  <concept vocab="IPUMS">Appliances, Mechanical, Other Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="PHONE" dcml="0" files="ExtractData" intrvl="discrete" name="PHONE">
+  <location EndPos="74" StartPos="74" width="1"/>
+  <labl>Telephone availability</labl>
+  <txt><![CDATA[PHONE indicates whether residents of the housing unit had telephone access.]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>N/A</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>No, no phone available</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Yes, phone available</labl>
+  </catgry>
+  <catgry>
+    <catValu>8</catValu>
+    <labl>Suppressed (see comparability tab)</labl>
+  </catgry>
+  <concept vocab="IPUMS">Appliances, Mechanical, Other Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="CINETHH" dcml="0" files="ExtractData" intrvl="discrete" name="CINETHH">
+  <location EndPos="75" StartPos="75" width="1"/>
+  <labl>Access to internet</labl>
+  <txt><![CDATA[CINETHH reports whether any member of the household accesses the Internet. Here, "access" refers to whether or not someone in the household uses or connects to the Internet, regardless of whether or not they pay for the service.]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>N/A (GQ)</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Yes, with a subscription to an Internet Service</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Yes, without a subscription to an Internet Service</labl>
+  </catgry>
+  <catgry>
+    <catValu>3</catValu>
+    <labl>No Internet access at this house, apartment, or mobile home</labl>
+  </catgry>
+  <concept vocab="IPUMS">Appliances, Mechanical, Other Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="CILAPTOP" dcml="0" files="ExtractData" intrvl="discrete" name="CILAPTOP">
+  <location EndPos="76" StartPos="76" width="1"/>
+  <labl>Laptop, desktop, or notebook computer</labl>
+  <txt><![CDATA[CILAPTOP reports whether the respondent or any member of their household owned or used a desktop, laptop, netbook, or notebook computer. This excludes GPS devices with only limited computed capabilities, for example: household appliances.
+
+User Note: The ACS 2016 introduced changes to the questions regarding computer use and Internet access. See the comparability section and questionnaire text for more information.]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>N/A (GQ)</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Yes</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>No</labl>
+  </catgry>
+  <concept vocab="IPUMS">Appliances, Mechanical, Other Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="CIHISPEED" dcml="0" files="ExtractData" intrvl="discrete" name="CIHISPEED">
+  <location EndPos="78" StartPos="77" width="2"/>
+  <labl>Broadband (high speed) Internet service such as cable, fiber optic, or DSL service</labl>
+  <txt><![CDATA[CIHISPEED reports whether the respondent or any member of their household subscribed to the Internet using broadband (high speed) Internet service such as cable, fiber optic, or DSL service.
+
+User Note: The ACS 2016 introduced changes to the questions regarding computer use and Internet access. See the comparability section and questionnaire text for more information. Additional information provided by the Census Bureau regarding these question alterations are available in the report: ACS Content Test Shows Need to Update Terminology]]></txt>
+  <catgry>
+    <catValu>00</catValu>
+    <labl>N/A (GQ)</labl>
+  </catgry>
+  <catgry>
+    <catValu>10</catValu>
+    <labl>Yes (Cable modem, fiber optic or DSL service)</labl>
+  </catgry>
+  <catgry>
+    <catValu>11</catValu>
+    <labl>Cable modem only</labl>
+  </catgry>
+  <catgry>
+    <catValu>12</catValu>
+    <labl>Fiber optic only</labl>
+  </catgry>
+  <catgry>
+    <catValu>13</catValu>
+    <labl>DSL service only</labl>
+  </catgry>
+  <catgry>
+    <catValu>14</catValu>
+    <labl>Cable modem + Fiber optic</labl>
+  </catgry>
+  <catgry>
+    <catValu>15</catValu>
+    <labl>Cable modem + DSL service</labl>
+  </catgry>
+  <catgry>
+    <catValu>16</catValu>
+    <labl>Fiber optic + DSL service</labl>
+  </catgry>
+  <catgry>
+    <catValu>17</catValu>
+    <labl>Cable modem, Fiber optic and DSL service</labl>
+  </catgry>
+  <catgry>
+    <catValu>20</catValu>
+    <labl>No</labl>
+  </catgry>
+  <concept vocab="IPUMS">Appliances, Mechanical, Other Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="VEHICLES" dcml="0" files="ExtractData" intrvl="discrete" name="VEHICLES">
+  <location EndPos="79" StartPos="79" width="1"/>
+  <labl>Vehicles available</labl>
+  <txt><![CDATA[VEHICLES reports the number of cars, vans, and trucks of one-ton capacity or less kept at home for use by household members. The 1990 U.S. Census instructions explicitly included company cars regularly kept at home and used for non-business purposes and excluded junk vehicles and vehicles used only for business purposes.]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>N/A</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>1 available</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>2</labl>
+  </catgry>
+  <catgry>
+    <catValu>3</catValu>
+    <labl>3</labl>
+  </catgry>
+  <catgry>
+    <catValu>4</catValu>
+    <labl>4</labl>
+  </catgry>
+  <catgry>
+    <catValu>5</catValu>
+    <labl>5</labl>
+  </catgry>
+  <catgry>
+    <catValu>6</catValu>
+    <labl>6 (6+, 2000, ACS and PRCS)</labl>
+  </catgry>
+  <catgry>
+    <catValu>7</catValu>
+    <labl>7+</labl>
+  </catgry>
+  <catgry>
+    <catValu>9</catValu>
+    <labl>No vehicles available</labl>
+  </catgry>
+  <concept vocab="IPUMS">Appliances, Mechanical, Other Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="SSMC" dcml="0" files="ExtractData" intrvl="discrete" name="SSMC">
+  <location EndPos="80" StartPos="80" width="1"/>
+  <labl>Same-sex married couple</labl>
+  <txt><![CDATA[SSMC reports whether the head of household and spouse are a same-sex married couple. Beginning in the 2013 ACS/PRCS, same-sex married couples are included in the "married spouse present" category. As well, beginning in 2013, family household and married-couple families include same-sex married couples. 
+
+Prior to the 2013 ACS/PRCS, same-sex married couples were recoded by the Census Bureau from married to unmarried partners. The 2012 ACS/PRCS included a data quality flag identifying same-sex married couples that had been recoded (QRELATE = 9 "Same sex spouse changed to unmarried partner").
+
+User Note: Same-sex married couples are only shown as the householder and spouse, and are not included in subfamilies. Respondents with an SSMC value of 1 were logically allocated as a same-sex married-couple, even though they were missing valid responses for SEX or RELATE. See the SSMC and Family Interrelationship page for information on how the IPUMS-USA family interrelationship variables interact with same-sex married couple households.]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>Households without a same-sex married couple</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Same-sex married-couple household where not all relevant data shown as reported</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>All other same-sex married couple households</labl>
+  </catgry>
+  <concept vocab="IPUMS">Household Composition Variables -- HOUSEHOLD</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="PERNUM" dcml="0" files="ExtractData" intrvl="contin" name="PERNUM">
+  <location EndPos="84" StartPos="81" width="4"/>
+  <labl>Person number in sample unit</labl>
+  <txt><![CDATA[PERNUM numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. When combined with SAMPLE and SERIAL, PERNUM uniquely identifies each person within the IPUMS.]]></txt>
+  <codInstr><![CDATA[CodesPERNUM is a 4-digit numeric variable which numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. PERNUM specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="PERWT" dcml="2" files="ExtractData" intrvl="contin" name="PERWT">
+  <location EndPos="94" StartPos="85" width="10"/>
+  <labl>Person weight</labl>
+  <txt><![CDATA[PERWT indicates how many persons in the U.S. population are represented by a given person in an IPUMS sample. 
+
+It is generally a good idea to use PERWT when conducting a person-level analysis of any IPUMS sample. The use of PERWT is optional when analyzing one of the "flat" or unweighted IPUMS samples. Flat IPUMS samples include the 1% samples from 1850-1930, all samples from 1960, 1970, and 1980, the 1% unweighted samples from 1990 and 2000, the 10% 2010 sample, and any of the full count 100% census datasets. PERWT must be used to obtain nationally representative statistics for person-level analyses of any sample other than those.
+
+For further explanation of the sample weights, see "Sample Designs" and "Sample Weights". See also HHWT for a corresponding variable at the household level, and SLWT for a weight variable used with sample-line records in 1940 and 1950.]]></txt>
+  <codInstr><![CDATA[CodesPERWT is a 6-digit numeric variable which indicates how many persons in the U.S. population are represented by a given person in an IPUMS sample and has two implied decimals. For example, a PERWT value of 010461 should be interpreted as 104.61. PERWT specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).
+
+PERWT Specific Variable Codes]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="FAMUNIT" dcml="0" files="ExtractData" intrvl="discrete" name="FAMUNIT">
+  <location EndPos="96" StartPos="95" width="2"/>
+  <labl>Family unit membership</labl>
+  <txt><![CDATA[FAMUNIT indicates to which family within the housing unit each person belongs. If there is only one group of related individuals, all of them will be coded 1; if there is a second, separate such group, all members of that family group will be coded 2, and so on. All persons with a RELATE code less than 1100 are included in FAMUNIT, coded as 1. It is possible for an individual with a RELATE code larger than 1100 to be included in the "primary family" if they are identified as a child or spouse of a primary family member using SPLOC, MOMLOC, or POPLOC.
+
+The Census Bureau defines "primary families" as groups of persons related to the head of household, and "primary individuals" as household heads/householders residing without kin. In the IPUMS, primary families and primary individuals are identified in FAMUNIT with a code of 1; each secondary family or secondary individual receives a higher code. Note that IPUMS primary families (FAMUNIT=1) may also include individuals that the Census Bureau does not consider to be in the primary family if they are linked to someone related to the household head by SPLOC, MOMLOC, or POPLOC. For example, IPUMS links unmarried partners of the head to the household head using SPLOC and so these partners will be included in the IPUMS primary family unit, but because they are not related by blood or marriage to the household head, they will not be included in the Census Bureau’s primary family unit. To recreate the Census Bureau’s definition of the primary family, users can select only those individuals in the IPUMS primary family whose RELATE value is less than or equal to 1100.
+
+FAMUNIT is not analogous to the Census Bureau concept of "subfamily." People in Census Bureau "subfamilies" are necessarily related to the householder, and they will be included in FAMUNIT, coded as 1.]]></txt>
+  <catgry>
+    <catValu>01</catValu>
+    <labl>1st family in household or group quarters</labl>
+  </catgry>
+  <catgry>
+    <catValu>02</catValu>
+    <labl>2nd family in household or group quarters</labl>
+  </catgry>
+  <catgry>
+    <catValu>03</catValu>
+    <labl>3rd</labl>
+  </catgry>
+  <catgry>
+    <catValu>04</catValu>
+    <labl>4th</labl>
+  </catgry>
+  <catgry>
+    <catValu>05</catValu>
+    <labl>5th</labl>
+  </catgry>
+  <catgry>
+    <catValu>06</catValu>
+    <labl>6th</labl>
+  </catgry>
+  <catgry>
+    <catValu>07</catValu>
+    <labl>7th</labl>
+  </catgry>
+  <catgry>
+    <catValu>08</catValu>
+    <labl>8th</labl>
+  </catgry>
+  <catgry>
+    <catValu>09</catValu>
+    <labl>9th</labl>
+  </catgry>
+  <catgry>
+    <catValu>10</catValu>
+    <labl>10th</labl>
+  </catgry>
+  <catgry>
+    <catValu>11</catValu>
+    <labl>11th</labl>
+  </catgry>
+  <catgry>
+    <catValu>12</catValu>
+    <labl>12th</labl>
+  </catgry>
+  <catgry>
+    <catValu>13</catValu>
+    <labl>13th</labl>
+  </catgry>
+  <catgry>
+    <catValu>14</catValu>
+    <labl>14th</labl>
+  </catgry>
+  <catgry>
+    <catValu>15</catValu>
+    <labl>15th</labl>
+  </catgry>
+  <catgry>
+    <catValu>16</catValu>
+    <labl>16th</labl>
+  </catgry>
+  <catgry>
+    <catValu>17</catValu>
+    <labl>17th</labl>
+  </catgry>
+  <catgry>
+    <catValu>18</catValu>
+    <labl>18th</labl>
+  </catgry>
+  <catgry>
+    <catValu>19</catValu>
+    <labl>19th</labl>
+  </catgry>
+  <catgry>
+    <catValu>20</catValu>
+    <labl>20th</labl>
+  </catgry>
+  <catgry>
+    <catValu>21</catValu>
+    <labl>21th</labl>
+  </catgry>
+  <catgry>
+    <catValu>22</catValu>
+    <labl>22th</labl>
+  </catgry>
+  <catgry>
+    <catValu>23</catValu>
+    <labl>23th</labl>
+  </catgry>
+  <catgry>
+    <catValu>24</catValu>
+    <labl>24th</labl>
+  </catgry>
+  <catgry>
+    <catValu>25</catValu>
+    <labl>25th</labl>
+  </catgry>
+  <catgry>
+    <catValu>26</catValu>
+    <labl>26th</labl>
+  </catgry>
+  <catgry>
+    <catValu>27</catValu>
+    <labl>27th</labl>
+  </catgry>
+  <catgry>
+    <catValu>28</catValu>
+    <labl>28th</labl>
+  </catgry>
+  <catgry>
+    <catValu>29</catValu>
+    <labl>29th</labl>
+  </catgry>
+  <catgry>
+    <catValu>30</catValu>
+    <labl>30th</labl>
+  </catgry>
+  <catgry>
+    <catValu>31</catValu>
+    <labl>31st</labl>
+  </catgry>
+  <catgry>
+    <catValu>32</catValu>
+    <labl>32nd</labl>
+  </catgry>
+  <catgry>
+    <catValu>33</catValu>
+    <labl>33rd</labl>
+  </catgry>
+  <catgry>
+    <catValu>34</catValu>
+    <labl>34th</labl>
+  </catgry>
+  <catgry>
+    <catValu>35</catValu>
+    <labl>35th</labl>
+  </catgry>
+  <catgry>
+    <catValu>36</catValu>
+    <labl>36th</labl>
+  </catgry>
+  <catgry>
+    <catValu>37</catValu>
+    <labl>37th</labl>
+  </catgry>
+  <catgry>
+    <catValu>38</catValu>
+    <labl>38th</labl>
+  </catgry>
+  <catgry>
+    <catValu>39</catValu>
+    <labl>39th</labl>
+  </catgry>
+  <catgry>
+    <catValu>40</catValu>
+    <labl>40th</labl>
+  </catgry>
+  <catgry>
+    <catValu>41</catValu>
+    <labl>41st</labl>
+  </catgry>
+  <catgry>
+    <catValu>42</catValu>
+    <labl>42nd</labl>
+  </catgry>
+  <catgry>
+    <catValu>43</catValu>
+    <labl>43rd</labl>
+  </catgry>
+  <catgry>
+    <catValu>44</catValu>
+    <labl>44th</labl>
+  </catgry>
+  <catgry>
+    <catValu>45</catValu>
+    <labl>45th</labl>
+  </catgry>
+  <catgry>
+    <catValu>46</catValu>
+    <labl>46th</labl>
+  </catgry>
+  <catgry>
+    <catValu>47</catValu>
+    <labl>47th</labl>
+  </catgry>
+  <catgry>
+    <catValu>48</catValu>
+    <labl>48th</labl>
+  </catgry>
+  <catgry>
+    <catValu>49</catValu>
+    <labl>49th</labl>
+  </catgry>
+  <catgry>
+    <catValu>50</catValu>
+    <labl>50th</labl>
+  </catgry>
+  <catgry>
+    <catValu>51</catValu>
+    <labl>51st</labl>
+  </catgry>
+  <catgry>
+    <catValu>52</catValu>
+    <labl>52nd</labl>
+  </catgry>
+  <catgry>
+    <catValu>53</catValu>
+    <labl>53rd</labl>
+  </catgry>
+  <catgry>
+    <catValu>54</catValu>
+    <labl>54th</labl>
+  </catgry>
+  <catgry>
+    <catValu>55</catValu>
+    <labl>55th</labl>
+  </catgry>
+  <catgry>
+    <catValu>56</catValu>
+    <labl>56th</labl>
+  </catgry>
+  <catgry>
+    <catValu>57</catValu>
+    <labl>57th</labl>
+  </catgry>
+  <catgry>
+    <catValu>58</catValu>
+    <labl>58th</labl>
+  </catgry>
+  <catgry>
+    <catValu>59</catValu>
+    <labl>59th</labl>
+  </catgry>
+  <catgry>
+    <catValu>60</catValu>
+    <labl>60th</labl>
+  </catgry>
+  <concept vocab="IPUMS">Family Interrelationship Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="MOMLOC" dcml="0" files="ExtractData" intrvl="contin" name="MOMLOC">
+  <location EndPos="98" StartPos="97" width="2"/>
+  <labl>Mother's location in the household</labl>
+  <txt><![CDATA[MOMLOC is a constructed variable that indicates whether the person's mother lived in the same household and, if so, gives the person number of the mother (PERNUM). The method by which probable child-mother links are identified is described in MOMRULE for samples from 1970 to present and in MOMRULE_HIST for samples prior to 1970.
+
+MOMLOC makes it easy for researchers to link the characteristics of children and their (probable) mothers. 
+
+In 2017, the family interrelationship variables for samples from 1970 to present were revised to increase comparability across IPUMS projects and include same-sex couples. Many researchers who are familiar with the previous version of family interrelationship variables will find it useful to read a brief overview of the key differences of the  New IPUMS Family Interrelationship Variables. On this page you'll find information on how family interrelationship variables are constructed, common uses of these variables, and specific examples of how these variables can be used efficiently.
+
+Samples prior to 1970 continue to use the original version of family interrelationship variables.
+
+User Caution: MOMLOC identifies social relationships (such as stepmother and adoptive mother) as well as biological relationships. For 1970 and later, MOMLOC will also identify the unmarried partner of a child's father identified with POPLOC
+If the person identified with MOMLOC has a spouse or partner identified through SPLOC, the spouse or partner will also be identified as a parent through POPLOC (if a different-sex couple) or MOMLOC2 (if a same-sex couple). POPRULE  and MOM2RULE will communicate the method through which those relationships are identified.  
+
+The original version of MOMLOC and other IPUMS pointer variables are available for 1970 to present here.]]></txt>
+  <codInstr><![CDATA[Codes00 = No mother of this person in the household.]]></codInstr>
+  <concept vocab="IPUMS">Family Interrelationship Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="POPLOC" dcml="0" files="ExtractData" intrvl="contin" name="POPLOC">
+  <location EndPos="100" StartPos="99" width="2"/>
+  <labl>Father's location in the household</labl>
+  <txt><![CDATA[POPLOC is a constructed variable that indicates whether the person's father lived in the same household and, if so, gives the person number of the father (PERNUM). The method by which probable child-father links are identified is described in POPRULE for samples from 1970 to present and in POPRULE_HIST for samples prior to 1970. 
+
+POPLOC makes it easy for researchers to link the characteristics of children and their (probable) father. 
+
+In 2017, the family interrelationship variables for samples from 1970 to present were revised to increase comparability across IPUMS projects and include same-sex couples.  Many researchers who are familiar with the previous version of family interrelationship variables will find it useful to read a brief overview of the key differences of the New IPUMS Family Interrelationship Variables. On this page you'll find information on how family interrelationship variables are constructed, common uses of these variables, and specific examples of how these variables can be used efficiently.
+
+Samples prior to 1970 continue to use the original version of family interrelationship variables.
+
+User Caution: POPLOC identifies social relationships (such as stepfather and adoptive father) as well as biological relationships. For 1970 and later, POPLOC will also identify the unmarried partner of a child's mother identified with MOMLOC
+If the person identified with POPLOC has a spouse or partner identified through SPLOC, the spouse or partner will also be identified as a parent through MOMLOC (if a different-sex couple) or POPLOC2 (if a same-sex couple). MOMRULE  and POP2RULE will communicate the method through which those relationships are identified.  
+
+The original version of POPLOC and other IPUMS pointer variables are available for 1970 to present here.]]></txt>
+  <codInstr><![CDATA[Codes00 = No father of this person in the household.]]></codInstr>
+  <concept vocab="IPUMS">Family Interrelationship Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="SEX" dcml="0" files="ExtractData" intrvl="discrete" name="SEX">
+  <location EndPos="101" StartPos="101" width="1"/>
+  <labl>Sex</labl>
+  <txt><![CDATA[SEX reports whether the person was male or female.]]></txt>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Male</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Female</labl>
+  </catgry>
+  <catgry>
+    <catValu>9</catValu>
+    <labl>Missing/blank</labl>
+  </catgry>
+  <concept vocab="IPUMS">Demographic Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="MARST" dcml="0" files="ExtractData" intrvl="discrete" name="MARST">
+  <location EndPos="102" StartPos="102" width="1"/>
+  <labl>Marital status</labl>
+  <txt><![CDATA[MARST gives each person's current marital status.]]></txt>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Married, spouse present</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Married, spouse absent</labl>
+  </catgry>
+  <catgry>
+    <catValu>3</catValu>
+    <labl>Separated</labl>
+  </catgry>
+  <catgry>
+    <catValu>4</catValu>
+    <labl>Divorced</labl>
+  </catgry>
+  <catgry>
+    <catValu>5</catValu>
+    <labl>Widowed</labl>
+  </catgry>
+  <catgry>
+    <catValu>6</catValu>
+    <labl>Never married/single</labl>
+  </catgry>
+  <catgry>
+    <catValu>9</catValu>
+    <labl>Blank, missing</labl>
+  </catgry>
+  <concept vocab="IPUMS">Demographic Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="MARRINYR" dcml="0" files="ExtractData" intrvl="discrete" name="MARRINYR">
+  <location EndPos="103" StartPos="103" width="1"/>
+  <labl>Married within the past year</labl>
+  <txt><![CDATA[MARRINYR identifies persons who had married within the 12 months preceding June 1 (for the 1850-1880 censuses) or the date of interview (for the ACS and PRCS).]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>N/A</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Blank (No)</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Yes</labl>
+  </catgry>
+  <concept vocab="IPUMS">Demographic Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="LANGUAGE" dcml="0" files="ExtractData" intrvl="discrete" name="LANGUAGE">
+  <location EndPos="105" StartPos="104" width="2"/>
+  <labl>Language spoken [general version]</labl>
+  <txt><![CDATA[LANGUAGE reports the language that the respondent spoke at home, particularly (for the 1910 Puerto Rican sample and the samples from 1980 onward) if a language other than English was spoken.]]></txt>
+  <catgry>
+    <catValu>00</catValu>
+    <labl>N/A or blank</labl>
+  </catgry>
+  <catgry>
+    <catValu>01</catValu>
+    <labl>English</labl>
+  </catgry>
+  <catgry>
+    <catValu>02</catValu>
+    <labl>German</labl>
+  </catgry>
+  <catgry>
+    <catValu>03</catValu>
+    <labl>Yiddish, Jewish</labl>
+  </catgry>
+  <catgry>
+    <catValu>04</catValu>
+    <labl>Dutch</labl>
+  </catgry>
+  <catgry>
+    <catValu>05</catValu>
+    <labl>Swedish</labl>
+  </catgry>
+  <catgry>
+    <catValu>06</catValu>
+    <labl>Danish</labl>
+  </catgry>
+  <catgry>
+    <catValu>07</catValu>
+    <labl>Norwegian</labl>
+  </catgry>
+  <catgry>
+    <catValu>08</catValu>
+    <labl>Icelandic</labl>
+  </catgry>
+  <catgry>
+    <catValu>09</catValu>
+    <labl>Scandinavian</labl>
+  </catgry>
+  <catgry>
+    <catValu>10</catValu>
+    <labl>Italian</labl>
+  </catgry>
+  <catgry>
+    <catValu>11</catValu>
+    <labl>French</labl>
+  </catgry>
+  <catgry>
+    <catValu>12</catValu>
+    <labl>Spanish</labl>
+  </catgry>
+  <catgry>
+    <catValu>13</catValu>
+    <labl>Portuguese</labl>
+  </catgry>
+  <catgry>
+    <catValu>14</catValu>
+    <labl>Rumanian</labl>
+  </catgry>
+  <catgry>
+    <catValu>15</catValu>
+    <labl>Celtic</labl>
+  </catgry>
+  <catgry>
+    <catValu>16</catValu>
+    <labl>Greek</labl>
+  </catgry>
+  <catgry>
+    <catValu>17</catValu>
+    <labl>Albanian</labl>
+  </catgry>
+  <catgry>
+    <catValu>18</catValu>
+    <labl>Russian</labl>
+  </catgry>
+  <catgry>
+    <catValu>19</catValu>
+    <labl>Ukrainian, Ruthenian, Little Russian</labl>
+  </catgry>
+  <catgry>
+    <catValu>20</catValu>
+    <labl>Czech</labl>
+  </catgry>
+  <catgry>
+    <catValu>21</catValu>
+    <labl>Polish</labl>
+  </catgry>
+  <catgry>
+    <catValu>22</catValu>
+    <labl>Slovak</labl>
+  </catgry>
+  <catgry>
+    <catValu>23</catValu>
+    <labl>Serbo-Croatian, Yugoslavian, Slavonian</labl>
+  </catgry>
+  <catgry>
+    <catValu>24</catValu>
+    <labl>Slovene</labl>
+  </catgry>
+  <catgry>
+    <catValu>25</catValu>
+    <labl>Lithuanian</labl>
+  </catgry>
+  <catgry>
+    <catValu>26</catValu>
+    <labl>Other Balto-Slavic</labl>
+  </catgry>
+  <catgry>
+    <catValu>27</catValu>
+    <labl>Slavic unknown</labl>
+  </catgry>
+  <catgry>
+    <catValu>28</catValu>
+    <labl>Armenian</labl>
+  </catgry>
+  <catgry>
+    <catValu>29</catValu>
+    <labl>Persian, Iranian, Farsi</labl>
+  </catgry>
+  <catgry>
+    <catValu>30</catValu>
+    <labl>Other Persian dialects</labl>
+  </catgry>
+  <catgry>
+    <catValu>31</catValu>
+    <labl>Hindi and related</labl>
+  </catgry>
+  <catgry>
+    <catValu>32</catValu>
+    <labl>Romany, Gypsy</labl>
+  </catgry>
+  <catgry>
+    <catValu>33</catValu>
+    <labl>Finnish</labl>
+  </catgry>
+  <catgry>
+    <catValu>34</catValu>
+    <labl>Magyar, Hungarian</labl>
+  </catgry>
+  <catgry>
+    <catValu>35</catValu>
+    <labl>Uralic</labl>
+  </catgry>
+  <catgry>
+    <catValu>36</catValu>
+    <labl>Turkish</labl>
+  </catgry>
+  <catgry>
+    <catValu>37</catValu>
+    <labl>Other Altaic</labl>
+  </catgry>
+  <catgry>
+    <catValu>38</catValu>
+    <labl>Caucasian, Georgian, Avar</labl>
+  </catgry>
+  <catgry>
+    <catValu>39</catValu>
+    <labl>Basque</labl>
+  </catgry>
+  <catgry>
+    <catValu>40</catValu>
+    <labl>Dravidian</labl>
+  </catgry>
+  <catgry>
+    <catValu>41</catValu>
+    <labl>Kurukh</labl>
+  </catgry>
+  <catgry>
+    <catValu>42</catValu>
+    <labl>Burushaski</labl>
+  </catgry>
+  <catgry>
+    <catValu>43</catValu>
+    <labl>Chinese</labl>
+  </catgry>
+  <catgry>
+    <catValu>44</catValu>
+    <labl>Tibetan</labl>
+  </catgry>
+  <catgry>
+    <catValu>45</catValu>
+    <labl>Burmese, Lisu, Lolo</labl>
+  </catgry>
+  <catgry>
+    <catValu>46</catValu>
+    <labl>Kachin</labl>
+  </catgry>
+  <catgry>
+    <catValu>47</catValu>
+    <labl>Thai, Siamese, Lao</labl>
+  </catgry>
+  <catgry>
+    <catValu>48</catValu>
+    <labl>Japanese</labl>
+  </catgry>
+  <catgry>
+    <catValu>49</catValu>
+    <labl>Korean</labl>
+  </catgry>
+  <catgry>
+    <catValu>50</catValu>
+    <labl>Vietnamese</labl>
+  </catgry>
+  <catgry>
+    <catValu>51</catValu>
+    <labl>Other East/Southeast Asian</labl>
+  </catgry>
+  <catgry>
+    <catValu>52</catValu>
+    <labl>Indonesian</labl>
+  </catgry>
+  <catgry>
+    <catValu>53</catValu>
+    <labl>Other Malayan</labl>
+  </catgry>
+  <catgry>
+    <catValu>54</catValu>
+    <labl>Filipino, Tagalog</labl>
+  </catgry>
+  <catgry>
+    <catValu>55</catValu>
+    <labl>Micronesian, Polynesian</labl>
+  </catgry>
+  <catgry>
+    <catValu>56</catValu>
+    <labl>Hawaiian</labl>
+  </catgry>
+  <catgry>
+    <catValu>57</catValu>
+    <labl>Arabic</labl>
+  </catgry>
+  <catgry>
+    <catValu>58</catValu>
+    <labl>Near East Arabic dialect</labl>
+  </catgry>
+  <catgry>
+    <catValu>59</catValu>
+    <labl>Hebrew, Israeli</labl>
+  </catgry>
+  <catgry>
+    <catValu>60</catValu>
+    <labl>Amharic, Ethiopian, etc.</labl>
+  </catgry>
+  <catgry>
+    <catValu>61</catValu>
+    <labl>Hamitic</labl>
+  </catgry>
+  <catgry>
+    <catValu>62</catValu>
+    <labl>Other Afro-Asiatic languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>63</catValu>
+    <labl>Sub-Saharan Africa</labl>
+  </catgry>
+  <catgry>
+    <catValu>64</catValu>
+    <labl>African, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>70</catValu>
+    <labl>American Indian (all)</labl>
+  </catgry>
+  <catgry>
+    <catValu>71</catValu>
+    <labl>Aleut, Eskimo</labl>
+  </catgry>
+  <catgry>
+    <catValu>72</catValu>
+    <labl>Algonquian</labl>
+  </catgry>
+  <catgry>
+    <catValu>73</catValu>
+    <labl>Salish, Flathead</labl>
+  </catgry>
+  <catgry>
+    <catValu>74</catValu>
+    <labl>Athapascan</labl>
+  </catgry>
+  <catgry>
+    <catValu>75</catValu>
+    <labl>Navajo</labl>
+  </catgry>
+  <catgry>
+    <catValu>76</catValu>
+    <labl>Penutian-Sahaptin</labl>
+  </catgry>
+  <catgry>
+    <catValu>77</catValu>
+    <labl>Other Penutian</labl>
+  </catgry>
+  <catgry>
+    <catValu>78</catValu>
+    <labl>Zuni</labl>
+  </catgry>
+  <catgry>
+    <catValu>79</catValu>
+    <labl>Yuman</labl>
+  </catgry>
+  <catgry>
+    <catValu>80</catValu>
+    <labl>Other Hokan languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>81</catValu>
+    <labl>Siouan languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>82</catValu>
+    <labl>Muskogean</labl>
+  </catgry>
+  <catgry>
+    <catValu>83</catValu>
+    <labl>Keres</labl>
+  </catgry>
+  <catgry>
+    <catValu>84</catValu>
+    <labl>Iroquoian</labl>
+  </catgry>
+  <catgry>
+    <catValu>85</catValu>
+    <labl>Caddoan</labl>
+  </catgry>
+  <catgry>
+    <catValu>86</catValu>
+    <labl>Shoshonean/Hopi</labl>
+  </catgry>
+  <catgry>
+    <catValu>87</catValu>
+    <labl>Pima, Papago</labl>
+  </catgry>
+  <catgry>
+    <catValu>88</catValu>
+    <labl>Yaqui and other Sonoran, nec</labl>
+  </catgry>
+  <catgry>
+    <catValu>89</catValu>
+    <labl>Aztecan, Nahuatl, Uto-Aztecan</labl>
+  </catgry>
+  <catgry>
+    <catValu>90</catValu>
+    <labl>Tanoan languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>91</catValu>
+    <labl>Other Indian languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>92</catValu>
+    <labl>Mayan languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>93</catValu>
+    <labl>American Indian, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>94</catValu>
+    <labl>Native</labl>
+  </catgry>
+  <catgry>
+    <catValu>95</catValu>
+    <labl>No language</labl>
+  </catgry>
+  <catgry>
+    <catValu>96</catValu>
+    <labl>Other or not reported</labl>
+  </catgry>
+  <catgry>
+    <catValu>99</catValu>
+    <labl>Not reported, blank</labl>
+  </catgry>
+  <concept vocab="IPUMS">Race, Ethnicity, and Nativity Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="LANGUAGED" dcml="0" files="ExtractData" intrvl="discrete" name="LANGUAGED">
+  <location EndPos="109" StartPos="106" width="4"/>
+  <labl>Language spoken [detailed version]</labl>
+  <txt><![CDATA[LANGUAGE reports the language that the respondent spoke at home, particularly (for the 1910 Puerto Rican sample and the samples from 1980 onward) if a language other than English was spoken.]]></txt>
+  <catgry>
+    <catValu>0000</catValu>
+    <labl>N/A or blank</labl>
+  </catgry>
+  <catgry>
+    <catValu>0100</catValu>
+    <labl>English</labl>
+  </catgry>
+  <catgry>
+    <catValu>0110</catValu>
+    <labl>Jamaican Creole</labl>
+  </catgry>
+  <catgry>
+    <catValu>0120</catValu>
+    <labl>Krio, Pidgin Krio</labl>
+  </catgry>
+  <catgry>
+    <catValu>0130</catValu>
+    <labl>Hawaiian Pidgin</labl>
+  </catgry>
+  <catgry>
+    <catValu>0140</catValu>
+    <labl>Pidgin</labl>
+  </catgry>
+  <catgry>
+    <catValu>0150</catValu>
+    <labl>Gullah, Geechee</labl>
+  </catgry>
+  <catgry>
+    <catValu>0160</catValu>
+    <labl>Saramacca</labl>
+  </catgry>
+  <catgry>
+    <catValu>0170</catValu>
+    <labl>Other English-based Creole languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>0200</catValu>
+    <labl>German</labl>
+  </catgry>
+  <catgry>
+    <catValu>0210</catValu>
+    <labl>Austrian</labl>
+  </catgry>
+  <catgry>
+    <catValu>0220</catValu>
+    <labl>Swiss</labl>
+  </catgry>
+  <catgry>
+    <catValu>0230</catValu>
+    <labl>Luxembourgian</labl>
+  </catgry>
+  <catgry>
+    <catValu>0240</catValu>
+    <labl>Pennsylvania Dutch</labl>
+  </catgry>
+  <catgry>
+    <catValu>0300</catValu>
+    <labl>Yiddish, Jewish</labl>
+  </catgry>
+  <catgry>
+    <catValu>0310</catValu>
+    <labl>Jewish</labl>
+  </catgry>
+  <catgry>
+    <catValu>0320</catValu>
+    <labl>Yiddish</labl>
+  </catgry>
+  <catgry>
+    <catValu>0400</catValu>
+    <labl>Dutch</labl>
+  </catgry>
+  <catgry>
+    <catValu>0410</catValu>
+    <labl>Dutch, Flemish, Belgian</labl>
+  </catgry>
+  <catgry>
+    <catValu>0420</catValu>
+    <labl>Afrikaans</labl>
+  </catgry>
+  <catgry>
+    <catValu>0430</catValu>
+    <labl>Frisian</labl>
+  </catgry>
+  <catgry>
+    <catValu>0440</catValu>
+    <labl>Dutch, Afrikaans, Frisian</labl>
+  </catgry>
+  <catgry>
+    <catValu>0450</catValu>
+    <labl>Belgian, Flemish</labl>
+  </catgry>
+  <catgry>
+    <catValu>0460</catValu>
+    <labl>Belgian</labl>
+  </catgry>
+  <catgry>
+    <catValu>0470</catValu>
+    <labl>Flemish</labl>
+  </catgry>
+  <catgry>
+    <catValu>0500</catValu>
+    <labl>Swedish</labl>
+  </catgry>
+  <catgry>
+    <catValu>0600</catValu>
+    <labl>Danish</labl>
+  </catgry>
+  <catgry>
+    <catValu>0700</catValu>
+    <labl>Norwegian</labl>
+  </catgry>
+  <catgry>
+    <catValu>0800</catValu>
+    <labl>Icelandic</labl>
+  </catgry>
+  <catgry>
+    <catValu>0810</catValu>
+    <labl>Faroese</labl>
+  </catgry>
+  <catgry>
+    <catValu>0900</catValu>
+    <labl>Scandinavian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1000</catValu>
+    <labl>Italian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1010</catValu>
+    <labl>Rhaeto-Romanic, Ladin</labl>
+  </catgry>
+  <catgry>
+    <catValu>1020</catValu>
+    <labl>Friulian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1030</catValu>
+    <labl>Romansh</labl>
+  </catgry>
+  <catgry>
+    <catValu>1100</catValu>
+    <labl>French</labl>
+  </catgry>
+  <catgry>
+    <catValu>1110</catValu>
+    <labl>French, Walloon</labl>
+  </catgry>
+  <catgry>
+    <catValu>1120</catValu>
+    <labl>Provencal</labl>
+  </catgry>
+  <catgry>
+    <catValu>1130</catValu>
+    <labl>Patois</labl>
+  </catgry>
+  <catgry>
+    <catValu>1140</catValu>
+    <labl>French or Haitian Creole</labl>
+  </catgry>
+  <catgry>
+    <catValu>1150</catValu>
+    <labl>Cajun</labl>
+  </catgry>
+  <catgry>
+    <catValu>1200</catValu>
+    <labl>Spanish</labl>
+  </catgry>
+  <catgry>
+    <catValu>1210</catValu>
+    <labl>Catalonian, Valencian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1220</catValu>
+    <labl>Ladino, Sefaradit, Spanol</labl>
+  </catgry>
+  <catgry>
+    <catValu>1230</catValu>
+    <labl>Pachuco</labl>
+  </catgry>
+  <catgry>
+    <catValu>1250</catValu>
+    <labl>Mexican</labl>
+  </catgry>
+  <catgry>
+    <catValu>1300</catValu>
+    <labl>Portuguese</labl>
+  </catgry>
+  <catgry>
+    <catValu>1310</catValu>
+    <labl>Papia Mentae</labl>
+  </catgry>
+  <catgry>
+    <catValu>1320</catValu>
+    <labl>Cape Verdean Creole</labl>
+  </catgry>
+  <catgry>
+    <catValu>1400</catValu>
+    <labl>Rumanian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1500</catValu>
+    <labl>Celtic</labl>
+  </catgry>
+  <catgry>
+    <catValu>1510</catValu>
+    <labl>Welsh, Breton, Cornish</labl>
+  </catgry>
+  <catgry>
+    <catValu>1520</catValu>
+    <labl>Welsh</labl>
+  </catgry>
+  <catgry>
+    <catValu>1530</catValu>
+    <labl>Breton</labl>
+  </catgry>
+  <catgry>
+    <catValu>1540</catValu>
+    <labl>Irish Gaelic, Gaelic</labl>
+  </catgry>
+  <catgry>
+    <catValu>1550</catValu>
+    <labl>Gaelic</labl>
+  </catgry>
+  <catgry>
+    <catValu>1560</catValu>
+    <labl>Irish</labl>
+  </catgry>
+  <catgry>
+    <catValu>1570</catValu>
+    <labl>Scottish Gaelic</labl>
+  </catgry>
+  <catgry>
+    <catValu>1580</catValu>
+    <labl>Scotch</labl>
+  </catgry>
+  <catgry>
+    <catValu>1590</catValu>
+    <labl>Manx, Manx Gaelic</labl>
+  </catgry>
+  <catgry>
+    <catValu>1600</catValu>
+    <labl>Greek</labl>
+  </catgry>
+  <catgry>
+    <catValu>1700</catValu>
+    <labl>Albanian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1800</catValu>
+    <labl>Russian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1810</catValu>
+    <labl>Russian, Great Russian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1811</catValu>
+    <labl>Great Russian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1820</catValu>
+    <labl>Bielo-, White Russian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1900</catValu>
+    <labl>Ukrainian, Ruthenian, Little Russian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1910</catValu>
+    <labl>Ruthenian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1920</catValu>
+    <labl>Little Russian</labl>
+  </catgry>
+  <catgry>
+    <catValu>1930</catValu>
+    <labl>Ukrainian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2000</catValu>
+    <labl>Czech</labl>
+  </catgry>
+  <catgry>
+    <catValu>2010</catValu>
+    <labl>Bohemian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2020</catValu>
+    <labl>Moravian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2100</catValu>
+    <labl>Polish</labl>
+  </catgry>
+  <catgry>
+    <catValu>2110</catValu>
+    <labl>Kashubian, Slovincian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2200</catValu>
+    <labl>Slovak</labl>
+  </catgry>
+  <catgry>
+    <catValu>2300</catValu>
+    <labl>Serbo-Croatian, Yugoslavian, Slavonian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2310</catValu>
+    <labl>Croatian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2320</catValu>
+    <labl>Serbian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2321</catValu>
+    <labl>Bosnian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2330</catValu>
+    <labl>Dalmatian, Montenegrin</labl>
+  </catgry>
+  <catgry>
+    <catValu>2331</catValu>
+    <labl>Dalmatian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2332</catValu>
+    <labl>Montenegrin</labl>
+  </catgry>
+  <catgry>
+    <catValu>2400</catValu>
+    <labl>Slovene</labl>
+  </catgry>
+  <catgry>
+    <catValu>2500</catValu>
+    <labl>Lithuanian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2510</catValu>
+    <labl>Lettish, Latvian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2600</catValu>
+    <labl>Other Balto-Slavic</labl>
+  </catgry>
+  <catgry>
+    <catValu>2610</catValu>
+    <labl>Bulgarian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2620</catValu>
+    <labl>Lusatian, Sorbian, Wendish</labl>
+  </catgry>
+  <catgry>
+    <catValu>2621</catValu>
+    <labl>Wendish</labl>
+  </catgry>
+  <catgry>
+    <catValu>2630</catValu>
+    <labl>Macedonian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2700</catValu>
+    <labl>Slavic unknown</labl>
+  </catgry>
+  <catgry>
+    <catValu>2800</catValu>
+    <labl>Armenian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2900</catValu>
+    <labl>Persian, Iranian, Farsi</labl>
+  </catgry>
+  <catgry>
+    <catValu>2910</catValu>
+    <labl>Persian</labl>
+  </catgry>
+  <catgry>
+    <catValu>2920</catValu>
+    <labl>Dari</labl>
+  </catgry>
+  <catgry>
+    <catValu>3000</catValu>
+    <labl>Other Persian dialects</labl>
+  </catgry>
+  <catgry>
+    <catValu>3010</catValu>
+    <labl>Pashto, Afghan</labl>
+  </catgry>
+  <catgry>
+    <catValu>3020</catValu>
+    <labl>Kurdish</labl>
+  </catgry>
+  <catgry>
+    <catValu>3030</catValu>
+    <labl>Balochi</labl>
+  </catgry>
+  <catgry>
+    <catValu>3040</catValu>
+    <labl>Tadzhik</labl>
+  </catgry>
+  <catgry>
+    <catValu>3050</catValu>
+    <labl>Ossete</labl>
+  </catgry>
+  <catgry>
+    <catValu>3100</catValu>
+    <labl>Hindi and related</labl>
+  </catgry>
+  <catgry>
+    <catValu>3101</catValu>
+    <labl>Hindi, Hindustani, Indic, Jaipuri, Pali, Urdu</labl>
+  </catgry>
+  <catgry>
+    <catValu>3102</catValu>
+    <labl>Hindi</labl>
+  </catgry>
+  <catgry>
+    <catValu>3103</catValu>
+    <labl>Urdu</labl>
+  </catgry>
+  <catgry>
+    <catValu>3104</catValu>
+    <labl>Other Indo-Iranian languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>3110</catValu>
+    <labl>Other Indo-Aryan</labl>
+  </catgry>
+  <catgry>
+    <catValu>3111</catValu>
+    <labl>Sanskrit</labl>
+  </catgry>
+  <catgry>
+    <catValu>3112</catValu>
+    <labl>Bengali</labl>
+  </catgry>
+  <catgry>
+    <catValu>3113</catValu>
+    <labl>Panjabi</labl>
+  </catgry>
+  <catgry>
+    <catValu>3114</catValu>
+    <labl>Marathi</labl>
+  </catgry>
+  <catgry>
+    <catValu>3115</catValu>
+    <labl>Gujarathi</labl>
+  </catgry>
+  <catgry>
+    <catValu>3116</catValu>
+    <labl>Bihari</labl>
+  </catgry>
+  <catgry>
+    <catValu>3117</catValu>
+    <labl>Rajasthani</labl>
+  </catgry>
+  <catgry>
+    <catValu>3118</catValu>
+    <labl>Oriya</labl>
+  </catgry>
+  <catgry>
+    <catValu>3119</catValu>
+    <labl>Assamese</labl>
+  </catgry>
+  <catgry>
+    <catValu>3120</catValu>
+    <labl>Kashmiri</labl>
+  </catgry>
+  <catgry>
+    <catValu>3121</catValu>
+    <labl>Sindhi</labl>
+  </catgry>
+  <catgry>
+    <catValu>3122</catValu>
+    <labl>Maldivian</labl>
+  </catgry>
+  <catgry>
+    <catValu>3123</catValu>
+    <labl>Sinhalese</labl>
+  </catgry>
+  <catgry>
+    <catValu>3130</catValu>
+    <labl>Kannada</labl>
+  </catgry>
+  <catgry>
+    <catValu>3140</catValu>
+    <labl>India nec</labl>
+  </catgry>
+  <catgry>
+    <catValu>3150</catValu>
+    <labl>Pakistan nec</labl>
+  </catgry>
+  <catgry>
+    <catValu>3190</catValu>
+    <labl>Other Indo-European languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>3200</catValu>
+    <labl>Romany, Gypsy</labl>
+  </catgry>
+  <catgry>
+    <catValu>3210</catValu>
+    <labl>Gypsy</labl>
+  </catgry>
+  <catgry>
+    <catValu>3300</catValu>
+    <labl>Finnish</labl>
+  </catgry>
+  <catgry>
+    <catValu>3400</catValu>
+    <labl>Magyar, Hungarian</labl>
+  </catgry>
+  <catgry>
+    <catValu>3401</catValu>
+    <labl>Magyar</labl>
+  </catgry>
+  <catgry>
+    <catValu>3402</catValu>
+    <labl>Hungarian</labl>
+  </catgry>
+  <catgry>
+    <catValu>3500</catValu>
+    <labl>Uralic</labl>
+  </catgry>
+  <catgry>
+    <catValu>3510</catValu>
+    <labl>Estonian, Ingrian, Livonian, Vepsian,  Votic</labl>
+  </catgry>
+  <catgry>
+    <catValu>3511</catValu>
+    <labl>Estonian</labl>
+  </catgry>
+  <catgry>
+    <catValu>3520</catValu>
+    <labl>Lapp, Inari, Kola, Lule, Pite, Ruija, Skolt, Ume</labl>
+  </catgry>
+  <catgry>
+    <catValu>3521</catValu>
+    <labl>Lappish</labl>
+  </catgry>
+  <catgry>
+    <catValu>3530</catValu>
+    <labl>Other Uralic</labl>
+  </catgry>
+  <catgry>
+    <catValu>3600</catValu>
+    <labl>Turkish</labl>
+  </catgry>
+  <catgry>
+    <catValu>3700</catValu>
+    <labl>Other Altaic</labl>
+  </catgry>
+  <catgry>
+    <catValu>3701</catValu>
+    <labl>Chuvash</labl>
+  </catgry>
+  <catgry>
+    <catValu>3702</catValu>
+    <labl>Karakalpak</labl>
+  </catgry>
+  <catgry>
+    <catValu>3703</catValu>
+    <labl>Kazakh</labl>
+  </catgry>
+  <catgry>
+    <catValu>3704</catValu>
+    <labl>Kirghiz</labl>
+  </catgry>
+  <catgry>
+    <catValu>3705</catValu>
+    <labl>Karachay, Tatar, Balkar, Bashkir, Kumyk</labl>
+  </catgry>
+  <catgry>
+    <catValu>3706</catValu>
+    <labl>Uzbek, Uighur</labl>
+  </catgry>
+  <catgry>
+    <catValu>3707</catValu>
+    <labl>Azerbaijani</labl>
+  </catgry>
+  <catgry>
+    <catValu>3708</catValu>
+    <labl>Turkmen</labl>
+  </catgry>
+  <catgry>
+    <catValu>3709</catValu>
+    <labl>Yakut</labl>
+  </catgry>
+  <catgry>
+    <catValu>3710</catValu>
+    <labl>Mongolian</labl>
+  </catgry>
+  <catgry>
+    <catValu>3711</catValu>
+    <labl>Tungus</labl>
+  </catgry>
+  <catgry>
+    <catValu>3800</catValu>
+    <labl>Caucasian, Georgian, Avar</labl>
+  </catgry>
+  <catgry>
+    <catValu>3810</catValu>
+    <labl>Georgian</labl>
+  </catgry>
+  <catgry>
+    <catValu>3900</catValu>
+    <labl>Basque</labl>
+  </catgry>
+  <catgry>
+    <catValu>4000</catValu>
+    <labl>Dravidian</labl>
+  </catgry>
+  <catgry>
+    <catValu>4001</catValu>
+    <labl>Brahui</labl>
+  </catgry>
+  <catgry>
+    <catValu>4002</catValu>
+    <labl>Gondi</labl>
+  </catgry>
+  <catgry>
+    <catValu>4003</catValu>
+    <labl>Telugu</labl>
+  </catgry>
+  <catgry>
+    <catValu>4004</catValu>
+    <labl>Malayalam</labl>
+  </catgry>
+  <catgry>
+    <catValu>4005</catValu>
+    <labl>Tamil</labl>
+  </catgry>
+  <catgry>
+    <catValu>4010</catValu>
+    <labl>Bhili</labl>
+  </catgry>
+  <catgry>
+    <catValu>4011</catValu>
+    <labl>Nepali</labl>
+  </catgry>
+  <catgry>
+    <catValu>4100</catValu>
+    <labl>Kurukh</labl>
+  </catgry>
+  <catgry>
+    <catValu>4110</catValu>
+    <labl>Munda</labl>
+  </catgry>
+  <catgry>
+    <catValu>4200</catValu>
+    <labl>Burushaski</labl>
+  </catgry>
+  <catgry>
+    <catValu>4300</catValu>
+    <labl>Chinese</labl>
+  </catgry>
+  <catgry>
+    <catValu>4301</catValu>
+    <labl>Chinese, Cantonese, Min, Yueh</labl>
+  </catgry>
+  <catgry>
+    <catValu>4302</catValu>
+    <labl>Cantonese</labl>
+  </catgry>
+  <catgry>
+    <catValu>4303</catValu>
+    <labl>Mandarin</labl>
+  </catgry>
+  <catgry>
+    <catValu>4310</catValu>
+    <labl>Other Chinese</labl>
+  </catgry>
+  <catgry>
+    <catValu>4311</catValu>
+    <labl>Hakka, Fukien, Kechia</labl>
+  </catgry>
+  <catgry>
+    <catValu>4312</catValu>
+    <labl>Kan, Nan Chang</labl>
+  </catgry>
+  <catgry>
+    <catValu>4313</catValu>
+    <labl>Hsiang, Chansa, Hunan, Iyan</labl>
+  </catgry>
+  <catgry>
+    <catValu>4314</catValu>
+    <labl>Fuchow, Min Pei</labl>
+  </catgry>
+  <catgry>
+    <catValu>4315</catValu>
+    <labl>Wu</labl>
+  </catgry>
+  <catgry>
+    <catValu>4400</catValu>
+    <labl>Tibetan</labl>
+  </catgry>
+  <catgry>
+    <catValu>4410</catValu>
+    <labl>Miao-Yao, Mien</labl>
+  </catgry>
+  <catgry>
+    <catValu>4420</catValu>
+    <labl>Miao, Hmong</labl>
+  </catgry>
+  <catgry>
+    <catValu>4430</catValu>
+    <labl>Iu Mien</labl>
+  </catgry>
+  <catgry>
+    <catValu>4500</catValu>
+    <labl>Burmese, Lisu, Lolo</labl>
+  </catgry>
+  <catgry>
+    <catValu>4510</catValu>
+    <labl>Karen</labl>
+  </catgry>
+  <catgry>
+    <catValu>4520</catValu>
+    <labl>Chin languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>4600</catValu>
+    <labl>Kachin</labl>
+  </catgry>
+  <catgry>
+    <catValu>4700</catValu>
+    <labl>Thai, Siamese, Lao</labl>
+  </catgry>
+  <catgry>
+    <catValu>4710</catValu>
+    <labl>Thai</labl>
+  </catgry>
+  <catgry>
+    <catValu>4720</catValu>
+    <labl>Laotian</labl>
+  </catgry>
+  <catgry>
+    <catValu>4800</catValu>
+    <labl>Japanese</labl>
+  </catgry>
+  <catgry>
+    <catValu>4900</catValu>
+    <labl>Korean</labl>
+  </catgry>
+  <catgry>
+    <catValu>5000</catValu>
+    <labl>Vietnamese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5100</catValu>
+    <labl>Other East/Southeast Asian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5110</catValu>
+    <labl>Ainu</labl>
+  </catgry>
+  <catgry>
+    <catValu>5120</catValu>
+    <labl>Mon-Khmer, Cambodian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5130</catValu>
+    <labl>Siberian, n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>5140</catValu>
+    <labl>Yukagir</labl>
+  </catgry>
+  <catgry>
+    <catValu>5150</catValu>
+    <labl>Muong</labl>
+  </catgry>
+  <catgry>
+    <catValu>5200</catValu>
+    <labl>Indonesian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5210</catValu>
+    <labl>Buginese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5220</catValu>
+    <labl>Moluccan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5230</catValu>
+    <labl>Achinese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5240</catValu>
+    <labl>Balinese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5250</catValu>
+    <labl>Cham</labl>
+  </catgry>
+  <catgry>
+    <catValu>5260</catValu>
+    <labl>Madurese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5270</catValu>
+    <labl>Malay</labl>
+  </catgry>
+  <catgry>
+    <catValu>5280</catValu>
+    <labl>Minangkabau</labl>
+  </catgry>
+  <catgry>
+    <catValu>5290</catValu>
+    <labl>Other Asian languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>5300</catValu>
+    <labl>Other Malayan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5310</catValu>
+    <labl>Formosan, Taiwanese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5320</catValu>
+    <labl>Javanese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5330</catValu>
+    <labl>Malagasy</labl>
+  </catgry>
+  <catgry>
+    <catValu>5340</catValu>
+    <labl>Sundanese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5400</catValu>
+    <labl>Filipino, Tagalog</labl>
+  </catgry>
+  <catgry>
+    <catValu>5410</catValu>
+    <labl>Bisayan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5420</catValu>
+    <labl>Sebuano</labl>
+  </catgry>
+  <catgry>
+    <catValu>5430</catValu>
+    <labl>Pangasinan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5440</catValu>
+    <labl>Llocano, Hocano</labl>
+  </catgry>
+  <catgry>
+    <catValu>5450</catValu>
+    <labl>Bikol</labl>
+  </catgry>
+  <catgry>
+    <catValu>5460</catValu>
+    <labl>Pampangan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5470</catValu>
+    <labl>Gorontalo</labl>
+  </catgry>
+  <catgry>
+    <catValu>5480</catValu>
+    <labl>Palau</labl>
+  </catgry>
+  <catgry>
+    <catValu>5500</catValu>
+    <labl>Micronesian, Polynesian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5501</catValu>
+    <labl>Micronesian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5502</catValu>
+    <labl>Carolinian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5503</catValu>
+    <labl>Chamorro, Guamanian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5504</catValu>
+    <labl>Gilbertese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5505</catValu>
+    <labl>Kusaiean</labl>
+  </catgry>
+  <catgry>
+    <catValu>5506</catValu>
+    <labl>Marshallese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5507</catValu>
+    <labl>Mokilese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5508</catValu>
+    <labl>Mortlockese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5509</catValu>
+    <labl>Nauruan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5510</catValu>
+    <labl>Ponapean</labl>
+  </catgry>
+  <catgry>
+    <catValu>5511</catValu>
+    <labl>Trukese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5512</catValu>
+    <labl>Ulithean, Fais</labl>
+  </catgry>
+  <catgry>
+    <catValu>5513</catValu>
+    <labl>Woleai-Ulithi</labl>
+  </catgry>
+  <catgry>
+    <catValu>5514</catValu>
+    <labl>Yapese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5520</catValu>
+    <labl>Melanesian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5521</catValu>
+    <labl>Polynesian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5522</catValu>
+    <labl>Samoan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5523</catValu>
+    <labl>Tongan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5524</catValu>
+    <labl>Niuean</labl>
+  </catgry>
+  <catgry>
+    <catValu>5525</catValu>
+    <labl>Tokelauan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5526</catValu>
+    <labl>Fijian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5527</catValu>
+    <labl>Marquesan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5528</catValu>
+    <labl>Rarotongan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5529</catValu>
+    <labl>Maori</labl>
+  </catgry>
+  <catgry>
+    <catValu>5530</catValu>
+    <labl>Nukuoro, Kapingarangan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5590</catValu>
+    <labl>Other Pacific Island languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>5600</catValu>
+    <labl>Hawaiian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5700</catValu>
+    <labl>Arabic</labl>
+  </catgry>
+  <catgry>
+    <catValu>5710</catValu>
+    <labl>Algerian, Moroccan, Tunisian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5720</catValu>
+    <labl>Egyptian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5730</catValu>
+    <labl>Iraqi</labl>
+  </catgry>
+  <catgry>
+    <catValu>5740</catValu>
+    <labl>Libyan</labl>
+  </catgry>
+  <catgry>
+    <catValu>5750</catValu>
+    <labl>Maltese</labl>
+  </catgry>
+  <catgry>
+    <catValu>5800</catValu>
+    <labl>Near East Arabic dialect</labl>
+  </catgry>
+  <catgry>
+    <catValu>5810</catValu>
+    <labl>Syriac, Aramaic, Chaldean</labl>
+  </catgry>
+  <catgry>
+    <catValu>5820</catValu>
+    <labl>Syrian</labl>
+  </catgry>
+  <catgry>
+    <catValu>5900</catValu>
+    <labl>Hebrew, Israeli</labl>
+  </catgry>
+  <catgry>
+    <catValu>6000</catValu>
+    <labl>Amharic, Ethiopian, etc.</labl>
+  </catgry>
+  <catgry>
+    <catValu>6100</catValu>
+    <labl>Hamitic</labl>
+  </catgry>
+  <catgry>
+    <catValu>6110</catValu>
+    <labl>Berber</labl>
+  </catgry>
+  <catgry>
+    <catValu>6120</catValu>
+    <labl>Chadic, Hamitic, Hausa</labl>
+  </catgry>
+  <catgry>
+    <catValu>6130</catValu>
+    <labl>Cushite, Beja, Somali</labl>
+  </catgry>
+  <catgry>
+    <catValu>6200</catValu>
+    <labl>Other Afro-Asiatic languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>6300</catValu>
+    <labl>Nilotic</labl>
+  </catgry>
+  <catgry>
+    <catValu>6301</catValu>
+    <labl>Nilo-Hamitic</labl>
+  </catgry>
+  <catgry>
+    <catValu>6302</catValu>
+    <labl>Nubian</labl>
+  </catgry>
+  <catgry>
+    <catValu>6303</catValu>
+    <labl>Saharan</labl>
+  </catgry>
+  <catgry>
+    <catValu>6304</catValu>
+    <labl>Nilo-Saharan, Fur, Songhai</labl>
+  </catgry>
+  <catgry>
+    <catValu>6305</catValu>
+    <labl>Khoisan</labl>
+  </catgry>
+  <catgry>
+    <catValu>6306</catValu>
+    <labl>Sudanic</labl>
+  </catgry>
+  <catgry>
+    <catValu>6307</catValu>
+    <labl>Bantu (many subheads)</labl>
+  </catgry>
+  <catgry>
+    <catValu>6308</catValu>
+    <labl>Swahili</labl>
+  </catgry>
+  <catgry>
+    <catValu>6309</catValu>
+    <labl>Mande</labl>
+  </catgry>
+  <catgry>
+    <catValu>6310</catValu>
+    <labl>Fulani</labl>
+  </catgry>
+  <catgry>
+    <catValu>6311</catValu>
+    <labl>Gur</labl>
+  </catgry>
+  <catgry>
+    <catValu>6312</catValu>
+    <labl>Kru</labl>
+  </catgry>
+  <catgry>
+    <catValu>6313</catValu>
+    <labl>Efik, Ibibio, Tiv</labl>
+  </catgry>
+  <catgry>
+    <catValu>6314</catValu>
+    <labl>Mbum, Gbaya, Sango, Zande</labl>
+  </catgry>
+  <catgry>
+    <catValu>6320</catValu>
+    <labl>Eastern Sudanic and Khoisan</labl>
+  </catgry>
+  <catgry>
+    <catValu>6321</catValu>
+    <labl>Niger-Congo regions (many subheads)</labl>
+  </catgry>
+  <catgry>
+    <catValu>6322</catValu>
+    <labl>Congo, Kongo, Luba, Ruanda, Rundi, Santali, Swahili</labl>
+  </catgry>
+  <catgry>
+    <catValu>6390</catValu>
+    <labl>Other specified African languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>6400</catValu>
+    <labl>African, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>7000</catValu>
+    <labl>American Indian (all)</labl>
+  </catgry>
+  <catgry>
+    <catValu>7100</catValu>
+    <labl>Aleut, Eskimo</labl>
+  </catgry>
+  <catgry>
+    <catValu>7110</catValu>
+    <labl>Aleut</labl>
+  </catgry>
+  <catgry>
+    <catValu>7120</catValu>
+    <labl>Pacific Gulf Yupik</labl>
+  </catgry>
+  <catgry>
+    <catValu>7130</catValu>
+    <labl>Eskimo</labl>
+  </catgry>
+  <catgry>
+    <catValu>7140</catValu>
+    <labl>Inupik, Innuit</labl>
+  </catgry>
+  <catgry>
+    <catValu>7150</catValu>
+    <labl>St. Lawrence Isl. Yupik</labl>
+  </catgry>
+  <catgry>
+    <catValu>7160</catValu>
+    <labl>Yupik</labl>
+  </catgry>
+  <catgry>
+    <catValu>7200</catValu>
+    <labl>Algonquian</labl>
+  </catgry>
+  <catgry>
+    <catValu>7201</catValu>
+    <labl>Arapaho</labl>
+  </catgry>
+  <catgry>
+    <catValu>7202</catValu>
+    <labl>Atsina, Gros Ventre</labl>
+  </catgry>
+  <catgry>
+    <catValu>7203</catValu>
+    <labl>Blackfoot</labl>
+  </catgry>
+  <catgry>
+    <catValu>7204</catValu>
+    <labl>Cheyenne</labl>
+  </catgry>
+  <catgry>
+    <catValu>7205</catValu>
+    <labl>Cree</labl>
+  </catgry>
+  <catgry>
+    <catValu>7206</catValu>
+    <labl>Delaware, Lenni-Lenape</labl>
+  </catgry>
+  <catgry>
+    <catValu>7207</catValu>
+    <labl>Fox, Sac</labl>
+  </catgry>
+  <catgry>
+    <catValu>7208</catValu>
+    <labl>Kickapoo</labl>
+  </catgry>
+  <catgry>
+    <catValu>7209</catValu>
+    <labl>Menomini</labl>
+  </catgry>
+  <catgry>
+    <catValu>7210</catValu>
+    <labl>Metis, French Cree</labl>
+  </catgry>
+  <catgry>
+    <catValu>7211</catValu>
+    <labl>Miami</labl>
+  </catgry>
+  <catgry>
+    <catValu>7212</catValu>
+    <labl>Micmac</labl>
+  </catgry>
+  <catgry>
+    <catValu>7213</catValu>
+    <labl>Ojibwa, Chippewa</labl>
+  </catgry>
+  <catgry>
+    <catValu>7214</catValu>
+    <labl>Ottawa</labl>
+  </catgry>
+  <catgry>
+    <catValu>7215</catValu>
+    <labl>Passamaquoddy, Malecite</labl>
+  </catgry>
+  <catgry>
+    <catValu>7216</catValu>
+    <labl>Penobscot</labl>
+  </catgry>
+  <catgry>
+    <catValu>7217</catValu>
+    <labl>Abnaki</labl>
+  </catgry>
+  <catgry>
+    <catValu>7218</catValu>
+    <labl>Potawatomi</labl>
+  </catgry>
+  <catgry>
+    <catValu>7219</catValu>
+    <labl>Shawnee</labl>
+  </catgry>
+  <catgry>
+    <catValu>7300</catValu>
+    <labl>Salish, Flathead</labl>
+  </catgry>
+  <catgry>
+    <catValu>7301</catValu>
+    <labl>Lower Chehalis</labl>
+  </catgry>
+  <catgry>
+    <catValu>7302</catValu>
+    <labl>Upper Chehalis, Chelalis, Satsop</labl>
+  </catgry>
+  <catgry>
+    <catValu>7303</catValu>
+    <labl>Clallam</labl>
+  </catgry>
+  <catgry>
+    <catValu>7304</catValu>
+    <labl>Coeur dAlene, Skitsamish</labl>
+  </catgry>
+  <catgry>
+    <catValu>7305</catValu>
+    <labl>Columbia, Chelan, Wenatchee</labl>
+  </catgry>
+  <catgry>
+    <catValu>7306</catValu>
+    <labl>Cowlitz</labl>
+  </catgry>
+  <catgry>
+    <catValu>7307</catValu>
+    <labl>Nootsack</labl>
+  </catgry>
+  <catgry>
+    <catValu>7308</catValu>
+    <labl>Okanogan</labl>
+  </catgry>
+  <catgry>
+    <catValu>7309</catValu>
+    <labl>Puget Sound Salish</labl>
+  </catgry>
+  <catgry>
+    <catValu>7310</catValu>
+    <labl>Quinault, Queets</labl>
+  </catgry>
+  <catgry>
+    <catValu>7311</catValu>
+    <labl>Tillamook</labl>
+  </catgry>
+  <catgry>
+    <catValu>7312</catValu>
+    <labl>Twana</labl>
+  </catgry>
+  <catgry>
+    <catValu>7313</catValu>
+    <labl>Kalispel</labl>
+  </catgry>
+  <catgry>
+    <catValu>7314</catValu>
+    <labl>Spokane</labl>
+  </catgry>
+  <catgry>
+    <catValu>7400</catValu>
+    <labl>Athapascan</labl>
+  </catgry>
+  <catgry>
+    <catValu>7401</catValu>
+    <labl>Ahtena</labl>
+  </catgry>
+  <catgry>
+    <catValu>7402</catValu>
+    <labl>Han</labl>
+  </catgry>
+  <catgry>
+    <catValu>7403</catValu>
+    <labl>Ingalit</labl>
+  </catgry>
+  <catgry>
+    <catValu>7404</catValu>
+    <labl>Koyukon</labl>
+  </catgry>
+  <catgry>
+    <catValu>7405</catValu>
+    <labl>Kuchin</labl>
+  </catgry>
+  <catgry>
+    <catValu>7406</catValu>
+    <labl>Upper Kuskokwim</labl>
+  </catgry>
+  <catgry>
+    <catValu>7407</catValu>
+    <labl>Tanaina</labl>
+  </catgry>
+  <catgry>
+    <catValu>7408</catValu>
+    <labl>Tanana, Minto</labl>
+  </catgry>
+  <catgry>
+    <catValu>7409</catValu>
+    <labl>Tanacross</labl>
+  </catgry>
+  <catgry>
+    <catValu>7410</catValu>
+    <labl>Upper Tanana, Nabesena, Tetlin</labl>
+  </catgry>
+  <catgry>
+    <catValu>7411</catValu>
+    <labl>Tutchone</labl>
+  </catgry>
+  <catgry>
+    <catValu>7412</catValu>
+    <labl>Chasta Costa, Chetco, Coquille, Smith River Athapascan</labl>
+  </catgry>
+  <catgry>
+    <catValu>7413</catValu>
+    <labl>Hupa</labl>
+  </catgry>
+  <catgry>
+    <catValu>7420</catValu>
+    <labl>Apache</labl>
+  </catgry>
+  <catgry>
+    <catValu>7421</catValu>
+    <labl>Jicarilla, Lipan</labl>
+  </catgry>
+  <catgry>
+    <catValu>7422</catValu>
+    <labl>Chiricahua, Mescalero</labl>
+  </catgry>
+  <catgry>
+    <catValu>7423</catValu>
+    <labl>San Carlos, Cibecue, White Mountain</labl>
+  </catgry>
+  <catgry>
+    <catValu>7424</catValu>
+    <labl>Kiowa-Apache</labl>
+  </catgry>
+  <catgry>
+    <catValu>7430</catValu>
+    <labl>Kiowa</labl>
+  </catgry>
+  <catgry>
+    <catValu>7440</catValu>
+    <labl>Eyak</labl>
+  </catgry>
+  <catgry>
+    <catValu>7450</catValu>
+    <labl>Other Athapascan-Eyak, Cahto, Mattole, Wailaki</labl>
+  </catgry>
+  <catgry>
+    <catValu>7490</catValu>
+    <labl>Other Algonquin languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>7500</catValu>
+    <labl>Navajo</labl>
+  </catgry>
+  <catgry>
+    <catValu>7600</catValu>
+    <labl>Penutian-Sahaptin</labl>
+  </catgry>
+  <catgry>
+    <catValu>7610</catValu>
+    <labl>Klamath, Modoc</labl>
+  </catgry>
+  <catgry>
+    <catValu>7620</catValu>
+    <labl>Nez Perce</labl>
+  </catgry>
+  <catgry>
+    <catValu>7630</catValu>
+    <labl>Sahaptian, Celilo, Klikitat, Palouse, Tenino, Umatilla, Warm</labl>
+  </catgry>
+  <catgry>
+    <catValu>7700</catValu>
+    <labl>Mountain Maidu, Maidu</labl>
+  </catgry>
+  <catgry>
+    <catValu>7701</catValu>
+    <labl>Northwest Maidu, Concow</labl>
+  </catgry>
+  <catgry>
+    <catValu>7702</catValu>
+    <labl>Southern Maidu, Nisenan</labl>
+  </catgry>
+  <catgry>
+    <catValu>7703</catValu>
+    <labl>Coast Miwok, Bodega, Marin</labl>
+  </catgry>
+  <catgry>
+    <catValu>7704</catValu>
+    <labl>Plains Miwok</labl>
+  </catgry>
+  <catgry>
+    <catValu>7705</catValu>
+    <labl>Sierra Miwok, Miwok</labl>
+  </catgry>
+  <catgry>
+    <catValu>7706</catValu>
+    <labl>Nomlaki, Tehama</labl>
+  </catgry>
+  <catgry>
+    <catValu>7707</catValu>
+    <labl>Patwin, Colouse, Suisun</labl>
+  </catgry>
+  <catgry>
+    <catValu>7708</catValu>
+    <labl>Wintun</labl>
+  </catgry>
+  <catgry>
+    <catValu>7709</catValu>
+    <labl>Foothill North Yokuts</labl>
+  </catgry>
+  <catgry>
+    <catValu>7710</catValu>
+    <labl>Tachi</labl>
+  </catgry>
+  <catgry>
+    <catValu>7711</catValu>
+    <labl>Santiam, Calapooya, Wapatu</labl>
+  </catgry>
+  <catgry>
+    <catValu>7712</catValu>
+    <labl>Siuslaw, Coos, Lower Umpqua</labl>
+  </catgry>
+  <catgry>
+    <catValu>7713</catValu>
+    <labl>Tsimshian</labl>
+  </catgry>
+  <catgry>
+    <catValu>7714</catValu>
+    <labl>Upper Chinook, Clackamas, Multnomah, Wasco, Wishram</labl>
+  </catgry>
+  <catgry>
+    <catValu>7715</catValu>
+    <labl>Chinook Jargon</labl>
+  </catgry>
+  <catgry>
+    <catValu>7800</catValu>
+    <labl>Zuni</labl>
+  </catgry>
+  <catgry>
+    <catValu>7900</catValu>
+    <labl>Yuman</labl>
+  </catgry>
+  <catgry>
+    <catValu>7910</catValu>
+    <labl>Upriver Yuman</labl>
+  </catgry>
+  <catgry>
+    <catValu>7920</catValu>
+    <labl>Cocomaricopa</labl>
+  </catgry>
+  <catgry>
+    <catValu>7930</catValu>
+    <labl>Mohave</labl>
+  </catgry>
+  <catgry>
+    <catValu>7940</catValu>
+    <labl>Diegueno</labl>
+  </catgry>
+  <catgry>
+    <catValu>7950</catValu>
+    <labl>Delta River Yuman</labl>
+  </catgry>
+  <catgry>
+    <catValu>7960</catValu>
+    <labl>Upland Yuman</labl>
+  </catgry>
+  <catgry>
+    <catValu>7970</catValu>
+    <labl>Havasupai</labl>
+  </catgry>
+  <catgry>
+    <catValu>7980</catValu>
+    <labl>Walapai</labl>
+  </catgry>
+  <catgry>
+    <catValu>7990</catValu>
+    <labl>Yavapai</labl>
+  </catgry>
+  <catgry>
+    <catValu>8000</catValu>
+    <labl>Achumawi</labl>
+  </catgry>
+  <catgry>
+    <catValu>8010</catValu>
+    <labl>Atsugewi</labl>
+  </catgry>
+  <catgry>
+    <catValu>8020</catValu>
+    <labl>Karok</labl>
+  </catgry>
+  <catgry>
+    <catValu>8030</catValu>
+    <labl>Pomo</labl>
+  </catgry>
+  <catgry>
+    <catValu>8040</catValu>
+    <labl>Shastan</labl>
+  </catgry>
+  <catgry>
+    <catValu>8050</catValu>
+    <labl>Washo</labl>
+  </catgry>
+  <catgry>
+    <catValu>8060</catValu>
+    <labl>Chumash</labl>
+  </catgry>
+  <catgry>
+    <catValu>8100</catValu>
+    <labl>Siouan languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>8101</catValu>
+    <labl>Crow, Absaroke</labl>
+  </catgry>
+  <catgry>
+    <catValu>8102</catValu>
+    <labl>Hidatsa</labl>
+  </catgry>
+  <catgry>
+    <catValu>8103</catValu>
+    <labl>Mandan</labl>
+  </catgry>
+  <catgry>
+    <catValu>8104</catValu>
+    <labl>Dakota, Lakota, Nakota, Sioux</labl>
+  </catgry>
+  <catgry>
+    <catValu>8105</catValu>
+    <labl>Chiwere</labl>
+  </catgry>
+  <catgry>
+    <catValu>8106</catValu>
+    <labl>Winnebago</labl>
+  </catgry>
+  <catgry>
+    <catValu>8107</catValu>
+    <labl>Kansa, Kaw</labl>
+  </catgry>
+  <catgry>
+    <catValu>8108</catValu>
+    <labl>Omaha</labl>
+  </catgry>
+  <catgry>
+    <catValu>8109</catValu>
+    <labl>Osage</labl>
+  </catgry>
+  <catgry>
+    <catValu>8110</catValu>
+    <labl>Ponca</labl>
+  </catgry>
+  <catgry>
+    <catValu>8111</catValu>
+    <labl>Quapaw, Arkansas</labl>
+  </catgry>
+  <catgry>
+    <catValu>8120</catValu>
+    <labl>Iowa</labl>
+  </catgry>
+  <catgry>
+    <catValu>8200</catValu>
+    <labl>Muskogean</labl>
+  </catgry>
+  <catgry>
+    <catValu>8210</catValu>
+    <labl>Alabama</labl>
+  </catgry>
+  <catgry>
+    <catValu>8220</catValu>
+    <labl>Choctaw, Chickasaw</labl>
+  </catgry>
+  <catgry>
+    <catValu>8230</catValu>
+    <labl>Mikasuki</labl>
+  </catgry>
+  <catgry>
+    <catValu>8240</catValu>
+    <labl>Hichita, Apalachicola</labl>
+  </catgry>
+  <catgry>
+    <catValu>8250</catValu>
+    <labl>Koasati</labl>
+  </catgry>
+  <catgry>
+    <catValu>8260</catValu>
+    <labl>Muskogee, Creek, Seminole</labl>
+  </catgry>
+  <catgry>
+    <catValu>8300</catValu>
+    <labl>Keres</labl>
+  </catgry>
+  <catgry>
+    <catValu>8400</catValu>
+    <labl>Iroquoian</labl>
+  </catgry>
+  <catgry>
+    <catValu>8410</catValu>
+    <labl>Mohawk</labl>
+  </catgry>
+  <catgry>
+    <catValu>8420</catValu>
+    <labl>Oneida</labl>
+  </catgry>
+  <catgry>
+    <catValu>8430</catValu>
+    <labl>Onondaga</labl>
+  </catgry>
+  <catgry>
+    <catValu>8440</catValu>
+    <labl>Cayuga</labl>
+  </catgry>
+  <catgry>
+    <catValu>8450</catValu>
+    <labl>Seneca</labl>
+  </catgry>
+  <catgry>
+    <catValu>8460</catValu>
+    <labl>Tuscarora</labl>
+  </catgry>
+  <catgry>
+    <catValu>8470</catValu>
+    <labl>Wyandot, Huron</labl>
+  </catgry>
+  <catgry>
+    <catValu>8480</catValu>
+    <labl>Cherokee</labl>
+  </catgry>
+  <catgry>
+    <catValu>8500</catValu>
+    <labl>Caddoan</labl>
+  </catgry>
+  <catgry>
+    <catValu>8510</catValu>
+    <labl>Arikara</labl>
+  </catgry>
+  <catgry>
+    <catValu>8520</catValu>
+    <labl>Pawnee</labl>
+  </catgry>
+  <catgry>
+    <catValu>8530</catValu>
+    <labl>Wichita</labl>
+  </catgry>
+  <catgry>
+    <catValu>8600</catValu>
+    <labl>Shoshonean/Hopi</labl>
+  </catgry>
+  <catgry>
+    <catValu>8601</catValu>
+    <labl>Comanche</labl>
+  </catgry>
+  <catgry>
+    <catValu>8602</catValu>
+    <labl>Mono, Owens Valley Paiute</labl>
+  </catgry>
+  <catgry>
+    <catValu>8603</catValu>
+    <labl>Paiute</labl>
+  </catgry>
+  <catgry>
+    <catValu>8604</catValu>
+    <labl>Northern Paiute, Bannock, Num, Snake</labl>
+  </catgry>
+  <catgry>
+    <catValu>8605</catValu>
+    <labl>Southern Paiute</labl>
+  </catgry>
+  <catgry>
+    <catValu>8606</catValu>
+    <labl>Chemehuevi</labl>
+  </catgry>
+  <catgry>
+    <catValu>8607</catValu>
+    <labl>Kawaiisu</labl>
+  </catgry>
+  <catgry>
+    <catValu>8608</catValu>
+    <labl>Ute</labl>
+  </catgry>
+  <catgry>
+    <catValu>8609</catValu>
+    <labl>Shoshoni</labl>
+  </catgry>
+  <catgry>
+    <catValu>8610</catValu>
+    <labl>Panamint</labl>
+  </catgry>
+  <catgry>
+    <catValu>8620</catValu>
+    <labl>Hopi</labl>
+  </catgry>
+  <catgry>
+    <catValu>8630</catValu>
+    <labl>Cahuilla</labl>
+  </catgry>
+  <catgry>
+    <catValu>8631</catValu>
+    <labl>Cupeno</labl>
+  </catgry>
+  <catgry>
+    <catValu>8632</catValu>
+    <labl>Luiseno</labl>
+  </catgry>
+  <catgry>
+    <catValu>8633</catValu>
+    <labl>Serrano</labl>
+  </catgry>
+  <catgry>
+    <catValu>8640</catValu>
+    <labl>Tubatulabal</labl>
+  </catgry>
+  <catgry>
+    <catValu>8700</catValu>
+    <labl>Pima, Papago</labl>
+  </catgry>
+  <catgry>
+    <catValu>8800</catValu>
+    <labl>Yaqui</labl>
+  </catgry>
+  <catgry>
+    <catValu>8810</catValu>
+    <labl>Sonoran n.e.c., Cahita, Guasave, Huichole, Nayit, Tarahumar</labl>
+  </catgry>
+  <catgry>
+    <catValu>8820</catValu>
+    <labl>Tarahumara</labl>
+  </catgry>
+  <catgry>
+    <catValu>8900</catValu>
+    <labl>Aztecan, Nahuatl, Uto-Aztecan</labl>
+  </catgry>
+  <catgry>
+    <catValu>8910</catValu>
+    <labl>Aztecan, Mexicano, Nahua</labl>
+  </catgry>
+  <catgry>
+    <catValu>9000</catValu>
+    <labl>Tanoan languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>9010</catValu>
+    <labl>Picuris, Northern Tiwa, Taos</labl>
+  </catgry>
+  <catgry>
+    <catValu>9020</catValu>
+    <labl>Tiwa, Isleta</labl>
+  </catgry>
+  <catgry>
+    <catValu>9030</catValu>
+    <labl>Sandia</labl>
+  </catgry>
+  <catgry>
+    <catValu>9040</catValu>
+    <labl>Tewa, Hano, Hopi-Tewa, San Ildefonso, San Juan, Santa Clara</labl>
+  </catgry>
+  <catgry>
+    <catValu>9050</catValu>
+    <labl>Towa</labl>
+  </catgry>
+  <catgry>
+    <catValu>9100</catValu>
+    <labl>Wiyot</labl>
+  </catgry>
+  <catgry>
+    <catValu>9101</catValu>
+    <labl>Yurok</labl>
+  </catgry>
+  <catgry>
+    <catValu>9110</catValu>
+    <labl>Kwakiutl</labl>
+  </catgry>
+  <catgry>
+    <catValu>9111</catValu>
+    <labl>Nootka</labl>
+  </catgry>
+  <catgry>
+    <catValu>9112</catValu>
+    <labl>Makah</labl>
+  </catgry>
+  <catgry>
+    <catValu>9120</catValu>
+    <labl>Kutenai</labl>
+  </catgry>
+  <catgry>
+    <catValu>9130</catValu>
+    <labl>Haida</labl>
+  </catgry>
+  <catgry>
+    <catValu>9131</catValu>
+    <labl>Tlingit, Chilkat, Sitka, Tongass, Yakutat</labl>
+  </catgry>
+  <catgry>
+    <catValu>9140</catValu>
+    <labl>Tonkawa</labl>
+  </catgry>
+  <catgry>
+    <catValu>9150</catValu>
+    <labl>Yuchi</labl>
+  </catgry>
+  <catgry>
+    <catValu>9160</catValu>
+    <labl>Chetemacha</labl>
+  </catgry>
+  <catgry>
+    <catValu>9170</catValu>
+    <labl>Yuki</labl>
+  </catgry>
+  <catgry>
+    <catValu>9171</catValu>
+    <labl>Wappo</labl>
+  </catgry>
+  <catgry>
+    <catValu>9200</catValu>
+    <labl>Mayan languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>9210</catValu>
+    <labl>Misumalpan</labl>
+  </catgry>
+  <catgry>
+    <catValu>9211</catValu>
+    <labl>Cakchiquel</labl>
+  </catgry>
+  <catgry>
+    <catValu>9212</catValu>
+    <labl>Mam</labl>
+  </catgry>
+  <catgry>
+    <catValu>9213</catValu>
+    <labl>Maya</labl>
+  </catgry>
+  <catgry>
+    <catValu>9214</catValu>
+    <labl>Quekchi</labl>
+  </catgry>
+  <catgry>
+    <catValu>9215</catValu>
+    <labl>Quiche</labl>
+  </catgry>
+  <catgry>
+    <catValu>9220</catValu>
+    <labl>Tarascan</labl>
+  </catgry>
+  <catgry>
+    <catValu>9230</catValu>
+    <labl>Mapuche</labl>
+  </catgry>
+  <catgry>
+    <catValu>9231</catValu>
+    <labl>Araucanian</labl>
+  </catgry>
+  <catgry>
+    <catValu>9240</catValu>
+    <labl>Oto-Manguen</labl>
+  </catgry>
+  <catgry>
+    <catValu>9241</catValu>
+    <labl>Mixtec</labl>
+  </catgry>
+  <catgry>
+    <catValu>9242</catValu>
+    <labl>Zapotec</labl>
+  </catgry>
+  <catgry>
+    <catValu>9250</catValu>
+    <labl>Quechua</labl>
+  </catgry>
+  <catgry>
+    <catValu>9260</catValu>
+    <labl>Aymara</labl>
+  </catgry>
+  <catgry>
+    <catValu>9270</catValu>
+    <labl>Arawakian</labl>
+  </catgry>
+  <catgry>
+    <catValu>9271</catValu>
+    <labl>Island Caribs</labl>
+  </catgry>
+  <catgry>
+    <catValu>9280</catValu>
+    <labl>Chibchan</labl>
+  </catgry>
+  <catgry>
+    <catValu>9281</catValu>
+    <labl>Cuna</labl>
+  </catgry>
+  <catgry>
+    <catValu>9282</catValu>
+    <labl>Guaymi</labl>
+  </catgry>
+  <catgry>
+    <catValu>9290</catValu>
+    <labl>Tupi-Guarani</labl>
+  </catgry>
+  <catgry>
+    <catValu>9291</catValu>
+    <labl>Tupi</labl>
+  </catgry>
+  <catgry>
+    <catValu>9292</catValu>
+    <labl>Guarani</labl>
+  </catgry>
+  <catgry>
+    <catValu>9300</catValu>
+    <labl>American Indian, n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>9400</catValu>
+    <labl>Native</labl>
+  </catgry>
+  <catgry>
+    <catValu>9410</catValu>
+    <labl>Other specified American Indian languages</labl>
+  </catgry>
+  <catgry>
+    <catValu>9420</catValu>
+    <labl>South/Central American Indian</labl>
+  </catgry>
+  <catgry>
+    <catValu>9500</catValu>
+    <labl>No language</labl>
+  </catgry>
+  <catgry>
+    <catValu>9600</catValu>
+    <labl>Other or not reported</labl>
+  </catgry>
+  <catgry>
+    <catValu>9601</catValu>
+    <labl>Other n.e.c.</labl>
+  </catgry>
+  <catgry>
+    <catValu>9602</catValu>
+    <labl>Other n.s.</labl>
+  </catgry>
+  <catgry>
+    <catValu>9700</catValu>
+    <labl>Unknown</labl>
+  </catgry>
+  <catgry>
+    <catValu>9800</catValu>
+    <labl>Illegible</labl>
+  </catgry>
+  <catgry>
+    <catValu>9900</catValu>
+    <labl>Not reported, blank</labl>
+  </catgry>
+  <concept vocab="IPUMS">Race, Ethnicity, and Nativity Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="RACAMIND" dcml="0" files="ExtractData" intrvl="discrete" name="RACAMIND">
+  <location EndPos="110" StartPos="110" width="1"/>
+  <labl>Race: American Indian or Alaska Native</labl>
+  <txt><![CDATA[RACAMIND is a bivariate indicator of whether a person's race or races include "American Indian or Alaska Native." In recent years, a single-race American Indian respondent's enrolled or principal tribe can be identified using the detailed version of RACE. 
+
+Beginning in 2000, individuals were allowed to report multiple races, so RACAMIND and the other bivariate race indicators (RACASIAN, RACBLK, RACOTHER, RACPACIS, and RACWHT) are not mutually exclusive in 2000 and later years. The number of reported races is given in RACNUM.]]></txt>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>No</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Yes</labl>
+  </catgry>
+  <concept vocab="IPUMS">Race, Ethnicity, and Nativity Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="RACASIAN" dcml="0" files="ExtractData" intrvl="discrete" name="RACASIAN">
+  <location EndPos="111" StartPos="111" width="1"/>
+  <labl>Race: Asian</labl>
+  <txt><![CDATA[RACASIAN is a bivariate indicator of "Asian" race regardless of what additional race(s) the person reported, if any.  Thus, RACASIAN denotes the population of people who are "Asian alone or in combination." 
+
+Beginning in 2000, individuals were allowed to report multiple races, so RACASIAN and the other bivariate race indicators (RACAMIND, RACBLK, RACOTHER, RACPACIS, and RACWHT) are not mutually exclusive in 2000 and later years. The number of reported races is given in RACNUM.]]></txt>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>No</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Yes</labl>
+  </catgry>
+  <concept vocab="IPUMS">Race, Ethnicity, and Nativity Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="RACBLK" dcml="0" files="ExtractData" intrvl="discrete" name="RACBLK">
+  <location EndPos="112" StartPos="112" width="1"/>
+  <labl>Race: black or African American</labl>
+  <txt><![CDATA[RACBLK is a bivariate indicator of whether a person's race or races include black, African-American, negro, or mulatto, regardless of what additional race(s) the person reported, if any. Thus, RACBLK denotes the population of people who are "Black alone or in combination." 
+
+Beginning in 2000, individuals were allowed to report multiple races, so RACBLK and the other bivariate race indicators (RACASIAN, RACAMIND, RACOTHER, RACPACIS, and RACWHT) are not mutually exclusive in 2000 and later years. The number of reported races is given in RACNUM.]]></txt>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>No</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Yes</labl>
+  </catgry>
+  <concept vocab="IPUMS">Race, Ethnicity, and Nativity Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="RACPACIS" dcml="0" files="ExtractData" intrvl="discrete" name="RACPACIS">
+  <location EndPos="113" StartPos="113" width="1"/>
+  <labl>Race: Pacific Islander</labl>
+  <txt><![CDATA[RACPACIS is a bivariate indicator of "Pacific Islander" race, regardless of what additional race(s) the person reported, if any. Thus, RACPACIS denotes the population of people who are "Native Hawaiian or Pacific Islander alone or in combination."
+
+Pacific Islander races listed on the form were: Native Hawaiian; Guamanian or Chamorro; Samoan; and "other Pacific Islander." The specific race(s) can be identified using the detailed version of RACE. 
+
+Beginning in 2000, individuals were allowed to report multiple races, so RACPACIS and the other bivariate race indicators (RACAMIND, RACASIAN, RACBLK, RACOTHER, and RACWHT) are not mutually exclusive in 2000 and later years. The number of reported races is given in RACNUM.]]></txt>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>No</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Yes</labl>
+  </catgry>
+  <concept vocab="IPUMS">Race, Ethnicity, and Nativity Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="RACWHT" dcml="0" files="ExtractData" intrvl="discrete" name="RACWHT">
+  <location EndPos="114" StartPos="114" width="1"/>
+  <labl>Race: white</labl>
+  <txt><![CDATA[RACWHT is a bivariate indicator of "White" race, regardless of what additional race(s) the person reported, if any. Thus, RACWHT denotes the population of people who are "White alone or in combination."
+
+Beginning in 2000, individuals were allowed to report multiple races, so RACWHT and the other bivariate race indicators (RACASIAN, RACAMIND, RACBLK, RACOTHER, and RACPACIS) are not mutually exclusive in 2000 and later years. The number of reported races is given in RACNUM.]]></txt>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>No</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Yes</labl>
+  </catgry>
+  <concept vocab="IPUMS">Race, Ethnicity, and Nativity Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="RACOTHER" dcml="0" files="ExtractData" intrvl="discrete" name="RACOTHER">
+  <location EndPos="115" StartPos="115" width="1"/>
+  <labl>Race: some other race</labl>
+  <txt><![CDATA[RACOTHER is a bivariate indicator of "some other race," regardless of what additional race(s) the person reported, if any. Thus, RACOTHER denotes the population of people who are "some other race, alone or in combination." This category was the last one listed in the race question, following 12 specific race categories, "other Asian," and "other Pacific Islander."  
+
+Beginning in 2000, individuals were allowed to report multiple races, so RACOTHER and the other bivariate race indicators (RACASIAN, RACAMIND, RACBLK, RACPACIS, and RACWHT) are not mutually exclusive in 2000 and later years. The number of reported races is given in RACNUM.]]></txt>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>No</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Yes</labl>
+  </catgry>
+  <concept vocab="IPUMS">Race, Ethnicity, and Nativity Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="HCOVANY" dcml="0" files="ExtractData" intrvl="discrete" name="HCOVANY">
+  <location EndPos="116" StartPos="116" width="1"/>
+  <labl>Any health insurance coverage</labl>
+  <txt><![CDATA[HCOVANY indicates whether persons had any health insurance coverage at the time of interview, as measured by employer-provided insurance(HINSEMP), privately purchased insurance (HINSPUR), Medicare (HINSCARE), Medicaid or other governmental insurance (HINSCAID), TRICARE or other military care (HINSTRI), or Veterans Administration-provided insurance (HINSVA).  The Census Bureau does not consider respondents to have coverage if their only coverage is from Indian Health Services (HINSIHS), as IHS policies are not always comprehensive.
+
+For a summary of health insurance variables in the ACS/PRCS, see the IPUMS health insurance page.]]></txt>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>No health insurance coverage</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>With health insurance coverage</labl>
+  </catgry>
+  <concept vocab="IPUMS">Health Insurance Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="HCOVPRIV" dcml="0" files="ExtractData" intrvl="discrete" name="HCOVPRIV">
+  <location EndPos="117" StartPos="117" width="1"/>
+  <labl>Private health insurance coverage</labl>
+  <txt><![CDATA[HCOVPRIV indicates whether persons had private health insurance coverage at the time of interview.  The Census Bureau classifies employer- or union-provided insurance (HINSEMP), plans purchased by individuals from private insurance companies (HINSPUR), and TRICARE or other military health care (HINSTRI) as private coverage.
+
+For a summary of health insurance variables in the ACS/PRCS, see the IPUMS health insurance page.]]></txt>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Without private health insurance coverage</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>With private health insurance coverage</labl>
+  </catgry>
+  <concept vocab="IPUMS">Health Insurance Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="HINSEMP" dcml="0" files="ExtractData" intrvl="discrete" name="HINSEMP">
+  <location EndPos="118" StartPos="118" width="1"/>
+  <labl>Health insurance through employer/union</labl>
+  <txt><![CDATA[HINSEMP indicates whether, at the time of interview, persons had health insurance through a current employer, former employer, or union.  Persons covered by another family member's current employer, former employer, or union are coded "Yes" here.
+
+For a summary of health insurance variables in the ACS/PRCS, see the IPUMS health insurance page.]]></txt>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>No insurance through employer/union</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Has insurance through employer/union</labl>
+  </catgry>
+  <concept vocab="IPUMS">Health Insurance Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="EMPSTAT" dcml="0" files="ExtractData" intrvl="discrete" name="EMPSTAT">
+  <location EndPos="119" StartPos="119" width="1"/>
+  <labl>Employment status [general version]</labl>
+  <txt><![CDATA[EMPSTAT indicates whether the respondent was a part of the labor force -- working or seeking work -- and, if so, whether the person was currently unemployed. The second digit preserves additional related information available for some years but not others. See LABFORCE for a dichotomous variable that identifies whether a person participated in the labor force or not and is available for all years in the IPUMS.]]></txt>
+  <catgry>
+    <catValu>0</catValu>
+    <labl>N/A</labl>
+  </catgry>
+  <catgry>
+    <catValu>1</catValu>
+    <labl>Employed</labl>
+  </catgry>
+  <catgry>
+    <catValu>2</catValu>
+    <labl>Unemployed</labl>
+  </catgry>
+  <catgry>
+    <catValu>3</catValu>
+    <labl>Not in labor force</labl>
+  </catgry>
+  <catgry>
+    <catValu>9</catValu>
+    <labl>Unknown/Illegible</labl>
+  </catgry>
+  <concept vocab="IPUMS">Work Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="EMPSTATD" dcml="0" files="ExtractData" intrvl="discrete" name="EMPSTATD">
+  <location EndPos="121" StartPos="120" width="2"/>
+  <labl>Employment status [detailed version]</labl>
+  <txt><![CDATA[EMPSTAT indicates whether the respondent was a part of the labor force -- working or seeking work -- and, if so, whether the person was currently unemployed. The second digit preserves additional related information available for some years but not others. See LABFORCE for a dichotomous variable that identifies whether a person participated in the labor force or not and is available for all years in the IPUMS.]]></txt>
+  <catgry>
+    <catValu>00</catValu>
+    <labl>N/A</labl>
+  </catgry>
+  <catgry>
+    <catValu>10</catValu>
+    <labl>At work</labl>
+  </catgry>
+  <catgry>
+    <catValu>11</catValu>
+    <labl>At work, public emerg</labl>
+  </catgry>
+  <catgry>
+    <catValu>12</catValu>
+    <labl>Has job, not working</labl>
+  </catgry>
+  <catgry>
+    <catValu>13</catValu>
+    <labl>Armed forces</labl>
+  </catgry>
+  <catgry>
+    <catValu>14</catValu>
+    <labl>Armed forces--at work</labl>
+  </catgry>
+  <catgry>
+    <catValu>15</catValu>
+    <labl>Armed forces--not at work but with job</labl>
+  </catgry>
+  <catgry>
+    <catValu>20</catValu>
+    <labl>Unemployed</labl>
+  </catgry>
+  <catgry>
+    <catValu>21</catValu>
+    <labl>Unemp, exper worker</labl>
+  </catgry>
+  <catgry>
+    <catValu>22</catValu>
+    <labl>Unemp, new worker</labl>
+  </catgry>
+  <catgry>
+    <catValu>30</catValu>
+    <labl>Not in Labor Force</labl>
+  </catgry>
+  <catgry>
+    <catValu>31</catValu>
+    <labl>NILF, housework</labl>
+  </catgry>
+  <catgry>
+    <catValu>32</catValu>
+    <labl>NILF, unable to work</labl>
+  </catgry>
+  <catgry>
+    <catValu>33</catValu>
+    <labl>NILF, school</labl>
+  </catgry>
+  <catgry>
+    <catValu>34</catValu>
+    <labl>NILF, other</labl>
+  </catgry>
+  <catgry>
+    <catValu>99</catValu>
+    <labl>Unknown/Illegible</labl>
+  </catgry>
+  <concept vocab="IPUMS">Work Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="PERNUM_HEAD" dcml="0" files="ExtractData" intrvl="contin" name="PERNUM_HEAD">
+  <location EndPos="125" StartPos="122" width="4"/>
+  <labl>Person number in sample unit [of Location of household head]</labl>
+  <txt><![CDATA[PERNUM numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. When combined with SAMPLE and SERIAL, PERNUM uniquely identifies each person within the IPUMS.]]></txt>
+  <codInstr><![CDATA[CodesPERNUM is a 4-digit numeric variable which numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. PERNUM specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="PERNUM_MOM" dcml="0" files="ExtractData" intrvl="contin" name="PERNUM_MOM">
+  <location EndPos="129" StartPos="126" width="4"/>
+  <labl>Person number in sample unit [of Mother's location in the household]</labl>
+  <txt><![CDATA[PERNUM numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. When combined with SAMPLE and SERIAL, PERNUM uniquely identifies each person within the IPUMS.]]></txt>
+  <codInstr><![CDATA[CodesPERNUM is a 4-digit numeric variable which numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. PERNUM specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="PERNUM_POP" dcml="0" files="ExtractData" intrvl="contin" name="PERNUM_POP">
+  <location EndPos="133" StartPos="130" width="4"/>
+  <labl>Person number in sample unit [of Father's location in the household]</labl>
+  <txt><![CDATA[PERNUM numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. When combined with SAMPLE and SERIAL, PERNUM uniquely identifies each person within the IPUMS.]]></txt>
+  <codInstr><![CDATA[CodesPERNUM is a 4-digit numeric variable which numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. PERNUM specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="PERNUM_SP" dcml="0" files="ExtractData" intrvl="contin" name="PERNUM_SP">
+  <location EndPos="137" StartPos="134" width="4"/>
+  <labl>Person number in sample unit [of Spouse's location in household]</labl>
+  <txt><![CDATA[PERNUM numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. When combined with SAMPLE and SERIAL, PERNUM uniquely identifies each person within the IPUMS.]]></txt>
+  <codInstr><![CDATA[CodesPERNUM is a 4-digit numeric variable which numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. PERNUM specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="PERNUM_MOM2" dcml="0" files="ExtractData" intrvl="contin" name="PERNUM_MOM2">
+  <location EndPos="141" StartPos="138" width="4"/>
+  <labl>Person number in sample unit [of Second mother's location in the household]</labl>
+  <txt><![CDATA[PERNUM numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. When combined with SAMPLE and SERIAL, PERNUM uniquely identifies each person within the IPUMS.]]></txt>
+  <codInstr><![CDATA[CodesPERNUM is a 4-digit numeric variable which numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. PERNUM specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+<var ID="PERNUM_POP2" dcml="0" files="ExtractData" intrvl="contin" name="PERNUM_POP2">
+  <location EndPos="145" StartPos="142" width="4"/>
+  <labl>Person number in sample unit [of Second father's location in the household]</labl>
+  <txt><![CDATA[PERNUM numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. When combined with SAMPLE and SERIAL, PERNUM uniquely identifies each person within the IPUMS.]]></txt>
+  <codInstr><![CDATA[CodesPERNUM is a 4-digit numeric variable which numbers all persons within each household consecutively in the order in which they appear on the original census or survey form. PERNUM specific variable codes for missing, edited, or unidentified observations, observations not applicable (N/A), observations not in universe (NIU), top and bottom value coding, etc. are provided below if applicable by Census year (and data sample if specified).]]></codInstr>
+  <concept vocab="IPUMS">Technical Variables -- PERSON</concept>
+  <varFormat schema="other" type="numeric"/>
+</var>
+</dataDscr>
+</codeBook>

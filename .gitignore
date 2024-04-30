@@ -1,6 +1,7 @@
 .venv
 venv
 *.pickle
+*.pkl
 prev_data.zip
 runs
 __pycache__/
