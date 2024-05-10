@@ -7,6 +7,11 @@ import math
 import torch
 from typing import List
 
+import numpy as np
+
+import mosek
+import mosek.fusion
+
 """
 Functions for converting between concentrated and approximate DP
 """
@@ -141,3 +146,215 @@ def torch_cat_sparse_coo(tensors: List[torch.Tensor], dim=0, device="cpu"):
     new_size[dim] = curr_shift
     
     return torch.sparse_coo_tensor(torch.cat(indices_list, dim=1), torch.cat(values_list), size=new_size, device=device).coalesce()
+
+def display_top(snapshot, key_type='lineno', limit=10):
+    snapshot = snapshot.filter_traces((
+        tracemalloc.Filter(False, "<frozen importlib._bootstrap>"),
+        tracemalloc.Filter(False, "<unknown>"),
+    ))
+    top_stats = snapshot.statistics(key_type)
+
+    print("Top %s lines" % limit)
+    for index, stat in enumerate(top_stats[:limit], 1):
+        frame = stat.traceback[0]
+        print("#%s: %s:%s: %.1f KiB"
+              % (index, frame.filename, frame.lineno, stat.size / 1024))
+        line = linecache.getline(frame.filename, frame.lineno).strip()
+        if line:
+            print('    %s' % line)
+
+    other = top_stats[limit:]
+    if other:
+        size = sum(stat.size for stat in other)
+        print("%s other: %.1f KiB" % (len(other), size / 1024))
+    total = sum(stat.size for stat in top_stats)
+    print("Total allocated size: %.1f KiB" % (total / 1024))
+
+def unbiased_sample(b, m):
+    # nudge for finite precision errors
+    b[-1] = m - (np.sum(b) - b[-1])
+    if m == 0:
+        return np.zeros(b.shape, dtype=np.int_)
+    if m == 1:
+        res = np.zeros(b.shape, dtype=np.int_)
+        res[np.searchsorted(np.cumsum(b), np.random.rand())] = 1
+        return res
+    """ Inputs a vector of probabilities b, and outputs a one-hot vector indicating which were selected """
+    if len(b) == m: # all are ones
+        return np.ones(b.shape)
+    
+    b_cumsum = np.cumsum(b)
+    indexes = [0]
+    prev_val = 0
+    while indexes[-1] != len(b):
+        next_idx = np.searchsorted(b_cumsum, prev_val + 1, side='right') - 1
+        indexes.append(next_idx + 1)
+        prev_val = b_cumsum[next_idx]
+        
+    #print(b, m, indexes)
+    indexes = np.array(indexes)
+    
+    # we now have a list of indices to sample from
+    # get their sizes and choose the one to exclude
+    item_sizes = indexes[1:] - indexes[:-1]
+    prob_sizes = b_cumsum[indexes[1:] - 1]
+    prob_sizes[1:] -= b_cumsum[indexes[1:-1] - 1]
+    p_sizes_cumsum = np.cumsum(prob_sizes)
+    
+    # parallelized sampling
+    samples = np.random.rand(*prob_sizes.shape) * prob_sizes
+    samples[1:] += p_sizes_cumsum[:-1]
+    indexes_sampled = np.searchsorted(b_cumsum, samples)
+    
+    result = np.zeros(b.shape, dtype=np.int_)
+    result[indexes_sampled] = 1
+    # now go and delete some of them
+    deletion_probs = 1 - prob_sizes
+    
+    num_to_delete = len(prob_sizes) - m
+    deleted_indices = np.nonzero(unbiased_sample(deletion_probs, num_to_delete))[0]
+    #print("delind", deleted_indices)
+    result[indexes_sampled[deleted_indices]] = 0
+    # print(b, m, "res", result)
+    return result
+
+@torch.no_grad()
+def unbiased_sample_torch(b, m, device="cpu"):
+    b = torch.minimum(b, torch.tensor(1 - 1e-15, device=device))
+    b[-1] = m - (torch.sum(b) - b[-1]) - 1e-15
+    b = torch.maximum(b, torch.tensor(0, device=device))
+    
+    if m == 0:
+        return torch.zeros(*b.shape, dtype=torch.int, device=device)
+    if m == 1:
+        idx = torch.multinomial(b, 1)
+        res = torch.zeros(*b.shape, dtype=torch.int, device=device)
+        res[idx[0]] = 1
+        return res
+    """ Inputs a vector of probabilities b, and outputs a one-hot vector indicating which were selected """
+    if len(b) == m: # all are ones
+        return torch.ones(*b.shape, dtype=torch.int, device=device)
+    
+    b_cumsum = torch.cumsum(b, dim=0)
+    indexes = [0]
+    prev_val = 0
+    while indexes[-1] != len(b):
+        next_idx = torch.searchsorted(b_cumsum, prev_val + 1 + 1e-3, side='right') - 1
+        # print(next_idx, len(b), b_cumsum[next_idx], b_cumsum[next_idx + 1], b_cumsum[next_idx + 2])
+        indexes.append(next_idx + 1)
+        prev_val = b_cumsum[next_idx]
+        
+    #print(b, m, indexes)
+    indexes = torch.tensor(indexes, dtype=int, device=device)
+    
+    # we now have a list of indices to sample from
+    # get their sizes and choose the one to exclude
+    item_sizes = indexes[1:] - indexes[:-1]
+    prob_sizes = b_cumsum[indexes[1:] - 1]
+    prob_sizes[1:] -= b_cumsum[indexes[1:-1] - 1]
+    p_sizes_cumsum = torch.cumsum(prob_sizes, dim=0)
+    
+    # parallelized sampling
+    samples = torch.rand(*prob_sizes.shape, device=device) * prob_sizes
+    samples[1:] += p_sizes_cumsum[:-1]
+    indexes_sampled = torch.searchsorted(b_cumsum, samples)
+    
+    result = torch.zeros(*b.shape, dtype=torch.int, device=device)
+    result[indexes_sampled] = 1
+    # now go and delete some of them
+    deletion_probs = 1 - prob_sizes
+    
+    num_to_delete = len(prob_sizes) - m
+    deleted_indices = torch.nonzero(unbiased_sample_torch(deletion_probs, num_to_delete, device=device), as_tuple=True)[0]
+    #print("delind", deleted_indices)
+    result[indexes_sampled[deleted_indices]] = 0
+    # print(b, m, "res", result)
+    return result
+
+def mirror_descent_torch(Q, b, a, step_size = 0.01, T_mirror = 50):
+    # b is a vector whose sum is 1
+    assert isinstance(Q, torch.Tensor)
+    assert isinstance(b, torch.Tensor)
+    assert isinstance(a, torch.Tensor)
+
+    def mirror_descent_update(x, gradient):
+    # Choose a suitable step size (e.g., 1/D)
+
+        # Perform the Mirror Descent update
+        numer = x * torch.exp(-step_size * gradient)
+        denom = torch.sum(x * torch.exp(-step_size * gradient))
+
+        updated_x = numer / denom
+
+        return updated_x
+
+    # Function to compute the gradient of the objective function ||Qb - a||_2^2
+    def gradient(Q, b, a):
+        return 2 * torch.matmul(Q.T, (torch.matmul(Q, b) - a))
+
+    iters = 0
+
+    # Mirror Descent iterations
+    while iters < T_mirror:
+        iters += 1
+        # Compute the gradient of the objective function
+        grad = gradient(Q, b, a)
+        # Update using Mirror Descent
+        b = mirror_descent_update(b, grad)
+        # print("B update step: ", b)
+    return b
+
+def mosek_optimize(Q, a, m, N):
+    # get everything into numpy to work with mosek
+    Q = Q.to_dense().numpy(force=True).astype(np.float64)
+    a = a.numpy(force=True).astype(np.float64)
+    
+    M = mosek.fusion.Model("BBSLS")
+    
+    b = M.variable("b", N, mosek.fusion.Domain.inRange(0.0, 1.0))
+    
+    # The bound on the norm of the residual
+    e = M.variable("e")
+    r = mosek.fusion.Expr.sub(a, mosek.fusion.Expr.mul(Q,b))
+    # t \geq |r|_2
+    M.constraint(mosek.fusion.Expr.vstack(e, r), mosek.fusion.Domain.inQCone())
+    M.constraint(mosek.fusion.Expr.sum(b), mosek.fusion.Domain.equalsTo(m))
+    
+    M.objective(mosek.fusion.ObjectiveSense.Minimize, e)
+    M.solve()
+    
+    res = np.array(M.getVariable("b").level()) #, M.getVariable("e").level()
+    M.dispose()
+    return res
+
+def GM_torch(inp, rho, n_relationship_orig):
+    rand = torch.normal(0.0, (np.sqrt(2)/(n_relationship_orig * np.sqrt(rho))).item(), inp.size())
+    return inp + rand
+def GM_torch_noise(inp, stddev):
+    rand = torch.normal(0.0, stddev, inp.size())
+    return inp + rand
+def expround_torch(b, m=None, device="cpu"):
+    if m is None:
+        m = int(torch.sum(b).numpy(force=True))
+    b_fixed = b - ((torch.min(b) < 0) * torch.min(b))
+    X_dist = torch.distributions.exponential.Exponential(1 / (b_fixed + 1e-15)) # tiny piece to prevent it from giving div0 errors
+    X = X_dist.sample()
+    # finding the index of top m elements
+    values, indices = torch.topk(X, m)
+    indices = indices.unsqueeze(0)
+    
+    bu = torch.sparse_coo_tensor(indices, torch.ones([m], device=device), b.size()).coalesce()
+    return bu
+
+def get_relationships_from_sparse(qm, b_round):
+    b_round = b_round.coalesce()
+    vals = b_round.values()
+    indices = b_round.indices()
+    idxes_nz = indices[0, torch.nonzero(vals)].cpu()
+    
+    relationships = np.squeeze(idxes_nz.numpy())
+    
+    table2_nums = relationships % qm.n_syn2
+    table1_nums = (relationships - table2_nums) // qm.n_syn2
+    
+    return table1_nums, table2_nums

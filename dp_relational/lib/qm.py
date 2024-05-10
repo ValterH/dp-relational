@@ -89,6 +89,7 @@ class QueryManager:
                                     "dim_2": uni_val_2,
                                     "range_low": range_low,
                                     "range_high": range_high,
+                                    "range_size": len_range,
                                     "dim_sizes_1": t1_dimsizes,
                                     "dim_sizes_2": t2_dimsizes
                                 }
