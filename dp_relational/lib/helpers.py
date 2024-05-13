@@ -304,7 +304,7 @@ def mirror_descent_torch(Q, b, a, step_size = 0.01, T_mirror = 50):
         # print("B update step: ", b)
     return b
 
-def mosek_optimize(Q, a, m, N):
+def mosek_optimize(Q, a, m, N, ):
     # get everything into numpy to work with mosek
     Q = Q.to_dense().numpy(force=True).astype(np.float64)
     a = a.numpy(force=True).astype(np.float64)

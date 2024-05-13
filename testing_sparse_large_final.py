@@ -32,13 +32,13 @@ runner.update(dataset_generator=dp_relational.data.movies.dataset, n_syn1=3880, 
               T=60)
 runner.load_artifacts('53b3b6a5-fe75-11ee-9cb7-a059507978f3')
 
-epsilons = [4.0, 6.0]
+epsilons = [4.0, 5.0, 6.0, 10.0]
 run_count = 0
 while True:
     for epsilon in epsilons:
         runner.update(epsilon=epsilon)
         runner.regenerate_qm = True
-        results = runner.run(extra_params={ "run_set": -23 })
+        results = runner.run(extra_params={ "run_set": 1101 })
         print(runner.relationship_syn.shape[0])
         run_count += 1
         print(f"epsilon: {epsilon}, error_ave: {results['error_ave']}")

@@ -149,7 +149,7 @@ def learn_relationship_vector_torch_paper_algo(qm: QueryManagerTorch, epsilon_re
                 
                 # remove the workload from the pool
                 exp_mech_workload_pool.pop(new_workload_idx)
-                errors.pop(new_workload_idx)
+                errors.pop(new_workload_idx) # double check
             
             return new_workloads
         
@@ -171,7 +171,8 @@ def learn_relationship_vector_torch_paper_algo(qm: QueryManagerTorch, epsilon_re
         timers.append((time.time(), "begin workload eval"))
         for i in range(len(selected_workloads)):
             workload_idx = selected_workloads[i]
-            true_ans, dataset_ans = get_dataset_answer(workload_idx, table1_idxes, table2_idxes)
+            _, dataset_ans = get_dataset_answer(workload_idx, table1_idxes, table2_idxes) # we can't actually use the true answer here!
+            true_ans = noisy_ans_list[i]
             errors.append((torch.sum(torch.abs(true_ans - dataset_ans)).numpy(force=True), i))
         top_errors = sorted(errors)[-k_val:]
         curr_workload_idxes = [i for err, i in top_errors]
@@ -193,7 +194,7 @@ def learn_relationship_vector_torch_paper_algo(qm: QueryManagerTorch, epsilon_re
         timers.append((time.time(), "build q mat"))
         
         b_slice = mosek_optimize(Q_set, iter_noisy_ans.to(device=device) * sub_num_relationships, sub_num_relationships, cross_slice_size)
-        timers.append((time.time(), "optimizw"))
+        timers.append((time.time(), "optimizer"))
         
         # put these back into the slice: this is slightly complicated!
         b_slice = torch.Tensor(b_slice).to(device=device)
@@ -225,8 +226,8 @@ def learn_relationship_vector_torch_paper_algo(qm: QueryManagerTorch, epsilon_re
         if device.type == 'cuda':
             torch.cuda.empty_cache()
         
-        print(timers)
-        timers_processed = [(int((timtup[0] - timers[i][0]) * 10000) / 10000, timtup[1]) for i, timtup in enumerate(timers[1:])]
+        # print(timers)
+        timers_processed = [(int((timtup[0] - timers[i][0]) * 100000) / 100000, timtup[1]) for i, timtup in enumerate(timers[1:])]
         print(timers_processed)
         
         iter_cb(qm, b_round, t)
