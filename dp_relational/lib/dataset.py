@@ -67,8 +67,8 @@ class RelationalDataset:
         self.df_rel = remove_excess_rows(self.df_rel, self.rel_id1_col, dmax)
         self.df_rel = remove_excess_rows(self.df_rel, self.rel_id2_col, dmax) # limit relations
         
-        self.B = np.zeros((len(table1.df), len(table2.df)))
-        self.B[df_rel[rel_id1_col], df_rel[rel_id2_col]] = 1
+        #self.B = np.zeros((len(table1.df), len(table2.df)))
+        #self.B[df_rel[rel_id1_col], df_rel[rel_id2_col]] = 1
         
         # make column dicts for the first two tables
         table1.make_column_dict()

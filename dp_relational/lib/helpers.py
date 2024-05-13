@@ -219,7 +219,12 @@ def unbiased_sample(b, m):
     return result
 
 @torch.no_grad()
-def unbiased_sample_torch(b, m, device="cpu"):
+def unbiased_sample_torch(b_in, m, device="cpu"):
+    n = b_in.size(dim=0)
+    
+    shuffle = torch.randperm(n)
+    
+    b = b_in[shuffle]
     b = torch.minimum(b, torch.tensor(1 - 1e-15, device=device))
     b[-1] = m - (torch.sum(b) - b[-1]) - 1e-15
     b = torch.maximum(b, torch.tensor(0, device=device))
@@ -268,6 +273,10 @@ def unbiased_sample_torch(b, m, device="cpu"):
     deleted_indices = torch.nonzero(unbiased_sample_torch(deletion_probs, num_to_delete, device=device), as_tuple=True)[0]
     #print("delind", deleted_indices)
     result[indexes_sampled[deleted_indices]] = 0
+    
+    unshuf_order = torch.zeros_like(shuffle)
+    unshuf_order[shuffle] = torch.arange(n)
+    result[shuffle] = result.clone()
     # print(b, m, "res", result)
     return result
 

@@ -19,8 +19,9 @@ RELATIONSHIPS_FOLDER = "relationships"
 RUNS_FOLDER = "runs"
 
 class ModelRunner:
-    def __init__(self, save_to="./runs", *args, **kwargs) -> None:
+    def __init__(self, save_to="./runs", self_relation=False, *args, **kwargs) -> None:
         self.save_to = save_to
+        self.self_relation = self_relation
         
         self.dataset_generator = None
         self.n_syn1 = None
@@ -182,10 +183,15 @@ class ModelRunner:
             self.regenerate_syn_tables = False
             self.synth_tables_runid = curr_run_id
             with FuncTimer(self.times, "synth_table_generation"):
-                self.df1_synth = dp_relational.lib.synth_data.compute_single_table_synth_data(
-                    self.rel_dataset.table1.df, self.n_syn1, self.synth, epsilon=self.eps1)
-                self.df2_synth = dp_relational.lib.synth_data.compute_single_table_synth_data(
-                    self.rel_dataset.table2.df, self.n_syn2, self.synth, epsilon=self.eps2)
+                if not self.self_relation:
+                    self.df1_synth = dp_relational.lib.synth_data.compute_single_table_synth_data(
+                        self.rel_dataset.table1.df, self.n_syn1, self.synth, epsilon=self.eps1)
+                    self.df2_synth = dp_relational.lib.synth_data.compute_single_table_synth_data(
+                        self.rel_dataset.table2.df, self.n_syn2, self.synth, epsilon=self.eps2)
+                else:
+                    self.df1_synth = dp_relational.lib.synth_data.compute_single_table_synth_data(
+                        self.rel_dataset.table1.df, self.n_syn1, self.synth, epsilon=self.eps1)
+                    self.df2_synth = self.df1_synth.copy()
             # save it
             fpath = os.path.join(save_to, SYNTABLES_FOLDER)
             os.makedirs(fpath, exist_ok=True)
