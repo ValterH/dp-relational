@@ -55,7 +55,7 @@ def learn_relationship_vector_torch_paper_algo(qm: QueryManagerTorch, epsilon_re
     rho_rel = cdp_rho(epsilon_relationship, delta_relationship)
     
     # privacy parameter
-    epsilon0 = np.sqrt((2 * rho_rel) / (k_new_queries * T))
+    epsilon0 = np.sqrt((2 * rho_rel) / (k_new_queries * T)) if T != 0 else 100000
     
     # exponential mechanism factor: product before the softmax
     exp_mech_factor = np.sqrt(exp_mech_alpha) * epsilon0 * (m / qm.rel_dataset.dmax)
