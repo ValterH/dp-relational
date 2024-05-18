@@ -14,7 +14,7 @@ print("using device: ", device)
 def qm_generator_torch(rel_dataset, k, df1_synth, df2_synth):
     return dp_relational.lib.synth_data.QueryManagerTorch(rel_dataset, k=k, df1_synth=df1_synth, df2_synth=df2_synth, device=device)
 
-alpha_value = 0.000001
+alpha_value = -1
 def cross_generator_torch(qm, eps_rel, T):
     print("in_gen", alpha_value)
     b_round = dp_relational.lib.synth_data.learn_relationship_vector_torch_paper_algo(qm, eps_rel, T=T, k_new_queries=2,
@@ -35,7 +35,7 @@ while True:
     for alpha in alphas:
         alpha_value = alpha
         runner.regenerate_qm = True
-        results = runner.run(extra_params={ "run_set": "final_fix_reusing2_with_expmech", "alpha": alpha_value })
+        results = runner.run(extra_params={ "run_set": "final_fix_reusing2_with_expmech_2", "alpha": alpha_value })
         print(runner.relationship_syn.shape[0])
         run_count += 1
         print(f"alpha: {alpha_value}, error_ave: {results['error_ave']}")
