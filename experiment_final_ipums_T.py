@@ -33,7 +33,7 @@ def cross_generator_torch(qm, eps_rel, T):
     relationship_syn = dp_relational.lib.synth_data.make_synthetic_rel_table_sparse(qm, b_round)
     return relationship_syn
 
-runner = ModelRunner()
+runner = ModelRunner(self_relation=True)
 
 runner.update(dataset_generator=lambda dmax: dp_relational.data.ipums.dataset(dmax, frac=0.05), n_syn1=table_size, n_syn2=table_size,
               synth='mst', epsilon=4.0, eps1=1.0, eps2=1.0, k=3, dmax=4,

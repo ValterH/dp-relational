@@ -135,7 +135,7 @@ def learn_relationship_vector_torch_paper_algo(qm: QueryManagerTorch, epsilon_re
                 
                 # now select from this set using the exponential mechanism
                 def softmax(v):
-                    v_exp = np.exp(v)
+                    v_exp = np.exp(v - np.max(v))
                     return v_exp / np.sum(v_exp)
                 distribution = softmax(exp_mech_factor * errors_np)
                 
