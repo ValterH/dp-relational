@@ -2,6 +2,7 @@
 Contains classes for data management
 """
 import numpy as np
+from tqdm import tqdm
 
 def make_unique_ints(df, col):
     unique_ids = set(i[col]
@@ -35,7 +36,7 @@ class Table:
             columns_to_encode.append(id_col)
         
         self.column_lookups = {}
-        for column in columns_to_encode:
+        for column in tqdm(columns_to_encode):
             self.df[column], self.column_lookups[column] = make_unique_ints(self.df, column)
         
     def make_column_dict(self):
