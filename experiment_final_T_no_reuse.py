@@ -21,7 +21,7 @@ def qm_generator_torch(rel_dataset, k, df1_synth, df2_synth):
 
 def cross_generator_torch(qm, eps_rel, T):
     b_round = dp_relational.lib.synth_data.learn_relationship_vector_torch_paper_algo(qm, eps_rel, T=T,
-                subtable_size=100000, verbose=True, device=device, queries_to_reuse=8)
+                subtable_size=100000, verbose=True, device=device, queries_to_reuse=1)
     relationship_syn = dp_relational.lib.synth_data.make_synthetic_rel_table_sparse(qm, b_round)
     return relationship_syn
 
@@ -38,7 +38,7 @@ while True:
     for T_num in Ts:
         runner.update(T=T_num)
         runner.regenerate_qm = True
-        results = runner.run(extra_params={ "run_set": 1102 })
+        results = runner.run(extra_params={ "run_set": 1103 })
         print(runner.relationship_syn.shape[0])
         run_count += 1
         print(f"T: {T_num}, error_ave: {results['error_ave']}")
