@@ -35,7 +35,8 @@ while True:
     for alpha in alphas:
         alpha_value = alpha
         runner.regenerate_qm = True
-        results = runner.run(extra_params={ "run_set": "final_fix_reusing2_with_expmech_2", "alpha": alpha_value })
+        runner.regenerate_cross_answers = True
+        results = runner.run(extra_params={ "run_set": "final_fix_reusing2_with_expmech_3", "alpha": alpha_value })
         print(runner.relationship_syn.shape[0])
         run_count += 1
         print(f"alpha: {alpha_value}, error_ave: {results['error_ave']}")
