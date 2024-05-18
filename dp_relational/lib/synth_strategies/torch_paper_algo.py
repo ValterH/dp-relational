@@ -41,6 +41,7 @@ def learn_relationship_vector_torch_paper_algo(qm: QueryManagerTorch, epsilon_re
     
     n_relationship_synt = qm.n_relationship_synth
     m = n_relationship_synt # alias
+    m_privacy = qm.n_relationship_orig
     
     assert n_relationship_synt < qm.n_syn1 * qm.n_syn2
 
@@ -58,10 +59,10 @@ def learn_relationship_vector_torch_paper_algo(qm: QueryManagerTorch, epsilon_re
     epsilon0 = np.sqrt((2 * rho_rel) / (k_new_queries * T)) if T != 0 else 100000
     
     # exponential mechanism factor: product before the softmax
-    exp_mech_factor = np.sqrt(exp_mech_alpha) * epsilon0 * (m / qm.rel_dataset.dmax)
+    exp_mech_factor = np.sqrt(exp_mech_alpha) * epsilon0 * (m_privacy / qm.rel_dataset.dmax)
     
     # gaussian mechanism standard deviation
-    gm_stddev = (np.sqrt(2) / (np.sqrt(1 - exp_mech_alpha) * epsilon0)) * (qm.rel_dataset.dmax / m)
+    gm_stddev = (np.sqrt(2) / (np.sqrt(1 - exp_mech_alpha) * epsilon0)) * (qm.rel_dataset.dmax / m_privacy)
 
     # intialization
     unselected_workload = list(range(len(qm.workload_names)))

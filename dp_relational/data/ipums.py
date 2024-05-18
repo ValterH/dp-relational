@@ -26,10 +26,16 @@ def preprocess():
     
     ipums_df.to_pickle(PICKLE_PATH)
     os.remove(DAT_PATH)
-def dataset(dmax=10):
+def dataset(dmax=4, frac=1):
     # todo: doublecheck dmax
     # we should be good...
     df = pd.read_pickle(PICKLE_PATH)
+    
+    parent_vars = ['PERNUM_MOM', 'PERNUM_POP', 'PERNUM_MOM2', 'PERNUM_POP2']
+    
+    print("Original size:", int(len(df.index)), ", using size:", int(len(df.index) * frac))
+    if frac != 1:
+        df = df.head(int(len(df.index) * frac))
     all_cols = ['YEAR', 'SAMPLE', 'SERIAL', 'CBSERIAL', 'HHWT', 'CLUSTER', 'METRO', 'STRATA',\
         'GQ', 'FARM', 'OWNERSHP', 'OWNERSHPD', 'FRIDGE', 'PHONE', 'CINETHH', 'CILAPTOP',\
             'CIHISPEED', 'VEHICLES', 'SSMC', 'PERNUM', 'PERWT', 'FAMUNIT', 'MOMLOC', 'POPLOC',\
@@ -54,13 +60,19 @@ def dataset(dmax=10):
         return (sample * (pernum_mul * serial_mul)) + (serial * pernum_mul) + pernum
 
     df['PK'] = sample_serial_pernum_conv(df['SAMPLE'], df['SERIAL'], df['PERNUM'])
-    df.set_index(['PK'])
-    df = df[['PK', 'SAMPLE', 'SERIAL', 'PERNUM', 'SEX', 'MARST', 'MARRINYR', \
+    df.set_index('PK')
+    df = df[['PK', 'SAMPLE', 'SERIAL', 'PERNUM', 'SEX', 'MARST', 'MARRINYR', 'MOMLOC', 'POPLOC', \
         'RACAMIND', 'RACASIAN', 'RACBLK', 'RACPACIS', 'RACWHT', 'RACOTHER', \
             'HINSEMP', 'EMPSTAT', 'PERNUM_MOM', 'PERNUM_POP', 'PERNUM_MOM2', 'PERNUM_POP2']]
     
+    # print("df:::")
+    # print(df[df['MOMLOC'] != 0][['PK', 'SAMPLE', 'SERIAL', 'PERNUM', 'MOMLOC', 'POPLOC', 'PERNUM_MOM', 'PERNUM_POP', 'PERNUM_MOM2', 'PERNUM_POP2']])
+    # print(202201314602 in df)
+    # print(202201314602 in df['PK'].values)
+    
     records = len(df.index)
-    rel_np = np.zeros((2, records * 4), dtype=np)
+    rel_np = np.zeros((2, records * len(parent_vars)), dtype=np)
+    missing_rels = 0
     curr_rel_idx = 0
     
     def _add_rel_np(a, b):
@@ -70,17 +82,38 @@ def dataset(dmax=10):
         rel_np[1, curr_rel_idx] = b
         curr_rel_idx += 1
     
-    parent_vars = ['PERNUM_MOM', 'PERNUM_POP', 'PERNUM_MOM2', 'PERNUM_POP2']
+    # ojas cursed magic (TM)
+    # i will be exclusively using "Cursed Magic" as a term for convoluted vectorization
+    # this turned out to be very uncursed, thank you pandas!
+    for parent_var in parent_vars:
+        slice_df = df[df[parent_var].notna()]
+        slice_df[parent_var] = sample_serial_pernum_conv(slice_df['SAMPLE'], slice_df['SERIAL'], slice_df[parent_var])
+        slice_df = slice_df[slice_df[parent_var].isin(df['PK'])]
+        slice_size = len(slice_df.index)
+        rel_np[0, curr_rel_idx:curr_rel_idx + slice_size] = slice_df['PK'].to_numpy()
+        rel_np[1, curr_rel_idx:curr_rel_idx + slice_size] = slice_df[parent_var].to_numpy()
+        curr_rel_idx = curr_rel_idx + slice_size
     
-    for index, row in tqdm(df.iterrows(), total=df.shape[0]):
-        for var in parent_vars:
-            if not pd.isna(row[var]):
-                _add_rel_np(row['PK'], sample_serial_pernum_conv(row['SAMPLE'], row['SERIAL'], row[var]))
+    # for index, row in tqdm(df.iterrows(), total=df.shape[0]):
+    #     for var in parent_vars:
+    #         if not pd.isna(row[var]):
+    #             curr_rel_pk = sample_serial_pernum_conv(row['SAMPLE'], row['SERIAL'], row[var])
+    #             if curr_rel_pk in df['PK'].values:
+    #                 _add_rel_np(row['PK'], curr_rel_pk)
+    #             else:
+    #                 missing_rels += 1
     
-    df.drop(columns=parent_vars)
+    df = df.drop(columns=parent_vars)
+    df = df.drop(columns=['SAMPLE', 'SERIAL', 'PERNUM'])
+    # print(df.columns)
+    print(f"Missing rels: {missing_rels}. Found rels: {curr_rel_idx}")
     
-    df_rel = pd.DataFrame({'CHILDKEY': rel_np[0, :curr_rel_idx], 'PARENTKEY': rel_np[1:curr_rel_idx]})
+    df_rel = pd.DataFrame({'CHILDKEY': rel_np[0, :curr_rel_idx], 'PARENTKEY': rel_np[1, :curr_rel_idx]})
     
+    df_new = df.copy()
+    # print(df_new)
     people_table = Table(df, 'PK')
+    people_table2 = Table(df_new, 'PK')
+    # print(people_table.df)
     
-    return RelationalDataset(people_table, people_table, df_rel, 'CHILDKEY', 'PARENTKEY', dmax=dmax) # just for debugging for now
+    return RelationalDataset(people_table, people_table2, df_rel, 'CHILDKEY', 'PARENTKEY', dmax=dmax) # just for debugging for now

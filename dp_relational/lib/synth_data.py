@@ -60,6 +60,8 @@ from .synth_strategies.torch_masked_query_reuse import learn_relationship_vector
 
 from .synth_strategies.torch_paper_algo import learn_relationship_vector_torch_paper_algo
 
+from .synth_strategies.torch_masked_fixed_privacy import learn_relationship_vector_torch_priv_cor
+
 def make_synthetic_rel_table(qm: QueryManager, b_round):
     ID_1 = qm.rel_dataset.rel_id1_col
     ID_2 = qm.rel_dataset.rel_id2_col
