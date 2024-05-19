@@ -19,7 +19,7 @@ import time
 @torch.no_grad()
 def learn_relationship_vector_torch_paper_algo(qm: QueryManagerTorch, epsilon_relationship=1.0, T=100,
                                             delta_relationship = 1e-5, subtable_size=100000, queries_to_reuse=None, iter_cb=lambda *args: None,
-                                            k_new_queries=3, k_choose_from=300, exp_mech_alpha=0.2, verbose=False, device="cpu"):
+                                            k_new_queries=3, k_choose_from=300, exp_mech_alpha=0.2, choose_worst=True, verbose=False, device="cpu"):
     """Full final algorithm described in the paper, with the following features implemented:"""
     """ - Exponential mechanism to choose queries from the set """
     """ - Unbiased estimator (if this actually runs in time)"""
@@ -175,7 +175,7 @@ def learn_relationship_vector_torch_paper_algo(qm: QueryManagerTorch, epsilon_re
             _, dataset_ans = get_dataset_answer(workload_idx, table1_idxes, table2_idxes) # we can't actually use the true answer here!
             true_ans = noisy_ans_list[i]
             errors.append((torch.sum(torch.abs(true_ans - dataset_ans)).numpy(force=True), i))
-        top_errors = sorted(errors)[-k_val:]
+        top_errors = (sorted(errors) if choose_worst else random.shuffle(errors))[-k_val:]
         curr_workload_idxes = [i for err, i in top_errors]
         iter_selected_workloads = [selected_workloads[i] for i in curr_workload_idxes]
         iter_noisy_ans = torch.cat([noisy_ans_list[i] for i in curr_workload_idxes])

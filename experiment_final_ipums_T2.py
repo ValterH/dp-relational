@@ -28,7 +28,7 @@ table_size = 1000
 def cross_generator_torch(qm, eps_rel, T):
     b_round = dp_relational.lib.synth_data.learn_relationship_vector_torch_paper_algo(qm, eps_rel, T=T,
                 subtable_size=100000, verbose=True, device=device, queries_to_reuse=None,
-                exp_mech_alpha=0.2
+                exp_mech_alpha=0.2, choose_worst=False
                 )
     relationship_syn = dp_relational.lib.synth_data.make_synthetic_rel_table_sparse(qm, b_round)
     return relationship_syn
@@ -46,7 +46,7 @@ while True:
     for T in Ts:
         runner.update(T=T)
         runner.regenerate_qm = True
-        results = runner.run(extra_params={ "run_set": 2024, "alpha": 0.2 })
+        results = runner.run(extra_params={ "run_set": 2025, "alpha": 0.2 })
         print(runner.rel_dataset_runid)
         print(runner.relationship_syn.shape[0])
         run_count += 1
