@@ -26,12 +26,13 @@ def preprocess():
     
     ipums_df.to_pickle(PICKLE_PATH)
     os.remove(DAT_PATH)
-def dataset(dmax=4, frac=1):
+def dataset(dmax=4, frac=1,
+            parent_vars=['PERNUM_MOM', 'PERNUM_POP', 'PERNUM_MOM2', 'PERNUM_POP2'],
+            table_cols=['SEX', 'MARST', 'MARRINYR', 'RACAMIND', 'RACASIAN', 'RACBLK', \
+                'RACPACIS', 'RACWHT', 'RACOTHER']):
     # todo: doublecheck dmax
     # we should be good...
     df = pd.read_pickle(PICKLE_PATH)
-    
-    parent_vars = ['PERNUM_MOM', 'PERNUM_POP', 'PERNUM_MOM2', 'PERNUM_POP2']
     
     print("Original size:", int(len(df.index)), ", using size:", int(len(df.index) * frac))
     if frac != 1:
@@ -60,10 +61,10 @@ def dataset(dmax=4, frac=1):
         return (sample * (pernum_mul * serial_mul)) + (serial * pernum_mul) + pernum
 
     df['PK'] = sample_serial_pernum_conv(df['SAMPLE'], df['SERIAL'], df['PERNUM'])
+    
     df.set_index('PK')
-    df = df[['PK', 'SAMPLE', 'SERIAL', 'PERNUM', 'SEX', 'MARST', 'MARRINYR', 'MOMLOC', 'POPLOC', \
-        'RACAMIND', 'RACASIAN', 'RACBLK', 'RACPACIS', 'RACWHT', 'RACOTHER', \
-            'HINSEMP', 'EMPSTAT', 'PERNUM_MOM', 'PERNUM_POP', 'PERNUM_MOM2', 'PERNUM_POP2']]
+    col_slice = ['PK', 'SAMPLE', 'SERIAL', 'PERNUM'] + table_cols + parent_vars
+    df = df[col_slice]
     
     # print("df:::")
     # print(df[df['MOMLOC'] != 0][['PK', 'SAMPLE', 'SERIAL', 'PERNUM', 'MOMLOC', 'POPLOC', 'PERNUM_MOM', 'PERNUM_POP', 'PERNUM_MOM2', 'PERNUM_POP2']])
@@ -74,13 +75,6 @@ def dataset(dmax=4, frac=1):
     rel_np = np.zeros((2, records * len(parent_vars)), dtype=np)
     missing_rels = 0
     curr_rel_idx = 0
-    
-    def _add_rel_np(a, b):
-        nonlocal rel_np
-        nonlocal curr_rel_idx
-        rel_np[0, curr_rel_idx] = a
-        rel_np[1, curr_rel_idx] = b
-        curr_rel_idx += 1
     
     # ojas cursed magic (TM)
     # i will be exclusively using "Cursed Magic" as a term for convoluted vectorization
