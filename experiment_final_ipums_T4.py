@@ -40,7 +40,7 @@ runner.update(dataset_generator=lambda dmax: dp_relational.data.ipums.dataset(dm
               qm_generator=qm_generator_torch, cross_generation_strategy=cross_generator_torch)
 runner.load_artifacts('9676024c-1576-11ef-aec6-36406904b081')
 
-Ts = [0, 5, 10, 15, 20]
+Ts = [0, 5, 10, 20, 40, 60, 100]
 run_count = 0
 while True:
     for T in Ts:
