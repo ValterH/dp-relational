@@ -175,7 +175,7 @@ def learn_relationship_vector_torch_paper_algo(qm: QueryManagerTorch, epsilon_re
             _, dataset_ans = get_dataset_answer(workload_idx, table1_idxes, table2_idxes) # we can't actually use the true answer here!
             true_ans = noisy_ans_list[i]
             errors.append((torch.sum(torch.abs(true_ans - dataset_ans)).numpy(force=True), i))
-        top_errors = (sorted(errors) if choose_worst else random.shuffle(errors))[-k_val:]
+        top_errors = (sorted(errors) if choose_worst else random.sample(errors, len(errors)))[-k_val:]
         curr_workload_idxes = [i for err, i in top_errors]
         iter_selected_workloads = [selected_workloads[i] for i in curr_workload_idxes]
         iter_noisy_ans = torch.cat([noisy_ans_list[i] for i in curr_workload_idxes])
