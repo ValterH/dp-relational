@@ -336,6 +336,7 @@ def mosek_optimize(Q, a, m, N, ):
     M.dispose()
     return res
 
+
 def GM_torch(inp, rho, n_relationship_orig):
     rand = torch.normal(0.0, (np.sqrt(2)/(n_relationship_orig * np.sqrt(rho))).item(), inp.size())
     return inp + rand
