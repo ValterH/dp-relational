@@ -64,6 +64,7 @@ from .synth_strategies.torch_masked_fixed_privacy import learn_relationship_vect
 
 from .synth_strategies.pgd import learn_relationship_pgd
 
+from .synth_strategies.torch_pgd import learn_relationship_vector_torch_pgd
 
 def make_synthetic_rel_table(qm: QueryManager, b_round):
     ID_1 = qm.rel_dataset.rel_id1_col

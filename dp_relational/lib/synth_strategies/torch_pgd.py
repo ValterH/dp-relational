@@ -300,7 +300,8 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
             
             timers.append((time.time(), "build q mat"))
             # start with a random guess for b
-            b_slice_rand_idxes = torch.randperm(cross_slice_size)[None, :sub_num_relationships] # TODO: this may run out of memory
+            # TODO: think about using Algorithm L: https://en.wikipedia.org/wiki/Reservoir_sampling for this instead
+            b_slice_rand_idxes = torch.randperm(cross_slice_size)[None, :sub_num_relationships]
             b_slice = torch.sparse_coo_tensor(indices=b_slice_rand_idxes, values=torch.ones([sub_num_relationships]),
                                             size=[cross_slice_size], device=device).float().coalesce()
             b_slice = pgd_optimize(Q_set, b_slice, iter_noisy_ans.to(device=device), sub_num_relationships, 100)
