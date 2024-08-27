@@ -46,7 +46,7 @@ while True:
     for T in Ts:
         runner.update(T=T)
         runner.regenerate_qm = True
-        results = runner.run(extra_params={ "run_set": "Pytorch PGD attempt with medium sized tables" })
+        results = runner.run(extra_params={ "run_set": "Pytorch PGD attempt" })
         print(runner.rel_dataset_runid)
         print(runner.relationship_syn.shape[0])
         run_count += 1

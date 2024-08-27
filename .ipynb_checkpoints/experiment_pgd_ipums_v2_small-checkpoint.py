@@ -20,10 +20,10 @@ def print_iter_eval(qm, b_round, T):
 def qm_generator_torch(rel_dataset, k, df1_synth, df2_synth):
     return dp_relational.lib.synth_data.QueryManagerTorch(rel_dataset, k=k, df1_synth=df1_synth, df2_synth=df2_synth, device=device)
 
-""" Mid size IPUMS tables """
+""" Small size IPUMS tables """
 
-fraction = 0.1
-table_size = 10000
+fraction = 0.05
+table_size = 1000
 
 def cross_generator_torch(qm, eps_rel, T):
     b_round = dp_relational.lib.synth_data.learn_relationship_vector_torch_pgd(qm, eps_rel, T=T,
@@ -46,7 +46,7 @@ while True:
     for T in Ts:
         runner.update(T=T)
         runner.regenerate_qm = True
-        results = runner.run(extra_params={ "run_set": "Pytorch PGD attempt with medium sized tables" })
+        results = runner.run(extra_params={ "run_set": "Pytorch PGD attempt with small size tables" })
         print(runner.rel_dataset_runid)
         print(runner.relationship_syn.shape[0])
         run_count += 1
