@@ -381,6 +381,31 @@ class QueryManagerTorch(QueryManager):
                 return self.get_query_mat_full_table(workload)
             else:
                 return (query_mat, true_vals)
+    def get_query_mat_sub_table(self, workload, slices_t1, slices_t2):
+        # generate the matrix
+        size_t1 = slices_t1.shape[0]
+        size_t2 = slices_t2.shape[0]
+        
+        range_low = self.workload_dict[workload]["range_low"]
+        range_high = self.workload_dict[workload]["range_high"] + 1
+        num_queries = range_high - range_low
+        vec_len = size_t1 * size_t2
+        true_vals = self.true_ans_tensor[range_low:range_high]
+        
+        indices_col = np.arange(0, vec_len)
+        
+        offsetst1 = self.get_offsets(workload, 0)[slices_t1]
+        offsetst2 = self.get_offsets(workload, 1)[slices_t2]
+        
+        offsetst1fullvec = np.repeat(offsetst1, size_t2)
+        offsetst2fullvec = np.tile(offsetst2, size_t1)
+        
+        indices_row = offsetst1fullvec + offsetst2fullvec
+        indices = np.stack((indices_row, indices_col))
+        
+        # TODO: there is no good reason for this to work this way?? This should not be necessary
+        query_mat = torch.sparse_coo_tensor(indices, np.ones(shape=(vec_len, )), size=(num_queries, vec_len), device=self.device).float().coalesce()
+        return query_mat
     def get_true_answers(self, workload):
         range_low = self.workload_dict[workload]["range_low"]
         range_high = self.workload_dict[workload]["range_high"] + 1

@@ -57,14 +57,15 @@ def largest_singular_value(sparse_tensor, tolerance=1e-6, max_iterations=1000):
     return b_k_norm.item()
 
 def gradient(Q, b, a, m):
-    c = Q @ b / m ## 
-    g = Q.T @ (c - a) * 2 / m
+    # 
+    c = torch.sparse.mm(Q, b) / m ## 
+    g = torch.sparse.mm(Q.T, (-a)[:, None] + c) * 2 / m
 
     return g
 
 def optimal_project_to_simplex_torch(b, m):
     # Step 1: Clip the vector to ensure it is between 0 and 1
-    b = torch.clamp(b, 0, 1)
+    b = torch.clamp(torch.squeeze(b), 0, 1)
     
     # Step 2: Check if the sum is greater than m, if so scale it down
     sum_b = torch.sum(b)
@@ -108,8 +109,10 @@ def pgd_optimize(Q, b, a, m, T):
         # 2a. Identify the gradient of the solution
         g = gradient(Q, b, a, m)
         # 2b. Iterate the b value and correctly project it
-        b = b - lr * g
+        # TODO: this may be able to avoid sparsity issues!!!
+        b = -(lr * g) + b 
         b = optimal_project_to_simplex_torch(b, m)
+        b = b[:, None]
     
     return b
 
@@ -289,7 +292,7 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
             for i in iter_selected_workloads:
                 curr_workload = qm.workload_names[i]
     
-                curr_Qmat_full, curr_true_answer = qm.get_query_mat_full_table(curr_workload)
+                curr_Qmat_full, curr_true_answer = qm.get_query_mat_sub_table(curr_workload, slice_table1, slice_table2)
                 curr_Qmat = torch.index_select(curr_Qmat_full, 1, offsets).coalesce()
                 
                 del curr_Qmat_full
@@ -301,16 +304,17 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
             timers.append((time.time(), "build q mat"))
             # start with a random guess for b
             # TODO: think about using Algorithm L: https://en.wikipedia.org/wiki/Reservoir_sampling for this instead
-            b_slice_rand_idxes = torch.randperm(cross_slice_size)[None, :sub_num_relationships]
+            b_slice_rand_idxes = torch.randperm(cross_slice_size)[:sub_num_relationships]
+            b_slice_rand_idxes = torch.stack((b_slice_rand_idxes, torch.zeros_like(b_slice_rand_idxes)))
+            
             b_slice = torch.sparse_coo_tensor(indices=b_slice_rand_idxes, values=torch.ones([sub_num_relationships]),
-                                            size=[cross_slice_size], device=device).float().coalesce()
+                                            size=[cross_slice_size, 1], device=device).float().coalesce()
+            Q_set = Q_set.coalesce()
             b_slice = pgd_optimize(Q_set, b_slice, iter_noisy_ans.to(device=device), sub_num_relationships, 100)
             timers.append((time.time(), "optimizer"))
             
             # put these back into the slice: this is slightly complicated!
-            b_slice = torch.Tensor(b_slice).to(device=device)
-            
-            b_slice_round = unbiased_sample_torch(b_slice, m=sub_num_relationships, device=device)
+            b_slice_round = unbiased_sample_torch(torch.squeeze(b_slice), m=sub_num_relationships, device=device)
             timers.append((time.time(), "sample"))
             b_slice_round = b_slice_round.to_sparse()
             
