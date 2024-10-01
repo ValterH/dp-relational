@@ -88,48 +88,48 @@ q_reuses = [1, 2, 4, 8]
 g_rel_opts = [0, 0.03, 0.05, 0.08]
 run_count = 0
 for loops in range(NUM_LOOPS):
-    reset_runner()
-    for g_in in g_rel_opts:
-        g_rels = g_in
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, g_in study in multiparameter study" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
-    reset_runner()
-    for q_in in q_reuses:
-        q_reuse = q_in
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, q_reuse study in multiparameter study" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
-    reset_runner()
-    for k_in in k_news:
-        k_new = k_in
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, k_new study in multiparameter study" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
-    reset_runner()
-    for epsilon in epsilons:
-        runner.update(epsilon=epsilon)
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, eps study in multiparameter study" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
-    reset_runner()
+    # reset_runner()
+    # for g_in in g_rel_opts:
+    #     g_rels = g_in
+    #     runner.regenerate_qm = True
+    #     runner.regenerate_cross_answers = True
+    #     results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, g_in study in multiparameter study" })
+    #     run_count += 1
+    #     print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
+    #     print(f"###### COMPLETED {run_count} RUNS ######")
+    # reset_runner()
+    # for q_in in q_reuses:
+    #     q_reuse = q_in
+    #     runner.regenerate_qm = True
+    #     runner.regenerate_cross_answers = True
+    #     results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, q_reuse study in multiparameter study" })
+    #     run_count += 1
+    #     print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
+    #     print(f"###### COMPLETED {run_count} RUNS ######")
+    # reset_runner()
+    # for k_in in k_news:
+    #     k_new = k_in
+    #     runner.regenerate_qm = True
+    #     runner.regenerate_cross_answers = True
+    #     results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, k_new study in multiparameter study" })
+    #     run_count += 1
+    #     print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
+    #     print(f"###### COMPLETED {run_count} RUNS ######")
+    # reset_runner()
+    # for epsilon in epsilons:
+    #     runner.update(epsilon=epsilon)
+    #     runner.regenerate_qm = True
+    #     runner.regenerate_cross_answers = True
+    #     results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, eps study in multiparameter study" })
+    #     run_count += 1
+    #     print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
+    #     print(f"###### COMPLETED {run_count} RUNS ######")
+    # reset_runner()
     for a_in in alphas:
         alpha = a_in
         runner.regenerate_qm = True
         runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, alpha study in multiparameter study" })
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, alpha study in multiparameter study - alpha verification" })
         run_count += 1
         print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
         print(f"###### COMPLETED {run_count} RUNS ######")
