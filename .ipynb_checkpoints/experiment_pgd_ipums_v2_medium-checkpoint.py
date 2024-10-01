@@ -28,7 +28,7 @@ table_size = 10000
 def cross_generator_torch(qm, eps_rel, T):
     b_round = dp_relational.lib.synth_data.learn_relationship_vector_torch_pgd(qm, eps_rel, T=T,
                 subtable_size=1000000, verbose=True, device=device, queries_to_reuse=8,
-                exp_mech_alpha=0.2, k_new_queries=3, choose_worst=False, slices_per_iter=5
+                exp_mech_alpha=0.2, k_new_queries=3, choose_worst=False, slices_per_iter=3, guaranteed_rels=0.0
                 )
     relationship_syn = dp_relational.lib.synth_data.make_synthetic_rel_table_sparse(qm, b_round)
     return relationship_syn
@@ -40,13 +40,13 @@ runner.update(dataset_generator=lambda dmax: dp_relational.data.ipums.dataset(dm
               qm_generator=qm_generator_torch, cross_generation_strategy=cross_generator_torch)
 runner.load_artifacts('6214898c-6464-11ef-a981-4e3d7b9b1ba8')
 
-Ts = [0, 5, 10, 20, 40, 60, 100]
+Ts = [0, 5, 10, 20, 40, 100] #, 60, 100]
 run_count = 0
 while True:
     for T in Ts:
         runner.update(T=T)
         runner.regenerate_qm = True
-        results = runner.run(extra_params={ "run_set": "Pytorch PGD attempt with medium size tables TEST2" })
+        results = runner.run(extra_params={ "run_set": "Medium PGD, 0.0 guaranteed rels" })
         print(runner.rel_dataset_runid)
         print(runner.relationship_syn.shape[0])
         run_count += 1

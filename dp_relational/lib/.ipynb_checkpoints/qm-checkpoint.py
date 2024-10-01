@@ -141,7 +141,7 @@ class QueryManager:
         ID1s = df_rel.iloc[:][self.rel_dataset.rel_id1_col].values
         ID2s = df_rel.iloc[:][self.rel_dataset.rel_id2_col].values
         
-        ans = np.zeros(self.num_all_queries) 
+        ans = [] # np.zeros(self.num_all_queries) 
         for w in self.workload_names:
             w_dict = self.workload_dict[w]
             
@@ -150,11 +150,9 @@ class QueryManager:
             
             offsets = offsets_t1[ID1s] + offsets_t2[ID2s]
             values, counts = np.unique(offsets, return_counts=True)
+            ans.append(np.zeros((w_dict["range_size"], )))
             for val, count in zip(values, counts):
-                ans[w_dict["range_low"] + val] = count
-        
-        ans = ans/num_relationship
-        
+                ans[-1][val] = count / num_relationship
         return ans
     
     def calculate_true_ans(self):
@@ -349,7 +347,7 @@ class QueryManagerTorch(QueryManager):
         self.workload_query_answers = {}
         for workload in self.workload_names:
             self.workload_query_answers[workload] = None
-        self.true_ans_tensor = torch.from_numpy(self.true_ans).float()
+        self.true_ans_tensor = torch.from_numpy(np.concatenate(self.true_ans)).float()
     def get_query_mat_full_table(self, workload):
         if self.workload_query_answers[workload] is not None:
             return self.workload_query_answers[workload]
@@ -381,6 +379,31 @@ class QueryManagerTorch(QueryManager):
                 return self.get_query_mat_full_table(workload)
             else:
                 return (query_mat, true_vals)
+    def get_query_mat_sub_table(self, workload, slices_t1, slices_t2):
+        # generate the matrix
+        size_t1 = slices_t1.shape[0]
+        size_t2 = slices_t2.shape[0]
+        
+        range_low = self.workload_dict[workload]["range_low"]
+        range_high = self.workload_dict[workload]["range_high"] + 1
+        num_queries = range_high - range_low
+        vec_len = size_t1 * size_t2
+        true_vals = self.true_ans_tensor[range_low:range_high]
+        
+        indices_col = np.arange(0, vec_len)
+        
+        offsetst1 = self.get_offsets(workload, 0)[slices_t1]
+        offsetst2 = self.get_offsets(workload, 1)[slices_t2]
+        
+        offsetst1fullvec = np.repeat(offsetst1, size_t2)
+        offsetst2fullvec = np.tile(offsetst2, size_t1)
+        
+        indices_row = offsetst1fullvec + offsetst2fullvec
+        indices = np.stack((indices_row, indices_col))
+        
+        # TODO: there is no good reason for this to work this way?? This should not be necessary
+        query_mat = torch.sparse_coo_tensor(indices, np.ones(shape=(vec_len, )), size=(num_queries, vec_len), device=self.device).float().coalesce()
+        return query_mat, true_vals
     def get_true_answers(self, workload):
         range_low = self.workload_dict[workload]["range_low"]
         range_high = self.workload_dict[workload]["range_high"] + 1

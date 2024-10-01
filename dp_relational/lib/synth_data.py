@@ -96,7 +96,7 @@ def make_synthetic_rel_table_sparse(qm: QueryManager, b_round: torch.Tensor):
 def evaluate_synthetic_rel_table(qm: QueryManager, relationship_syn):
     ans_syn = qm.calculate_ans_from_rel_dataset(relationship_syn, is_synth=True)
     
-    errors = np.abs(ans_syn - qm.true_ans)
-    ave_error =100 * np.sum(errors) / len(qm.true_ans)
+    errors = [np.abs(ans_syn[i] - qm.true_ans[i]) for i in range(len(ans_syn))]
+    ave_error = 100 * np.mean(np.array([np.sum(x) for x in errors]))
     
     return (ave_error, errors)

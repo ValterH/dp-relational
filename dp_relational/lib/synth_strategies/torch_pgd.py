@@ -120,7 +120,7 @@ def pgd_optimize(Q, b, a, m, T):
 def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relationship=1.0, T=100,
                                             delta_relationship = 1e-5, subtable_size=100000, queries_to_reuse=None, iter_cb=lambda *args: None,
                                             k_new_queries=3, k_choose_from=300, exp_mech_alpha=0.2, choose_worst=True, verbose=False, device="cpu",
-                                              slices_per_iter=1):
+                                              slices_per_iter=1, guaranteed_rels=0.0):
     """Implementation of new PGD based algorithm"""
     """ - Exponential mechanism to choose queries from the set """
     """ - Unbiased estimator (if this actually runs in time)"""
@@ -152,6 +152,9 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
     table1_slice_size = int(np.clip(table_frac * qm.n_syn1, 1, qm.n_syn1))
     table2_slice_size = int(np.clip(table_frac * qm.n_syn2, 1, qm.n_syn2))
     cross_slice_size = table1_slice_size * table2_slice_size
+    # number of guaranteed relationships in each slice
+    num_guaranteed_rels = int(guaranteed_rels * n_relationship_synt)
+    assert num_guaranteed_rels < table1_slice_size and num_guaranteed_rels < table2_slice_size
     
     # convert to RDP
     rho_rel = cdp_rho(epsilon_relationship, delta_relationship)
@@ -203,20 +206,31 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
             table1_idxes, table2_idxes = get_relationships_from_sparse(qm, b_round)
             
             def generate_rand_slice_offsets():
+                # choose random guaranteed indices
+                guaranteed_idxes = torch.randperm(n_relationship_synt)[:num_guaranteed_rels]
+                table1_guaranteed = torch.unique(torch.from_numpy(table1_idxes[guaranteed_idxes]).to(device))
+                table2_guaranteed = torch.unique(torch.from_numpy(table2_idxes[guaranteed_idxes]).to(device))
+                num_t1_guaranteed = torch.numel(table1_guaranteed)
+                num_t2_guaranteed = torch.numel(table2_guaranteed)
                 # choose a set to slice
-                slice_table1 = torch.randperm(qm.n_syn1, device=device)[:table1_slice_size]
-                slice_table2 = torch.randperm(qm.n_syn2, device=device)[:table2_slice_size]
+                t1_randperm = torch.randperm(qm.n_syn1, device=device)
+                t2_randperm = torch.randperm(qm.n_syn2, device=device)
+                slice_table1_rand = torch.masked_select(t1_randperm, torch.isin(t1_randperm, table1_guaranteed, invert=True))[:(table1_slice_size - num_t1_guaranteed)]
+                slice_table2_rand = torch.masked_select(t2_randperm, torch.isin(t2_randperm, table2_guaranteed, invert=True))[:(table2_slice_size - num_t2_guaranteed)]
+                slice_table1 = torch.cat((table1_guaranteed, slice_table1_rand))
+                slice_table2 = torch.cat((table2_guaranteed, slice_table2_rand))
                 # identify which cells these are in b
                 offsets_table1 = slice_table1.repeat_interleave(table2_slice_size) * qm.n_syn2
                 offsets_table2 = slice_table2.repeat(table1_slice_size)
                 offsets = offsets_table1 + offsets_table2
                 
-                return slice_table1, slice_table2, offsets
+                return slice_table1.cpu(), slice_table2.cpu(), offsets
             
             slice_table1, slice_table2, offsets = generate_rand_slice_offsets()
             
             # we will start optimising from here
             sub_num_relationships = int(torch.sparse.sum(torch.index_select(b_round, 0, offsets)).numpy(force=True))
+            print(sub_num_relationships)
             if (sub_num_relationships < 1):
                 continue
             timers.append((time.time(), "assorted_precomps"))
@@ -292,10 +306,10 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
             for i in iter_selected_workloads:
                 curr_workload = qm.workload_names[i]
     
-                curr_Qmat_full, curr_true_answer = qm.get_query_mat_sub_table(curr_workload, slice_table1, slice_table2)
-                curr_Qmat = torch.index_select(curr_Qmat_full, 1, offsets).coalesce()
+                curr_Qmat, curr_true_answer = qm.get_query_mat_sub_table(curr_workload, slice_table1, slice_table2)
+                # curr_Qmat = torch.index_select(curr_Qmat_full, 1, offsets).coalesce()
                 
-                del curr_Qmat_full
+                # del curr_Qmat_full
     
                 Q_set = torch_cat_sparse_coo([Q_set, curr_Qmat], device=device)
                 
@@ -344,7 +358,8 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
             
             # print(timers)
             timers_processed = [(int((timtup[0] - timers[i][0]) * 100000) / 100000, timtup[1]) for i, timtup in enumerate(timers[1:])]
-            print(timers_processed)
+            # print(f"slice {x_sli}")
+            # print(timers_processed)
         
         iter_cb(qm, b_round, t)
     

@@ -141,7 +141,7 @@ class QueryManager:
         ID1s = df_rel.iloc[:][self.rel_dataset.rel_id1_col].values
         ID2s = df_rel.iloc[:][self.rel_dataset.rel_id2_col].values
         
-        ans = np.zeros(self.num_all_queries) 
+        ans = [] # np.zeros(self.num_all_queries) 
         for w in self.workload_names:
             w_dict = self.workload_dict[w]
             
@@ -150,11 +150,9 @@ class QueryManager:
             
             offsets = offsets_t1[ID1s] + offsets_t2[ID2s]
             values, counts = np.unique(offsets, return_counts=True)
+            ans.append(np.zeros((w_dict["range_size"], )))
             for val, count in zip(values, counts):
-                ans[w_dict["range_low"] + val] = count
-        
-        ans = ans/num_relationship
-        
+                ans[-1][val] = count / num_relationship
         return ans
     
     def calculate_true_ans(self):
@@ -349,7 +347,7 @@ class QueryManagerTorch(QueryManager):
         self.workload_query_answers = {}
         for workload in self.workload_names:
             self.workload_query_answers[workload] = None
-        self.true_ans_tensor = torch.from_numpy(self.true_ans).float()
+        self.true_ans_tensor = torch.from_numpy(np.concatenate(self.true_ans)).float()
     def get_query_mat_full_table(self, workload):
         if self.workload_query_answers[workload] is not None:
             return self.workload_query_answers[workload]
@@ -405,7 +403,7 @@ class QueryManagerTorch(QueryManager):
         
         # TODO: there is no good reason for this to work this way?? This should not be necessary
         query_mat = torch.sparse_coo_tensor(indices, np.ones(shape=(vec_len, )), size=(num_queries, vec_len), device=self.device).float().coalesce()
-        return query_mat
+        return query_mat, true_vals
     def get_true_answers(self, workload):
         range_low = self.workload_dict[workload]["range_low"]
         range_high = self.workload_dict[workload]["range_high"] + 1

@@ -245,6 +245,8 @@ def unbiased_sample_torch(b_in, m, device="cpu"):
     prev_val = 0
     while indexes[-1] != len(b):
         next_idx = torch.searchsorted(b_cumsum, prev_val + 1 + 1e-3, side='right') - 1
+        if (next_idx + 1) == indexes[-1]:
+            next_idx += 1
         # print(next_idx, len(b), b_cumsum[next_idx], b_cumsum[next_idx + 1], b_cumsum[next_idx + 2])
         indexes.append(next_idx + 1)
         prev_val = b_cumsum[next_idx]
@@ -335,6 +337,7 @@ def mosek_optimize(Q, a, m, N, ):
     res = np.array(M.getVariable("b").level()) #, M.getVariable("e").level()
     M.dispose()
     return res
+
 
 def GM_torch(inp, rho, n_relationship_orig):
     rand = torch.normal(0.0, (np.sqrt(2)/(n_relationship_orig * np.sqrt(rho))).item(), inp.size())
