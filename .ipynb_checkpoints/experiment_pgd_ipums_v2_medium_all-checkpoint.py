@@ -44,9 +44,9 @@ def make_summary_dict():
     }
 
 def cross_generator_torch(qm, eps_rel, T):
-    b_round = dp_relational.lib.synth_data.learn_relationship_vector_torch_pgd(qm, eps_rel, T=T,
+    b_round = dp_relational.lib.synth_data.learn_relationship_vector_torch_pgd(qm, eps_rel, T=Tconst,
                 subtable_size=1000000, verbose=True, device=device, queries_to_reuse=q_reuse,
-                exp_mech_alpha=alpha, k_new_queries=k_new, choose_worst=worst, slices_per_iter=4, guaranteed_rels=g_rels
+                exp_mech_alpha=alpha, k_new_queries=k_new, choose_worst=worst, slices_per_iter=3, guaranteed_rels=g_rels
             )
     print(make_summary_dict())
     relationship_syn = dp_relational.lib.synth_data.make_synthetic_rel_table_sparse(qm, b_round)
@@ -75,25 +75,36 @@ def reset_runner():
     Tconst = 15
     alpha = 0.2
     k_new = 3
-    worst = False
+    worst = True
     q_reuse = 8
     g_rels = 0.08
 
 NUM_LOOPS = 7
 
-epsilons = [2.01, 2.1, 2.25, 2.5, 2.75, 4.0]
-alphas = [0.02, 0.2, 0.4, 0.6, 0.8, 0.99]
+epsilons = [2.01, 2.1, 2.25, 2.5, 2.75, 3.0]
+alphas = [0.00001, 0.2, 0.5, 0.8, 0.99999]
 k_news = [1, 2, 4, 8]
 q_reuses = [1, 2, 4, 8]
-g_rel_opts = [0, 0.03, 0.05, 0.08]
+g_rel_opts = [0, 0.03, 0.05, 0.08] # [] # [0.12, 0.15, 0.18] # 
 run_count = 0
+worsts = [True, False]
+Ts = [0, 1, 5, 10, 15, 25]
 for loops in range(NUM_LOOPS):
+    reset_runner()
+    for T_in in Ts:
+        Tconst = T_in
+        runner.regenerate_qm = True
+        runner.regenerate_cross_answers = True
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "11IPUMS_MediumPGD_Tfinal" })
+        run_count += 1
+        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
+        print(f"###### COMPLETED {run_count} RUNS ######")
     reset_runner()
     for g_in in g_rel_opts:
         g_rels = g_in
         runner.regenerate_qm = True
         runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, g_in study in multiparameter study" })
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "11IPUMS_MediumPGD_g_in" })
         run_count += 1
         print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
         print(f"###### COMPLETED {run_count} RUNS ######")
@@ -102,7 +113,7 @@ for loops in range(NUM_LOOPS):
         q_reuse = q_in
         runner.regenerate_qm = True
         runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, q_reuse study in multiparameter study" })
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "11IPUMS_MediumPGD_q_reuse" })
         run_count += 1
         print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
         print(f"###### COMPLETED {run_count} RUNS ######")
@@ -111,7 +122,7 @@ for loops in range(NUM_LOOPS):
         k_new = k_in
         runner.regenerate_qm = True
         runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, k_new study in multiparameter study" })
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "11IPUMS_MediumPGD_knew" })
         run_count += 1
         print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
         print(f"###### COMPLETED {run_count} RUNS ######")
@@ -120,7 +131,7 @@ for loops in range(NUM_LOOPS):
         runner.update(epsilon=epsilon)
         runner.regenerate_qm = True
         runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, eps study in multiparameter study" })
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "11IPUMS_MediumPGD_eps" })
         run_count += 1
         print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
         print(f"###### COMPLETED {run_count} RUNS ######")
@@ -129,7 +140,16 @@ for loops in range(NUM_LOOPS):
         alpha = a_in
         runner.regenerate_qm = True
         runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "Medium PGDW, alpha study in multiparameter study" })
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "11IPUMS_MediumPGD_alpha" })
+        run_count += 1
+        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
+        print(f"###### COMPLETED {run_count} RUNS ######")
+    reset_runner()
+    for worst_in in worsts:
+        worst = worst_in
+        runner.regenerate_qm = True
+        runner.regenerate_cross_answers = True
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "03IPUMS_MediumPGD_worst" })
         run_count += 1
         print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
         print(f"###### COMPLETED {run_count} RUNS ######")

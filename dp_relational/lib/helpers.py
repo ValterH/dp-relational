@@ -220,31 +220,43 @@ def unbiased_sample(b, m):
 
 @torch.no_grad()
 def unbiased_sample_torch(b_in, m, device="cpu"):
+    assert m >= 0
+
+    b_in = torch.clamp(b_in, 0, 1)
     n = b_in.size(dim=0)
     
-    shuffle = torch.randperm(n)
+    """ Inputs a vector of probabilities b, and outputs a one-hot vector indicating which were selected """
     
-    b = b_in[shuffle]
-    b = torch.minimum(b, torch.tensor(1 - 1e-15, device=device))
-    b[-1] = m - (torch.sum(b) - b[-1]) - 1e-15
-    b = torch.maximum(b, torch.tensor(0, device=device))
-    
+    # No shuffling is required in any of the cases below!
     if m == 0:
-        return torch.zeros(*b.shape, dtype=torch.int, device=device)
+        return torch.zeros(*b_in.shape, dtype=torch.int, device=device)
     if m == 1:
-        idx = torch.multinomial(b, 1)
-        res = torch.zeros(*b.shape, dtype=torch.int, device=device)
+        idx = torch.multinomial(b_in, 1)
+        res = torch.zeros(*b_in.shape, dtype=torch.int, device=device)
         res[idx[0]] = 1
         return res
-    """ Inputs a vector of probabilities b, and outputs a one-hot vector indicating which were selected """
-    if len(b) == m: # all are ones
-        return torch.ones(*b.shape, dtype=torch.int, device=device)
+    if len(b_in) == m: # all are ones
+        return torch.ones(*b_in.shape, dtype=torch.int, device=device)
+    
+    # Create a shuffle of the bs
+    shuffle = torch.randperm(n)
+    b = b_in[shuffle]
+
+    # there is technically an annoying projection step here...
+    # we need to:
+    # - bring b into a clamped range
+    # - make sure that b's sum is correct...
+    b = torch.clamp(b, 0, 1) # correctly clamped
+    b_sum = torch.sum(b)
+
+    if b_sum > float(m):
+        b *= (float(m) / b_sum)
     
     b_cumsum = torch.cumsum(b, dim=0)
     indexes = [0]
     prev_val = 0
     while indexes[-1] != len(b):
-        next_idx = torch.searchsorted(b_cumsum, prev_val + 1 + 1e-3, side='right') - 1
+        next_idx = torch.searchsorted(b_cumsum, prev_val + 1, side='right') - 1
         if (next_idx + 1) == indexes[-1]:
             next_idx += 1
         # print(next_idx, len(b), b_cumsum[next_idx], b_cumsum[next_idx + 1], b_cumsum[next_idx + 2])
@@ -256,7 +268,6 @@ def unbiased_sample_torch(b_in, m, device="cpu"):
     
     # we now have a list of indices to sample from
     # get their sizes and choose the one to exclude
-    item_sizes = indexes[1:] - indexes[:-1]
     prob_sizes = b_cumsum[indexes[1:] - 1]
     prob_sizes[1:] -= b_cumsum[indexes[1:-1] - 1]
     p_sizes_cumsum = torch.cumsum(prob_sizes, dim=0)
@@ -265,9 +276,12 @@ def unbiased_sample_torch(b_in, m, device="cpu"):
     samples = torch.rand(*prob_sizes.shape, device=device) * prob_sizes
     samples[1:] += p_sizes_cumsum[:-1]
     indexes_sampled = torch.searchsorted(b_cumsum, samples)
+    # so the issue is that sometimes the indexs will be outside of the range
+    indexes_sampled = torch.clamp(indexes_sampled, indexes[:-1], indexes[1:] - 1)
     
     result = torch.zeros(*b.shape, dtype=torch.int, device=device)
     result[indexes_sampled] = 1
+    sampled_sum = torch.sum(result)
     # now go and delete some of them
     deletion_probs = 1 - prob_sizes
     
@@ -275,10 +289,21 @@ def unbiased_sample_torch(b_in, m, device="cpu"):
     deleted_indices = torch.nonzero(unbiased_sample_torch(deletion_probs, num_to_delete, device=device), as_tuple=True)[0]
     #print("delind", deleted_indices)
     result[indexes_sampled[deleted_indices]] = 0
+    deleted_sum = torch.sum(result)
     
     unshuf_order = torch.zeros_like(shuffle)
     unshuf_order[shuffle] = torch.arange(n)
     result[shuffle] = result.clone()
+    # print(b, m, "res", result)
+
+    if (torch.sum(result) != m):
+        print(b.shape)
+        print("m", m)
+        print("num_to_delete", num_to_delete)
+        print("prob_sizes_len", len(prob_sizes))
+        print("s_sum", sampled_sum)
+        print("d_sum", deleted_sum)
+        raise RuntimeError()
     # print(b, m, "res", result)
     return result
 

@@ -15,7 +15,7 @@ class QueryManager:
     
     Also stores query vectors
     """
-    def __init__(self, rel_dataset: RelationalDataset, k, df1_synth, df2_synth, verbose=False) -> None:
+    def __init__(self, rel_dataset: RelationalDataset, k, df1_synth, df2_synth, otm=False, verbose=False) -> None:
         self.verbose = verbose
         
         self.rel_dataset = rel_dataset
@@ -26,6 +26,8 @@ class QueryManager:
         self.n_syn1 = df1_synth.shape[0]
         self.n_syn2 = df2_synth.shape[0]
         self.n_syn_cross = self.n_syn1 * self.n_syn2
+        
+        self.otm = otm
         # print("t1", self.rel_dataset.table1.df.shape[0])
         # print("t2", self.rel_dataset.table2.df.shape[0])
         # print("rel", self.rel_dataset.df_rel.shape[0])
@@ -33,7 +35,7 @@ class QueryManager:
         # print(self.n_syn2)
         orig_cross_size = self.rel_dataset.table1.df.shape[0] * self.rel_dataset.table2.df.shape[0]
         # print(np.sqrt(self.n_syn_cross / orig_cross_size))
-        self.n_relationship_synth = int(self.rel_dataset.df_rel.shape[0] * np.sqrt(self.n_syn_cross / orig_cross_size))
+        self.n_relationship_synth = self.n_syn1 if otm else int(self.rel_dataset.df_rel.shape[0] * np.sqrt(self.n_syn_cross / orig_cross_size))
         self.n_relationship_orig = self.rel_dataset.df_rel.shape[0]
         
         def make_cross_workloads():
@@ -340,8 +342,8 @@ class QueryManagerTorch(QueryManager):
         - Support for slicing to learn subsections of the query
         - Sparse Pytorch storage of query vectors (using COO)
     """
-    def __init__(self, rel_dataset: RelationalDataset, k, df1_synth, df2_synth, device="cpu", cache_query_matrices=False, verbose=False) -> None:
-        super().__init__(rel_dataset, k, df1_synth, df2_synth, verbose)
+    def __init__(self, rel_dataset: RelationalDataset, k, df1_synth, df2_synth, device="cpu", otm=False, cache_query_matrices=False, verbose=False) -> None:
+        super().__init__(rel_dataset, k, df1_synth, df2_synth, verbose=verbose, otm=otm)
         self.cache_query_matrices = cache_query_matrices
         self.device = device
         self.workload_query_answers = {}

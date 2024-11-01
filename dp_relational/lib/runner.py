@@ -182,6 +182,7 @@ class ModelRunner:
         if self.regenerate_syn_tables:
             self.regenerate_syn_tables = False
             self.synth_tables_runid = curr_run_id
+            print(curr_run_id)
             with FuncTimer(self.times, "synth_table_generation"):
                 if not self.self_relation:
                     self.df1_synth = dp_relational.lib.synth_data.compute_single_table_synth_data(
