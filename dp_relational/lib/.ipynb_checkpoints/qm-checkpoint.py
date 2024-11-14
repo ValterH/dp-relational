@@ -86,6 +86,7 @@ class QueryManager:
                                 
                                 range_high = range_low + len_range - 1 
                                 workload_names.append((col_comb_1 , col_comb_2))
+                                print((col_comb_1, col_comb_2))
                                 workload_dict[(col_comb_1 , col_comb_2)] = {
                                     "dim_1": uni_val_1,
                                     "dim_2": uni_val_2,
@@ -199,7 +200,9 @@ class QueryManager:
         
         dfs = [self.df1_synth, self.df2_synth] if is_synth else [self.rel_dataset.table1.df,self.rel_dataset.table2.df]
         df = dfs[table_num]
-        
+
+        # print(workload[table_num])
+        # print(df.columns)
         table = df[list(workload[table_num])]
         table = tuple(table[x].iloc[:].values for x in workload[table_num])
         
