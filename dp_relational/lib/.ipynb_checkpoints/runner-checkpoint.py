@@ -135,6 +135,7 @@ class ModelRunner:
         # try to find an artifact for each section
         dataset_path = os.path.join(self.save_to, DATASET_FOLDER, experiment_id + ".pkl")
         if os.path.isfile(dataset_path):
+            print("Loaded dataset!")
             with open(dataset_path, "rb") as file_in:
                 self.rel_dataset = pickle.load(file_in)
             self.regenerate_dataset = False
@@ -142,6 +143,7 @@ class ModelRunner:
             
         syntable_path = os.path.join(self.save_to, SYNTABLES_FOLDER, experiment_id + ".pkl")
         if os.path.isfile(syntable_path):
+            print("Loaded syntables!")
             with open(syntable_path, "rb") as file_in:
                 dfs = pickle.load(file_in)
                 self.df1_synth = dfs[0]

@@ -23,11 +23,11 @@ def qm_generator_torch(rel_dataset, k, df1_synth, df2_synth):
 """ Medium size IPUMS tables """
 
 table_size = 10000
-Tconst = 15
+Tconst = 25
 alpha = 0.2
-k_new = 3
-worst = True
-q_reuse = 8
+k_new = 15
+worst = False
+q_reuse = 15
 g_rels = 0.5
 
 def make_summary_dict():
@@ -44,18 +44,18 @@ def make_summary_dict():
 def cross_generator_torch(qm, eps_rel, T):
     b_round = dp_relational.lib.synth_data.learn_relationship_vector_torch_pgd(qm, eps_rel, T=Tconst,
                 subtable_size=1000000, verbose=True, device=device, queries_to_reuse=q_reuse,
-                exp_mech_alpha=alpha, k_new_queries=k_new, choose_worst=worst, slices_per_iter=3, guaranteed_rels=g_rels
+                exp_mech_alpha=alpha, k_new_queries=k_new, choose_worst=worst, slices_per_iter=3, guaranteed_rels=g_rels,
+                                                                               iter_cb=print_iter_eval
             )
     print(make_summary_dict())
     relationship_syn = dp_relational.lib.synth_data.make_synthetic_rel_table_sparse(qm, b_round)
     return relationship_syn
 
-runner = ModelRunner(self_relation=True)
+runner = ModelRunner(self_relation=False)
 
 runner.update(dataset_generator=dp_relational.data.movies.dataset, n_syn1=3880, n_syn2=6040,
-              synth='mst', epsilon=4.0, eps1=1.0, eps2=1.0, k=3, dmax=10, T=Tconst,
+              synth='aim', epsilon=4.0, eps1=2.0, eps2=2.0, k=3, dmax=10, T=Tconst,
               qm_generator=qm_generator_torch, cross_generation_strategy=cross_generator_torch)
-runner.load_artifacts('52dfc0da-a267-11ef-ab8a-8a7f9025f31e')
 
 def reset_runner():
     global table_size
@@ -70,29 +70,41 @@ def reset_runner():
     table_size = 10000
     Tconst = 15
     alpha = 0.2
-    k_new = 3
-    worst = True
-    q_reuse = 8
-    g_rels = 0.5
+    k_new = 15
+    worst = False
+    q_reuse = 15
+    g_rels = 0.0
 
 NUM_LOOPS = 7
 
-epsilons = [2.01, 2.1, 2.25, 2.5, 2.75, 3.0]
+epsilons = [x + 4.0 + 1.0 for x in range(10)] #[5, 2.01, 2.1, 2.25, 2.5, 2.75, 3.0]
 alphas = [0.00001, 0.2, 0.5, 0.8, 0.99999]
 k_news = [1, 2, 4, 8]
 q_reuses = [1, 2, 4, 8]
-g_rel_opts = [0, 0.03, 0.05, 0.08] # [] # [0.12, 0.15, 0.18] # 
+g_rel_opts = [0, 0.1, 0.3, 0.5] # [] # [0.12, 0.15, 0.18] # 
 run_count = 0
 worsts = [True, False]
-Ts = [0, 1, 5, 10, 15, 25]
+Ts = [25, 40, 60, 80]
 for loops in range(NUM_LOOPS):
-    print(runner.synth_tables_runid)
+    reset_runner()
+    for epsilon in epsilons:
+        print(":", runner.synth_tables_runid)
+        runner.update(epsilon=epsilon)
+        runner.regenerate_qm = True
+        runner.regenerate_cross_answers = True
+        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M3L_MediumPGD_eps" })
+        run_count += 1
+        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
+        print(f"###### COMPLETED {run_count} RUNS ######")
     reset_runner()
     for T_in in Ts:
         Tconst = T_in
+        runner.update(epsilon=12.0)
         runner.regenerate_qm = True
         runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "AMIPUMS_MediumPGD_Tfinal" })
+        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M4L_MediumPGD_Tfinal" })
         run_count += 1
         print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
         print(f"###### COMPLETED {run_count} RUNS ######")
@@ -101,44 +113,37 @@ for loops in range(NUM_LOOPS):
         g_rels = g_in
         runner.regenerate_qm = True
         runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "AMIPUMS_MediumPGD_g_in" })
+        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M4L_MediumPGD_g_in" })
         run_count += 1
         print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
         print(f"###### COMPLETED {run_count} RUNS ######")
     reset_runner()
-    for q_in in q_reuses:
-        q_reuse = q_in
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "AMIPUMS_MediumPGD_q_reuse" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
-    reset_runner()
-    reset_runner()
-    for k_in in k_news:
-        k_new = k_in
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "AMIPUMS_MediumPGD_knew" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
-    reset_runner()
-    for epsilon in epsilons:
-        runner.update(epsilon=epsilon)
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "AMIPUMS_MediumPGD_eps" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
+    # for q_in in q_reuses:
+    #     q_reuse = q_in
+    #     runner.regenerate_qm = True
+    #     runner.regenerate_cross_answers = True
+    #     results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "ML_MediumPGD_q_reuse" })
+    #     run_count += 1
+    #     print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
+    #     print(f"###### COMPLETED {run_count} RUNS ######")
+    # reset_runner()
+    # reset_runner()
+    # for k_in in k_news:
+    #     k_new = k_in
+    #     runner.regenerate_qm = True
+    #     runner.regenerate_cross_answers = True
+    #     results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "ML_MediumPGD_knew" })
+    #     run_count += 1
+    #     print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
+    #     print(f"###### COMPLETED {run_count} RUNS ######")
     reset_runner()
     for a_in in alphas:
         alpha = a_in
         runner.regenerate_qm = True
         runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "AMIPUMS_MediumPGD_alpha" })
+        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "ML_MediumPGD_alpha" })
         run_count += 1
         print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
         print(f"###### COMPLETED {run_count} RUNS ######")

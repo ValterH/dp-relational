@@ -86,7 +86,6 @@ class QueryManager:
                                 
                                 range_high = range_low + len_range - 1 
                                 workload_names.append((col_comb_1 , col_comb_2))
-                                print((col_comb_1, col_comb_2))
                                 workload_dict[(col_comb_1 , col_comb_2)] = {
                                     "dim_1": uni_val_1,
                                     "dim_2": uni_val_2,
@@ -146,6 +145,7 @@ class QueryManager:
         
         ans = [] # np.zeros(self.num_all_queries) 
         for w in self.workload_names:
+            # print(":", w)
             w_dict = self.workload_dict[w]
             
             offsets_t1 = self.get_offsets(w, 0, is_synth=is_synth)
@@ -202,7 +202,7 @@ class QueryManager:
         df = dfs[table_num]
 
         # print(workload[table_num])
-        # print(df.columns)
+        # print(self.df1_synth.columns, )
         table = df[list(workload[table_num])]
         table = tuple(table[x].iloc[:].values for x in workload[table_num])
         

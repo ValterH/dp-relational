@@ -318,16 +318,17 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
                         errors.pop(new_workload_idx) # double check
                     
                     return new_workloads
-                
-                new_workloads_this_iter = exp_mech_new_workloads(unselected_workload)
-                timers.append((time.time(), "exponential mechanism"))
-                
-                for i in new_workloads_this_iter:
-                    unselected_workload.remove(i)
-                    selected_workloads.append(i)
+
+                if len(unselected_workload) > 0:
+                    new_workloads_this_iter = exp_mech_new_workloads(unselected_workload)
+                    timers.append((time.time(), "exponential mechanism"))
                     
-                    workload = qm.workload_names[i]
-                    noisy_ans_list.append(GM_torch_noise(qm.get_true_answers(workload), gm_stddev))
+                    for i in new_workloads_this_iter:
+                        unselected_workload.remove(i)
+                        selected_workloads.append(i)
+                        
+                        workload = qm.workload_names[i]
+                        noisy_ans_list.append(GM_torch_noise(qm.get_true_answers(workload), gm_stddev))
             
             # initialize the Q_set from this list
             Q_set = torch.empty((0, cross_slice_size)).to_sparse_coo().to(device=device).float().coalesce()
