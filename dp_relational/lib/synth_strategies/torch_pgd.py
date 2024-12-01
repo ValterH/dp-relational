@@ -164,7 +164,7 @@ def pgd_optimize(Q, b, a, m, T):
 def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relationship=1.0, T=100,
                                             delta_relationship = 1e-5, subtable_size=100000, queries_to_reuse=None, iter_cb=lambda *args: None,
                                             k_new_queries=3, k_choose_from=300, exp_mech_alpha=0.2, choose_worst=True, verbose=False, device="cpu",
-                                              slices_per_iter=1, guaranteed_rels=0.0):
+                                              slices_per_iter=1, guaranteed_rels=0.0, pgd_iters=100):
     """Implementation of new PGD based algorithm"""
     """ - Exponential mechanism to choose queries from the set """
     """ - Unbiased estimator (if this actually runs in time)"""
@@ -295,6 +295,8 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
                     
                     new_workloads = []
                     for x in range(k_new_queries):
+                        if len(errors) == 0:
+                            break
                         # convert into numpy array
                         errors_np = np.array(errors)
                         
@@ -319,16 +321,15 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
                     
                     return new_workloads
 
-                if len(unselected_workload) > 0:
-                    new_workloads_this_iter = exp_mech_new_workloads(unselected_workload)
-                    timers.append((time.time(), "exponential mechanism"))
+                new_workloads_this_iter = exp_mech_new_workloads(unselected_workload)
+                timers.append((time.time(), "exponential mechanism"))
+                
+                for i in new_workloads_this_iter:
+                    unselected_workload.remove(i)
+                    selected_workloads.append(i)
                     
-                    for i in new_workloads_this_iter:
-                        unselected_workload.remove(i)
-                        selected_workloads.append(i)
-                        
-                        workload = qm.workload_names[i]
-                        noisy_ans_list.append(GM_torch_noise(qm.get_true_answers(workload), gm_stddev))
+                    workload = qm.workload_names[i]
+                    noisy_ans_list.append(GM_torch_noise(qm.get_true_answers(workload), gm_stddev))
             
             # initialize the Q_set from this list
             Q_set = torch.empty((0, cross_slice_size)).to_sparse_coo().to(device=device).float().coalesce()
@@ -369,7 +370,7 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
             b_slice = torch.sparse_coo_tensor(indices=b_slice_rand_idxes, values=torch.ones([sub_num_relationships]),
                                             size=[cross_slice_size, 1], device=device).float().coalesce()
             Q_set = Q_set.coalesce()
-            b_slice = pgd_optimize(Q_set, b_slice, iter_noisy_ans.to(device=device), sub_num_relationships, 100)
+            b_slice = pgd_optimize(Q_set, b_slice, iter_noisy_ans.to(device=device), sub_num_relationships, pgd_iters)
             timers.append((time.time(), "optimizer"))
             
             # put these back into the slice: this is slightly complicated!
