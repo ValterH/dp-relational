@@ -81,98 +81,79 @@ NUM_LOOPS = 7
 epsilons = [4.1, 4.5] + [x + 4.0 + 1.0 for x in range(10)] #[5, 2.01, 2.1, 2.25, 2.5, 2.75, 3.0]
 alphas = [0.00001, 0.2, 0.5, 0.8, 0.99999]
 k_news = [1, 2, 4, 8]
-q_reuses = [1, 2, 4, 8]
+q_reuses = [1, 2, 4, 8, 15]
 g_rel_opts = [0, 0.1, 0.3, 0.5] # [] # [0.12, 0.15, 0.18] # 
 run_count = 0
 worsts = [True, False]
-Ts = [25, 40]
+Ts = [0, 1, 5, 10, 15, 25, 40]
 for loops in range(NUM_LOOPS):
+    #try:
+    #    for epsilon in epsilons:
+    #        print(":", runner.synth_tables_runid)
+    #        runner.update(epsilon=epsilon)
+    #        print(runner.epsilon)
+    #        print(runner.eps1)
+    #        print(runner.eps2)
+    #        runner.regenerate_qm = True
+    #        runner.regenerate_cross_answers = True
+    #        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
+    #        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M7L_MediumPGD_eps" })
+    #        res_to_show = dict(results)
+    #        del res_to_show["errors"]
+    #        run_count += 1
+    #        print(res_to_show)
+    #        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+    #        print(f"###### COMPLETED {run_count} RUNS ######")
+    #except Exception as e:
+    #    print(e)
+    #reset_runner()
     reset_runner()
-    try:
-        for epsilon in epsilons:
-            print(":", runner.synth_tables_runid)
-            runner.update(epsilon=epsilon)
-            print(runner.epsilon)
-            print(runner.eps1)
-            print(runner.eps2)
-            runner.regenerate_qm = True
-            runner.regenerate_cross_answers = True
-            runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
-            results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M7L_MediumPGD_eps" })
-            res_to_show = dict(results)
-            del res_to_show["errors"]
-            run_count += 1
-            print(res_to_show)
-            print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
-            print(f"###### COMPLETED {run_count} RUNS ######")
-    except Exception as e:
-        print(e)
+    for T_in in Ts:
+        Tconst = T_in
+        runner.update(epsilon=12.0)
+        runner.regenerate_qm = True
+        runner.regenerate_cross_answers = True
+        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M8L_MediumPGD_Tfinal" })
+        run_count += 1
+        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+        print(f"###### COMPLETED {run_count} RUNS ######")
     reset_runner()
-    #try:
-    #    for T_in in Ts:
-    #        Tconst = T_in
-    #        runner.update(epsilon=12.0)
-    #        runner.regenerate_qm = True
-    #        runner.regenerate_cross_answers = True
-    #        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
-    #        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M6L_MediumPGD_Tfinal" })
-    #        run_count += 1
-    #        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-    #        print(f"###### COMPLETED {run_count} RUNS ######")
-    #except Exception as e:
-    #    print(e)
-    #reset_runner()
-    #try:
-    #    for g_in in g_rel_opts:
-    #        g_rels = g_in
-    #        runner.regenerate_qm = True
-    #        runner.regenerate_cross_answers = True
-    #        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
-    #        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M6L_MediumPGD_g_in" })
-    #        run_count += 1
-    #        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-    #        print(f"###### COMPLETED {run_count} RUNS ######")
-    #except Exception as e:
-    #    print(e)
-    # reset_runner()
-    # for q_in in q_reuses:
-    #     q_reuse = q_in
-    #     runner.regenerate_qm = True
-    #     runner.regenerate_cross_answers = True
-    #     results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "ML_MediumPGD_q_reuse" })
-    #     run_count += 1
-    #     print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-    #     print(f"###### COMPLETED {run_count} RUNS ######")
-    # reset_runner()
-    # reset_runner()
-    # for k_in in k_news:
-    #     k_new = k_in
-    #     runner.regenerate_qm = True
-    #     runner.regenerate_cross_answers = True
-    #     results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "ML_MediumPGD_knew" })
-    #     run_count += 1
-    #     print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-    #     print(f"###### COMPLETED {run_count} RUNS ######")
-    #reset_runner()
-    #try:
-    #    for a_in in alphas:
-    #        alpha = a_in
-    #        runner.regenerate_qm = True
-    #        runner.regenerate_cross_answers = True
-    #        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
-    #        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M6L_MediumPGD_alpha" })
-    #        run_count += 1
-    #        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-    #        print(f"###### COMPLETED {run_count} RUNS ######")
-    #except Exception as e:
-    #    print(e)
-    #reset_runner()
-    # for worst_in in worsts:
-    #     worst = worst_in
-    #     runner.regenerate_qm = True
-    #     runner.regenerate_cross_answers = True
-    #     results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "AMIPUMS_MediumPGD_worst" })
-    #     run_count += 1
-    #     print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}")
-    #     print(f"###### COMPLETED {run_count} RUNS ######")
-    # reset_runner()
+    for g_in in g_rel_opts:
+        g_rels = g_in
+        runner.regenerate_qm = True
+        runner.regenerate_cross_answers = True
+        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M8L_MediumPGD_g_in" })
+        run_count += 1
+        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+        print(f"###### COMPLETED {run_count} RUNS ######")
+    reset_runner()
+    for q_in in q_reuses:
+        q_reuse = q_in
+        runner.regenerate_qm = True
+        runner.regenerate_cross_answers = True
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M8L_MediumPGD_q_reuse" })
+        run_count += 1
+        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+        print(f"###### COMPLETED {run_count} RUNS ######")
+    reset_runner()
+    for k_in in k_news:
+        k_new = k_in
+        runner.regenerate_qm = True
+        runner.regenerate_cross_answers = True
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M8L_MediumPGD_knew" })
+        run_count += 1
+        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+        print(f"###### COMPLETED {run_count} RUNS ######")
+    reset_runner()
+    for a_in in alphas:
+        alpha = a_in
+        runner.regenerate_qm = True
+        runner.regenerate_cross_answers = True
+        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
+        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M8L_MediumPGD_alpha" })
+        run_count += 1
+        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+        print(f"###### COMPLETED {run_count} RUNS ######")
+    reset_runner()
