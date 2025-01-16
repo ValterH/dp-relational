@@ -499,3 +499,100 @@ def pgd_optimize_one_to_many(Q, b, a, m, T, row_size):
         # b = b[:, None]
     
     return b
+
+def optimal_project_to_simplex_torch(b, m):
+    # return projection_binarysearch_torch(b, m)
+    # Step 1: Clip the vector to ensure it is between 0 and 1
+    b = torch.clamp(torch.squeeze(b), 0, 1)
+    
+    # Step 2: Check if the sum is greater than m, if so scale it down
+    sum_b = torch.sum(b)
+    if sum_b > m:
+        return b * (m / sum_b)
+        
+    # Step 3: If the sum is less than m, sort the vector in descending order
+    sorted_b, sorted_indices = torch.sort(b, descending=True)
+    
+    # Step 4: Find the first index i that satisfies the conditions
+    cumsum_sorted_b = torch.cumsum(sorted_b, dim=0)
+    N = len(b)
+    for i in range(N):
+        if sorted_b[i] > 0 and (m - (i + 1)) / (cumsum_sorted_b[-1] - cumsum_sorted_b[i]) <= 1:
+            break
+    
+    # Step 5: Set v_1, ..., v_i to 1
+    sorted_b[:i + 1] = 1
+    
+    # Step 6: Scale remaining elements
+    if i + 1 < N:
+        remaining_sum = torch.sum(sorted_b[i + 1:])
+        if remaining_sum > 0:
+            scale_factor = (m - (i + 1)) / remaining_sum
+            sorted_b[i + 1:] *= scale_factor
+    
+    # Reorder to the original order
+    original_b = b.clone()
+    original_b[sorted_indices] = sorted_b
+    
+    return original_b
+
+# def projection_binarysearch_torch(b, m_syn):
+#     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
+#     # Ensure b is a torch tensor and move it to the device
+#     if not isinstance(b, torch.Tensor):
+#         b = torch.tensor(b, dtype=torch.float32, device=device)
+#     else:
+#         b = b.to(device)
+#     m = m_syn - torch.sum(b)
+#     N = len(b)
+#     tol = 1e-5
+#     l = -b
+#     u = 1 - b
+
+#     # Check if the problem is feasible
+#     S_l = torch.sum(l)
+#     S_u = torch.sum(u)
+#     if m < S_l or m > S_u:
+#         print("The problem is not feasible")
+#         return None, None, None
+
+#     # Perform Binary Search
+#     low = torch.min(l)
+#     high = torch.max(u)
+#     while (high - low).item() > tol:
+#         y = (low + high) / 2
+#         S = torch.sum(torch.clamp(y, min=l, max=u))
+#         if S > m:
+#             high = y
+#         else:
+#             low = y
+
+#     # Compute the final projection
+#     I_l = (y <= l)
+#     I_u = (y >= u)
+#     I_a = (y > l) & (y < u)
+#     d = torch.zeros(N, dtype=torch.float32, device=device)
+#     d[I_l] = l[I_l]
+#     d[I_u] = u[I_u]
+#     s = (m - torch.sum(d[I_l]) - torch.sum(d[I_u])) / I_a.sum()
+#     d[I_a] = s
+#     x = b + d
+#     return x, torch.sum(x), torch.norm(d)
+
+def pgd_optimize(Q, b, a, m, T):
+    # 1. Calculate the learning rate
+    l = largest_singular_value(Q)
+    L = (l * l) * 2 / (m*m)
+    lr = 1/L
+    
+    # 2. Perform the PGD
+    for t in range(T):
+        # 2a. Identify the gradient of the solution
+        g = gradient(Q, b, a, m)
+        # 2b. Iterate the b value and correctly project it
+        # TODO: this may be able to avoid sparsity issues!!!
+        b = -(lr * g) + b 
+        b = optimal_project_to_simplex_torch(b, m)
+        b = b[:, None]
+    
+    return b

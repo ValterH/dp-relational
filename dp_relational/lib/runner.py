@@ -19,6 +19,14 @@ RELATIONSHIPS_FOLDER = "relationships"
 RUNS_FOLDER = "runs"
 
 class ModelRunner:
+    """
+    The ModelRunner class is used to run a model on a dataset.
+    This class manages saving all of the results of an experiment, including saving
+    the parameters used and the final learned table.
+
+    It also supports reading previously saved results, and also reading intermediate
+    values (e.g. the original individual synthetic tables) to speed up computation.
+    """
     def __init__(self, save_to="./runs", self_relation=False, *args, **kwargs) -> None:
         self.save_to = save_to
         self.self_relation = self_relation
