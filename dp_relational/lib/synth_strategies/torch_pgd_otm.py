@@ -1,6 +1,5 @@
 import numpy as np
 import torch
-from torch.distributions import OneHotCategorical
 from ..qm import QueryManager, QueryManagerBasic, QueryManagerTorch
 from ..helpers import cdp_delta, cdp_eps, cdp_rho, get_per_round_privacy_budget, torch_cat_sparse_coo
 
@@ -8,6 +7,7 @@ from ..helpers import cdp_delta, cdp_eps, cdp_rho, get_per_round_privacy_budget,
 from ..helpers import expround_torch, GM_torch_noise, GM_torch, mosek_optimize, mirror_descent_torch
 from ..helpers import unbiased_sample_torch, unbiased_sample, display_top
 from ..helpers import get_relationships_from_sparse
+from ..helpers import largest_singular_value, gradient, projsplx_torch, one_to_many_project, one_to_many_sample, pgd_optimize_one_to_many
 
 from tqdm import tqdm
 
@@ -17,119 +17,16 @@ import gc
 
 import time
 
-def largest_singular_value(sparse_tensor, tolerance=1e-6, max_iterations=1000):
-    """
-    Calculate the largest singular value of a sparse tensor using power iteration.
-    
-    Parameters:
-    sparse_tensor (torch.sparse_coo_tensor): Input sparse tensor.
-    tolerance (float): Desired error tolerance for convergence.
-    max_iterations (int): Maximum number of iterations to perform.
-    
-    Returns:
-    float: Approximation of the largest singular value.
-    """
-    # Ensure the input is a sparse tensor
-    assert sparse_tensor.is_sparse, "Input tensor must be sparse"
-
-    # Initialize a random vector
-    N = sparse_tensor.size(1)
-    b_k = torch.randn(N, device=sparse_tensor.device)
-    b_k = b_k / torch.norm(b_k)  # Normalize the initial vector
-
-    # Power iteration method to find the largest singular value
-    singular_value_old = 0.0
-    for _ in range(max_iterations):
-        # Perform the matrix multiplication
-        b_k1 = torch.sparse.mm(sparse_tensor, b_k.view(-1, 1)).view(-1)
-        b_k1_norm = torch.norm(b_k1)
-        b_k1 = b_k1 / b_k1_norm
-
-        # Perform the matrix multiplication with the transpose
-        b_k = torch.sparse.mm(sparse_tensor.t(), b_k1.view(-1, 1)).view(-1)
-        b_k_norm = torch.norm(b_k)
-        b_k = b_k / b_k_norm
-
-        # Check for convergence
-        if torch.abs(b_k_norm - singular_value_old) < tolerance:
-            break
-        singular_value_old = b_k_norm
-
-    return b_k_norm.item()
-
-def gradient(Q, b, a, m):
-    # 
-    c = torch.sparse.mm(Q, b) / m ## 
-    g = torch.sparse.mm(Q.T, (-a)[:, None] + c) * 2 / m
-
-    return g
-
-# Code source: https://arxiv.org/pdf/1101.6081
-def projsplx_torch(b):
-    # Step 2: sort in ascending order
-    sorted_b, sorted_indices = torch.sort(b)
-    cumsum_sorted_b = torch.cumsum(sorted_b, dim=0)
-    N = len(b)
-    i = N - 1
-    t_hat = None
-    
-    fracs = ((cumsum_sorted_b[-1] - cumsum_sorted_b[:-1]) - 1) / (N - (torch.arange(1, N, device=b.device)))
-    vals = sorted_b[:-1]
-    # print(fracs, vals)
-    slic = (fracs >= vals).nonzero()
-    if len(slic) == 0:
-        t_hat = (cumsum_sorted_b[-1] - 1) / N
-    else:
-        t_hat = fracs[slic[-1]]
-    #print("b", b.size())
-    #print("t_hat", t_hat)
-    res = torch.clip(b - t_hat, min=0, max=1)
-    #print("res", res.size())
-    return res
-
-def one_to_many_project(b, row_size):
-    b_cp = b.clone()
-    for x in range(0, len(b), row_size):
-        b_cp[x:x+row_size] = projsplx_torch(torch.flatten(b[x:x+row_size]))[:, None]
-    return b_cp
-
-def one_to_many_sample(b, row_size):
-    b_cp = b.clone()
-    for x in range(0, len(b), row_size):
-        dist = OneHotCategorical(b[x:x+row_size])
-        b_cp[x:x+row_size] = dist.sample()
-    return b_cp
-
-def pgd_optimize_one_to_many(Q, b, a, m, T, row_size):
-    # 1. Calculate the learning rate
-    l = largest_singular_value(Q)
-    L = (l * l) * 2 / (m*m)
-    lr = 1/L
-    
-    # 2. Perform the PGD
-    for t in range(T):
-        print(t)
-        # 2a. Identify the gradient of the solution
-        g = gradient(Q, b, a, m)
-        # 2b. Iterate the b value and correctly project it
-        # TODO: this may be able to avoid sparsity issues!!!
-        b = -(lr * g) + b 
-        b = one_to_many_project(b, row_size)
-        # b = b[:, None]
-    
-    return b
-
 @torch.no_grad()
 def learn_relationship_vector_torch_pgd_otm(qm: QueryManagerTorch, epsilon_relationship=1.0, T=100,
                                             delta_relationship = 1e-5, subtable_size=100000, queries_to_reuse=None, iter_cb=lambda *args: None,
                                             k_new_queries=3, k_choose_from=300, exp_mech_alpha=0.2, choose_worst=True, verbose=False, device="cpu",
                                               slices_per_iter=1, expansion_ratio=2.5):
-    """Implementation of new PGD based algorithm"""
-    """ - Exponential mechanism to choose queries from the set """
-    """ - Unbiased estimator (if this actually runs in time)"""
-    """ - MOSEK solver for queries"""
+    """Implementation of new PGD based algorithm
+     - Exponential mechanism to choose queries from the set 
+     - Unbiased estimator algorithm
+     - Optimal gradient descent algorithm.
     
-    """
     Information on parameters:
     qm: a query manager to produce query matrices
     epsilon_relationship: the privacy budget allocated to the relational table
@@ -139,6 +36,8 @@ def learn_relationship_vector_torch_pgd_otm(qm: QueryManagerTorch, epsilon_relat
     queries_to_reuse: the number of queries that we will evaluate in each iteration. Set to None to run all.
     k_new_queries: number of new queries to add to our set in each iteration
     k_choose_from: number of queries to evaluate when running the exponential mechanism
+
+    This algorithm enforces a one to many relationship. This is also NOT TESTED!
     """
     assert k_new_queries <= k_choose_from
     assert 0 < exp_mech_alpha < 1
@@ -180,6 +79,8 @@ def learn_relationship_vector_torch_pgd_otm(qm: QueryManagerTorch, epsilon_relat
     noisy_ans_list = []
     
     def get_dataset_answer(workload_idx, table1_idxes, table2_idxes):
+        """ Given a workload index and indexes of columns in both table 1 and table 2,
+         return the current answer on the dataset for the workload. """
         w = qm.workload_names[workload_idx]
         # load the workload
         # size: num_queries x (nsyn1*nsyn2)
@@ -197,12 +98,13 @@ def learn_relationship_vector_torch_pgd_otm(qm: QueryManagerTorch, epsilon_relat
         dataset_answer /= table1_idxes.shape[0]
         return true_answer, dataset_answer
     
-    # initialize a b_round
+    # initialize a b_round vector
     rand_idxes = torch.randint(0, qm.n_syn2, (qm.n_syn1,)) + torch.arange(0, qm.n_syn2 * qm.n_syn1, qm.n_syn2)[None, :] # torch.randperm(qm.n_syn1 * qm.n_syn2)[None, :n_relationship_synt] # TODO: this may run out of memory
     b_round = torch.sparse_coo_tensor(indices=rand_idxes, values=torch.ones([n_relationship_synt]),
                                       size=[qm.n_syn_cross], device=device).float().coalesce()
     
     for t in tqdm(range(T)):
+        # Multiple slices
         for x_sli in range(slices_per_iter):
             timers = []
             timers.append((time.time(), "start"))
@@ -237,6 +139,7 @@ def learn_relationship_vector_torch_pgd_otm(qm: QueryManagerTorch, epsilon_relat
                 continue
             timers.append((time.time(), "assorted_precomps"))
 
+            # On the first slice, we need to select new workloads.
             if x_sli == 0:
                 def exp_mech_new_workloads(uselected_workload):
                     """ Uses the exponential mechanism to select new workloads """
@@ -294,6 +197,7 @@ def learn_relationship_vector_torch_pgd_otm(qm: QueryManagerTorch, epsilon_relat
             errors = []
             
             timers.append((time.time(), "begin workload eval"))
+            # On each iteration, evaluate all the workloads that we have stored answers for, and keep the ones with the worst errors.
             for i in range(len(selected_workloads)):
                 workload_idx = selected_workloads[i]
                 _, dataset_ans = get_dataset_answer(workload_idx, table1_idxes, table2_idxes) # we can't actually use the true answer here!
@@ -305,6 +209,7 @@ def learn_relationship_vector_torch_pgd_otm(qm: QueryManagerTorch, epsilon_relat
             iter_noisy_ans = torch.cat([noisy_ans_list[i] for i in curr_workload_idxes])
             timers.append((time.time(), "end workload eval"))
             
+            # Get the query matrices for these workloads
             for i in iter_selected_workloads:
                 curr_workload = qm.workload_names[i]
     
@@ -326,7 +231,11 @@ def learn_relationship_vector_torch_pgd_otm(qm: QueryManagerTorch, epsilon_relat
             b_slice = torch.sparse_coo_tensor(indices=b_slice_rand_idxes, values=torch.ones([sub_num_relationships]),
                                             size=[cross_slice_size, 1], device=device).float().coalesce()
             Q_set = Q_set.coalesce()
+            
+            # run pgd.
+            # The one to many function also enforces the one-to-many constraint in the projection.
             b_slice = pgd_optimize_one_to_many(Q_set, b_slice, iter_noisy_ans.to(device=device), sub_num_relationships, 20, table2_slice_size)
+            
             timers.append((time.time(), "optimizer"))
             
             # put these back into the slice: this is slightly complicated!

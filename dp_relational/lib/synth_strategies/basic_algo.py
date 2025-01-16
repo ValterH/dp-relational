@@ -16,6 +16,10 @@ import gc
 
 def learn_relationship_vector_basic(qm: QueryManagerBasic, epsilon_relationship=1.0, T=100,
                                    delta_relationship = 1e-5, verbose=False):
+    """
+    This is a basic algorithm for learning a relationship vector.
+    This samples new workloads each iteration randomly, and then uses a mirror descent to find the new relationship vector.
+    """
     Q = qm.Q
     n_relationship_orig = qm.n_relationship_orig
     n_relationship_synt = qm.n_relationship_synth

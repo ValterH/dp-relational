@@ -12,6 +12,8 @@ import numpy as np
 import mosek
 import mosek.fusion
 
+from torch.distributions import OneHotCategorical
+
 """
 Functions for converting between concentrated and approximate DP
 """
@@ -395,3 +397,105 @@ def get_relationships_from_sparse(qm, b_round):
     table1_nums = (relationships - table2_nums) // qm.n_syn2
     
     return table1_nums, table2_nums
+
+def largest_singular_value(sparse_tensor, tolerance=1e-6, max_iterations=1000):
+    """
+    Calculate the largest singular value of a sparse tensor using power iteration.
+    
+    Parameters:
+    sparse_tensor (torch.sparse_coo_tensor): Input sparse tensor.
+    tolerance (float): Desired error tolerance for convergence.
+    max_iterations (int): Maximum number of iterations to perform.
+    
+    Returns:
+    float: Approximation of the largest singular value.
+    """
+    # Ensure the input is a sparse tensor
+    assert sparse_tensor.is_sparse, "Input tensor must be sparse"
+
+    # Initialize a random vector
+    N = sparse_tensor.size(1)
+    b_k = torch.randn(N, device=sparse_tensor.device)
+    b_k = b_k / torch.norm(b_k)  # Normalize the initial vector
+
+    # Power iteration method to find the largest singular value
+    singular_value_old = 0.0
+    for _ in range(max_iterations):
+        # Perform the matrix multiplication
+        b_k1 = torch.sparse.mm(sparse_tensor, b_k.view(-1, 1)).view(-1)
+        b_k1_norm = torch.norm(b_k1)
+        b_k1 = b_k1 / b_k1_norm
+
+        # Perform the matrix multiplication with the transpose
+        b_k = torch.sparse.mm(sparse_tensor.t(), b_k1.view(-1, 1)).view(-1)
+        b_k_norm = torch.norm(b_k)
+        b_k = b_k / b_k_norm
+
+        # Check for convergence
+        if torch.abs(b_k_norm - singular_value_old) < tolerance:
+            break
+        singular_value_old = b_k_norm
+
+    return b_k_norm.item()
+
+def gradient(Q, b, a, m):
+    """ Helper function to compute the gradient of the objective function."""
+    c = torch.sparse.mm(Q, b) / m ## 
+    g = torch.sparse.mm(Q.T, (-a)[:, None] + c) * 2 / m
+
+    return g
+
+# Code source: https://arxiv.org/pdf/1101.6081
+def projsplx_torch(b):
+    # Step 2: sort in ascending order
+    sorted_b, sorted_indices = torch.sort(b)
+    cumsum_sorted_b = torch.cumsum(sorted_b, dim=0)
+    N = len(b)
+    i = N - 1
+    t_hat = None
+    
+    fracs = ((cumsum_sorted_b[-1] - cumsum_sorted_b[:-1]) - 1) / (N - (torch.arange(1, N, device=b.device)))
+    vals = sorted_b[:-1]
+    # print(fracs, vals)
+    slic = (fracs >= vals).nonzero()
+    if len(slic) == 0:
+        t_hat = (cumsum_sorted_b[-1] - 1) / N
+    else:
+        t_hat = fracs[slic[-1]]
+    #print("b", b.size())
+    #print("t_hat", t_hat)
+    res = torch.clip(b - t_hat, min=0, max=1)
+    #print("res", res.size())
+    return res
+
+def one_to_many_project(b, row_size):
+    b_cp = b.clone()
+    for x in range(0, len(b), row_size):
+        b_cp[x:x+row_size] = projsplx_torch(torch.flatten(b[x:x+row_size]))[:, None]
+    return b_cp
+
+def one_to_many_sample(b, row_size):
+    b_cp = b.clone()
+    for x in range(0, len(b), row_size):
+        dist = OneHotCategorical(b[x:x+row_size])
+        b_cp[x:x+row_size] = dist.sample()
+    return b_cp
+
+def pgd_optimize_one_to_many(Q, b, a, m, T, row_size):
+    # 1. Calculate the learning rate
+    l = largest_singular_value(Q)
+    L = (l * l) * 2 / (m*m)
+    lr = 1/L
+    
+    # 2. Perform the PGD
+    for t in range(T):
+        print(t)
+        # 2a. Identify the gradient of the solution
+        g = gradient(Q, b, a, m)
+        # 2b. Iterate the b value and correctly project it
+        # TODO: this may be able to avoid sparsity issues!!!
+        b = -(lr * g) + b 
+        b = one_to_many_project(b, row_size)
+        # b = b[:, None]
+    
+    return b

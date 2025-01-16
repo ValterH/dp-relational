@@ -15,12 +15,21 @@ import random
 import gc
 
 @torch.no_grad()
-def learn_relationship_vector_torch_masked(qm: QueryManagerTorch, epsilon_relationship=1.0, T=100, T_mirror=150,
+def learn_relationship_vector_torch_priv_cor(qm: QueryManagerTorch, epsilon_relationship=1.0, T=100, T_mirror=150,
                                            num_workload_ite = 2, delta_relationship = 1e-5, subtable_size=100000,
                                            verbose=False, device="cpu"):
-    """Learns only some subset of the relationship vector at a time."""
+    """
+    This is another algorithm for learning a relationship vector.
+
+    This samples new workloads each iteration randomly, and then uses a mirror descent to find the new relationship vector.
+    It however does not learn the whole table at once: it only takes a slice of size subtable_size and learns the relationships
+    in this subset. This speeds up the execution of the algorithm.
+
+    Priv_cor is in the name as originally there was an issue in the privacy budget of a predecessor algorithm.
+    """
     n_relationship_orig = qm.n_relationship_orig
     n_relationship_synt = qm.n_relationship_synth
+    m_privacy = n_relationship_orig
     
     assert n_relationship_synt < qm.n_syn1 * qm.n_syn2
 
@@ -39,8 +48,15 @@ def learn_relationship_vector_torch_masked(qm: QueryManagerTorch, epsilon_relati
     # convert to RDP
     rho_rel = cdp_rho(epsilon_relationship, delta_relationship)
 
-    # privacy budget per iteration
-    per_round_rho_rel = (rho_rel / 0.0001) if T == 0 else rho_rel / T
+    # privacy parameter
+    epsilon0 = np.sqrt((2 * rho_rel) / (num_workload_ite * T)) if T != 0 else 100000
+    
+    # exponential mechanism factor: product before the softmax
+    exp_mech_alpha = 0
+    # exp_mech_factor = np.sqrt(exp_mech_alpha) * epsilon0 * (m_privacy / qm.rel_dataset.dmax)
+    
+    # gaussian mechanism standard deviation
+    gm_stddev = (np.sqrt(2) / (np.sqrt(1 - exp_mech_alpha) * epsilon0)) * (qm.rel_dataset.dmax / m_privacy)
 
     # intialization
     unselected_workload = [i for i in range(len(qm.workload_names))]
@@ -79,7 +95,7 @@ def learn_relationship_vector_torch_masked(qm: QueryManagerTorch, epsilon_relati
             
             del curr_Qmat_full
 
-            noisy_curr_ans = GM_torch(curr_true_answer, per_round_rho_rel, n_relationship_orig) # TODO: what to use??
+            noisy_curr_ans = GM_torch_noise(curr_true_answer, gm_stddev)
 
             noisy_ans = torch.cat([noisy_ans, noisy_curr_ans])
 

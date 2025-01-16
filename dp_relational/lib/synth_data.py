@@ -1,3 +1,6 @@
+""" Methods for using snsynth to generate synthetic data for the individual tables
+(no relational data) """
+
 from snsynth import Synthesizer
 from .dataset import RelationalDataset
 import itertools
@@ -59,15 +62,7 @@ from .synth_strategies.basic_algo import learn_relationship_vector_basic
 
 from .synth_strategies.torch_algo import learn_relationship_vector_torch
 
-from .synth_strategies.torch_masked_algo import learn_relationship_vector_torch_masked
-
-from .synth_strategies.torch_masked_query_reuse import learn_relationship_vector_torch_masked_query_reuse
-
-from .synth_strategies.torch_paper_algo import learn_relationship_vector_torch_paper_algo
-
-from .synth_strategies.torch_masked_fixed_privacy import learn_relationship_vector_torch_priv_cor
-
-from .synth_strategies.pgd import learn_relationship_pgd
+from .synth_strategies.torch_masked_algo import learn_relationship_vector_torch_priv_cor
 
 from .synth_strategies.torch_pgd import learn_relationship_vector_torch_pgd
 

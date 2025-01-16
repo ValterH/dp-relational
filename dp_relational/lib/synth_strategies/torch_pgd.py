@@ -7,6 +7,7 @@ from ..helpers import cdp_delta, cdp_eps, cdp_rho, get_per_round_privacy_budget,
 from ..helpers import expround_torch, GM_torch_noise, GM_torch, mosek_optimize, mirror_descent_torch
 from ..helpers import unbiased_sample_torch, unbiased_sample, display_top
 from ..helpers import get_relationships_from_sparse
+from ..helpers import largest_singular_value, gradient, optimal_project_to_simplex_torch, pgd_optimize
 
 from tqdm import tqdm
 
@@ -16,161 +17,16 @@ import gc
 
 import time
 
-def largest_singular_value(sparse_tensor, tolerance=1e-6, max_iterations=1000):
-    """
-    Calculate the largest singular value of a sparse tensor using power iteration.
-    
-    Parameters:
-    sparse_tensor (torch.sparse_coo_tensor): Input sparse tensor.
-    tolerance (float): Desired error tolerance for convergence.
-    max_iterations (int): Maximum number of iterations to perform.
-    
-    Returns:
-    float: Approximation of the largest singular value.
-    """
-    # Ensure the input is a sparse tensor
-    assert sparse_tensor.is_sparse, "Input tensor must be sparse"
-
-    # Initialize a random vector
-    N = sparse_tensor.size(1)
-    b_k = torch.randn(N, device=sparse_tensor.device)
-    b_k = b_k / torch.norm(b_k)  # Normalize the initial vector
-
-    # Power iteration method to find the largest singular value
-    singular_value_old = 0.0
-    for _ in range(max_iterations):
-        # Perform the matrix multiplication
-        b_k1 = torch.sparse.mm(sparse_tensor, b_k.view(-1, 1)).view(-1)
-        b_k1_norm = torch.norm(b_k1)
-        b_k1 = b_k1 / b_k1_norm
-
-        # Perform the matrix multiplication with the transpose
-        b_k = torch.sparse.mm(sparse_tensor.t(), b_k1.view(-1, 1)).view(-1)
-        b_k_norm = torch.norm(b_k)
-        b_k = b_k / b_k_norm
-
-        # Check for convergence
-        if torch.abs(b_k_norm - singular_value_old) < tolerance:
-            break
-        singular_value_old = b_k_norm
-
-    return b_k_norm.item()
-
-def gradient(Q, b, a, m):
-    # 
-    c = torch.sparse.mm(Q, b) / m ## 
-    g = torch.sparse.mm(Q.T, (-a)[:, None] + c) * 2 / m
-
-    return g
-
-def optimal_project_to_simplex_torch(b, m):
-    # return projection_binarysearch_torch(b, m)
-    # Step 1: Clip the vector to ensure it is between 0 and 1
-    b = torch.clamp(torch.squeeze(b), 0, 1)
-    
-    # Step 2: Check if the sum is greater than m, if so scale it down
-    sum_b = torch.sum(b)
-    if sum_b > m:
-        return b * (m / sum_b)
-        
-    # Step 3: If the sum is less than m, sort the vector in descending order
-    sorted_b, sorted_indices = torch.sort(b, descending=True)
-    
-    # Step 4: Find the first index i that satisfies the conditions
-    cumsum_sorted_b = torch.cumsum(sorted_b, dim=0)
-    N = len(b)
-    for i in range(N):
-        if sorted_b[i] > 0 and (m - (i + 1)) / (cumsum_sorted_b[-1] - cumsum_sorted_b[i]) <= 1:
-            break
-    
-    # Step 5: Set v_1, ..., v_i to 1
-    sorted_b[:i + 1] = 1
-    
-    # Step 6: Scale remaining elements
-    if i + 1 < N:
-        remaining_sum = torch.sum(sorted_b[i + 1:])
-        if remaining_sum > 0:
-            scale_factor = (m - (i + 1)) / remaining_sum
-            sorted_b[i + 1:] *= scale_factor
-    
-    # Reorder to the original order
-    original_b = b.clone()
-    original_b[sorted_indices] = sorted_b
-    
-    return original_b
-
-# def projection_binarysearch_torch(b, m_syn):
-#     device = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
-#     # Ensure b is a torch tensor and move it to the device
-#     if not isinstance(b, torch.Tensor):
-#         b = torch.tensor(b, dtype=torch.float32, device=device)
-#     else:
-#         b = b.to(device)
-#     m = m_syn - torch.sum(b)
-#     N = len(b)
-#     tol = 1e-5
-#     l = -b
-#     u = 1 - b
-
-#     # Check if the problem is feasible
-#     S_l = torch.sum(l)
-#     S_u = torch.sum(u)
-#     if m < S_l or m > S_u:
-#         print("The problem is not feasible")
-#         return None, None, None
-
-#     # Perform Binary Search
-#     low = torch.min(l)
-#     high = torch.max(u)
-#     while (high - low).item() > tol:
-#         y = (low + high) / 2
-#         S = torch.sum(torch.clamp(y, min=l, max=u))
-#         if S > m:
-#             high = y
-#         else:
-#             low = y
-
-#     # Compute the final projection
-#     I_l = (y <= l)
-#     I_u = (y >= u)
-#     I_a = (y > l) & (y < u)
-#     d = torch.zeros(N, dtype=torch.float32, device=device)
-#     d[I_l] = l[I_l]
-#     d[I_u] = u[I_u]
-#     s = (m - torch.sum(d[I_l]) - torch.sum(d[I_u])) / I_a.sum()
-#     d[I_a] = s
-#     x = b + d
-#     return x, torch.sum(x), torch.norm(d)
-
-def pgd_optimize(Q, b, a, m, T):
-    # 1. Calculate the learning rate
-    l = largest_singular_value(Q)
-    L = (l * l) * 2 / (m*m)
-    lr = 1/L
-    
-    # 2. Perform the PGD
-    for t in range(T):
-        # 2a. Identify the gradient of the solution
-        g = gradient(Q, b, a, m)
-        # 2b. Iterate the b value and correctly project it
-        # TODO: this may be able to avoid sparsity issues!!!
-        b = -(lr * g) + b 
-        b = optimal_project_to_simplex_torch(b, m)
-        b = b[:, None]
-    
-    return b
-
 @torch.no_grad()
 def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relationship=1.0, T=100,
                                             delta_relationship = 1e-5, subtable_size=100000, queries_to_reuse=None, iter_cb=lambda *args: None,
                                             k_new_queries=3, k_choose_from=300, exp_mech_alpha=0.2, choose_worst=True, verbose=False, device="cpu",
                                               slices_per_iter=1, guaranteed_rels=0.0, pgd_iters=100):
-    """Implementation of new PGD based algorithm"""
-    """ - Exponential mechanism to choose queries from the set """
-    """ - Unbiased estimator (if this actually runs in time)"""
-    """ - MOSEK solver for queries"""
+    """Implementation of new PGD based algorithm
+     - Exponential mechanism to choose queries from the set 
+     - Unbiased estimator algorithm
+     - Optimal gradient descent algorithm.
     
-    """
     Information on parameters:
     qm: a query manager to produce query matrices
     epsilon_relationship: the privacy budget allocated to the relational table
@@ -220,6 +76,8 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
     noisy_ans_list = []
     
     def get_dataset_answer(workload_idx, table1_idxes, table2_idxes):
+        """ Given a workload index and indexes of columns in both table 1 and table 2,
+         return the true answer and the current answer on the dataset for the workload. """
         w = qm.workload_names[workload_idx]
         # load the workload
         # size: num_queries x (nsyn1*nsyn2)
@@ -237,7 +95,8 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
         dataset_answer /= table1_idxes.shape[0]
         return true_answer, dataset_answer
     
-    # initialize a b_round
+    # initialize a b_round vector
+    # This must be sparse for memory reasons.
     rand_idxes = torch.randperm(qm.n_syn1 * qm.n_syn2)[None, :n_relationship_synt] # TODO: this may run out of memory
     b_round = torch.sparse_coo_tensor(indices=rand_idxes, values=torch.ones([n_relationship_synt]),
                                       size=[qm.n_syn_cross], device=device).float().coalesce()
@@ -279,6 +138,7 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
                 continue
             timers.append((time.time(), "assorted_precomps"))
 
+            # On the first slice, we need to select new workloads.
             if x_sli == 0:
                 def exp_mech_new_workloads(uselected_workload):
                     """ Uses the exponential mechanism to select new workloads """
@@ -338,6 +198,8 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
             errors = []
             
             timers.append((time.time(), "begin workload eval"))
+            # On each iteration, evaluate all the workloads that we have stored answers for, and keep the ones with the worst errors.
+            # Only optimize the worst k_val workloads
             for i in range(len(selected_workloads)):
                 workload_idx = selected_workloads[i]
                 _, dataset_ans = get_dataset_answer(workload_idx, table1_idxes, table2_idxes) # we can't actually use the true answer here!
@@ -349,6 +211,7 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
             iter_noisy_ans = torch.cat([noisy_ans_list[i] for i in curr_workload_idxes])
             timers.append((time.time(), "end workload eval"))
             
+            # Create the query matrices for the selected workloads
             for i in iter_selected_workloads:
                 curr_workload = qm.workload_names[i]
     

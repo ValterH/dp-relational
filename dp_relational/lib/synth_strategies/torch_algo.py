@@ -18,6 +18,11 @@ import gc
 def learn_relationship_vector_torch(qm: QueryManagerTorch, epsilon_relationship=1.0, T=100, T_mirror=50,
                                     num_workload_ite = 2, delta_relationship = 1e-5,
                                     verbose=False, device="cpu"):
+    """
+    This is a basic algorithm for learning a relationship vector.
+    This samples new workloads each iteration randomly, and then uses a mirror descent to find the new relationship vector.
+    Same as basic_algo.py, but using torch
+    """
     n_relationship_orig = qm.n_relationship_orig
     n_relationship_synt = qm.n_relationship_synth
     
