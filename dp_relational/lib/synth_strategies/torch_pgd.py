@@ -133,7 +133,7 @@ def learn_relationship_vector_torch_pgd(qm: QueryManagerTorch, epsilon_relations
             
             # we will start optimising from here
             sub_num_relationships = int(torch.sparse.sum(torch.index_select(b_round, 0, offsets)).numpy(force=True))
-            print(sub_num_relationships)
+            print(f"Optimizing slice #{x_sli}: has {sub_num_relationships} relationships")
             if (sub_num_relationships < 1):
                 continue
             timers.append((time.time(), "assorted_precomps"))
