@@ -16,7 +16,7 @@ print("using device: ", device)
 def print_iter_eval(qm, b_round, T):
     relationship_syn = dp_relational.lib.synth_data.make_synthetic_rel_table_sparse(qm, b_round)
     ave_error, answers = dp_relational.lib.synth_data.evaluate_synthetic_rel_table(qm, relationship_syn)
-    print(ave_error, T)
+    print(f"End of iteration {T}, ave_error: {ave_error}")
 
 def qm_generator_torch(rel_dataset, k, df1_synth, df2_synth):
     return dp_relational.lib.synth_data.QueryManagerTorch(rel_dataset, k=k, df1_synth=df1_synth, df2_synth=df2_synth, device=device)
