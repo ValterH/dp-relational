@@ -86,74 +86,62 @@ g_rel_opts = [0, 0.1, 0.3, 0.5] # [] # [0.12, 0.15, 0.18] #
 run_count = 0
 worsts = [True, False]
 Ts = [0, 1, 5, 10, 15, 25, 40]
+
 for loops in range(NUM_LOOPS):
-    #try:
-    #    for epsilon in epsilons:
-    #        print(":", runner.synth_tables_runid)
-    #        runner.update(epsilon=epsilon)
-    #        print(runner.epsilon)
-    #        print(runner.eps1)
-    #        print(runner.eps2)
-    #        runner.regenerate_qm = True
-    #        runner.regenerate_cross_answers = True
-    #        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
-    #        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M7L_MediumPGD_eps" })
-    #        res_to_show = dict(results)
-    #        del res_to_show["errors"]
-    #        run_count += 1
-    #        print(res_to_show)
-    #        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
-    #        print(f"###### COMPLETED {run_count} RUNS ######")
-    #except Exception as e:
-    #    print(e)
-    #reset_runner()
-    reset_runner()
-    for T_in in Ts:
-        Tconst = T_in
-        runner.update(epsilon=12.0)
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M8L_MediumPGD_Tfinal" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
-    reset_runner()
-    for g_in in g_rel_opts:
-        g_rels = g_in
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M8L_MediumPGD_g_in" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
-    reset_runner()
-    for q_in in q_reuses:
-        q_reuse = q_in
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M8L_MediumPGD_q_reuse" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
-    reset_runner()
-    for k_in in k_news:
-        k_new = k_in
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M8L_MediumPGD_knew" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
-    reset_runner()
-    for a_in in alphas:
-        alpha = a_in
-        runner.regenerate_qm = True
-        runner.regenerate_cross_answers = True
-        runner.load_artifacts('6c687ee6-a77d-11ef-869c-8a7f9025f31e')
-        results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "M8L_MediumPGD_alpha" })
-        run_count += 1
-        print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
-        print(f"###### COMPLETED {run_count} RUNS ######")
-    reset_runner()
+    for synth in ['mst', 'aim']:
+        runner.update(synth=synth)
+        reset_runner()
+        for eps in epsilons:
+            runner.update(epsilon=eps)
+            runner.regenerate_qm = True
+            runner.regenerate_cross_answers = True
+            results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "MovieLens_MediumPGD_eps" })
+            run_count += 1
+            print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+            print(f"###### COMPLETED {run_count} RUNS ######")
+        reset_runner()
+        for T_in in Ts:
+            Tconst = T_in
+            runner.regenerate_qm = True
+            runner.regenerate_cross_answers = True
+            results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "MovieLens_MediumPGD_Tfinal" })
+            run_count += 1
+            print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+            print(f"###### COMPLETED {run_count} RUNS ######")
+        reset_runner()
+        for g_in in g_rel_opts:
+            g_rels = g_in
+            runner.regenerate_qm = True
+            runner.regenerate_cross_answers = True
+            results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "MovieLens_MediumPGD_g_in" })
+            run_count += 1
+            print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+            print(f"###### COMPLETED {run_count} RUNS ######")
+        reset_runner()
+        for q_in in q_reuses:
+            q_reuse = q_in
+            runner.regenerate_qm = True
+            runner.regenerate_cross_answers = True
+            results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "MovieLens_MediumPGD_q_reuse" })
+            run_count += 1
+            print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+            print(f"###### COMPLETED {run_count} RUNS ######")
+        reset_runner()
+        for k_in in k_news:
+            k_new = k_in
+            runner.regenerate_qm = True
+            runner.regenerate_cross_answers = True
+            results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "MovieLens_MediumPGD_knew" })
+            run_count += 1
+            print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+            print(f"###### COMPLETED {run_count} RUNS ######")
+        reset_runner()
+        for a_in in alphas:
+            alpha = a_in
+            runner.regenerate_qm = True
+            runner.regenerate_cross_answers = True
+            results = runner.run(extra_params={ "info": make_summary_dict(), "run_set": "MovieLens_MediumPGD_alpha" })
+            run_count += 1
+            print(f"eps: {runner.epsilon}, error_ave: {results['error_ave']}, error_max: {100 * np.max(np.array([np.sum(x) for x in results['errors']]))}")
+            print(f"###### COMPLETED {run_count} RUNS ######")
+        reset_runner()
