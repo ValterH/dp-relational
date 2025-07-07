@@ -1,4 +1,4 @@
-# Differentially Private Synthetic Data Generation for Relational Databases
+# Differentially Private Synthetic Data Generation for Relational Databases (v0.1.0)
 This repo contains the code for [Differentially Private Synthetic Data Generation for Relational Databases](https://arxiv.org/abs/2405.18670), a paper which brings differentially private (DP) synthetic data generation to relational databases.
 
 Abstract:
