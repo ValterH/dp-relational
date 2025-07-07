@@ -25,7 +25,7 @@ python ipums_setup.py
 ```
 
 After this, you should be ready to start running experiment files! The main experiment results in the paper were generated with the `experiment_pgd_ipums_v2_medium_all.py` and `experiment_pgd_movielens_all.py` files which you can directly run. After some time, these will generate results into the `runs` folder. These can be read to generate plots using `load_experiments_v2.ipynb`, like the figures in the paper!
-![alt text](image.png)
+![figures](figures.png)
 
 # Library documentation
 The main library code is in the `dp_relational` folder. We discuss each file here, one by one:
