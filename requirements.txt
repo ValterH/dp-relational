@@ -6,4 +6,4 @@ smartnoise-synth==1.0.3
 torch
 mosek
 ipumspy
-syntherela
+private-pgm @ git+https://github.com/ryan112358/private-pgm.git@e9ea5fcac62e2c5b92ae97f7afe2648c04432564
