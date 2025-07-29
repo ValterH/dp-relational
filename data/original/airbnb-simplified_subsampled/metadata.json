@@ -1,0 +1,95 @@
+{
+    "tables": {
+        "sessions": {
+            "columns": {
+                "action": {
+                    "sdtype": "categorical"
+                },
+                "action_detail": {
+                    "sdtype": "categorical"
+                },
+                "action_type": {
+                    "sdtype": "categorical"
+                },
+                "device_type": {
+                    "sdtype": "categorical"
+                },
+                "secs_elapsed": {
+                    "computer_representation": "Int64",
+                    "sdtype": "numerical"
+                },
+                "user_id": {
+                    "regex_format": "[A-Za-z]{5}",
+                    "sdtype": "id"
+                }
+            }
+        },
+        "users": {
+            "primary_key": "id",
+            "columns": {
+                "affiliate_channel": {
+                    "sdtype": "categorical"
+                },
+                "affiliate_provider": {
+                    "sdtype": "categorical"
+                },
+                "age": {
+                    "computer_representation": "Int64",
+                    "sdtype": "numerical"
+                },
+                "country_destination": {
+                    "sdtype": "categorical"
+                },
+                "date_account_created": {
+                    "datetime_format": "%Y-%m-%d",
+                    "sdtype": "datetime"
+                },
+                "date_first_booking": {
+                    "datetime_format": "%Y-%m-%d",
+                    "sdtype": "datetime"
+                },
+                "first_affiliate_tracked": {
+                    "sdtype": "categorical"
+                },
+                "first_browser": {
+                    "sdtype": "categorical"
+                },
+                "first_device_type": {
+                    "sdtype": "categorical"
+                },
+                "gender": {
+                    "sdtype": "categorical"
+                },
+                "id": {
+                    "regex_format": "[A-Za-z]{5}",
+                    "sdtype": "id"
+                },
+                "language": {
+                    "sdtype": "categorical"
+                },
+                "signup_app": {
+                    "sdtype": "categorical"
+                },
+                "signup_flow": {
+                    "sdtype": "categorical"
+                },
+                "signup_method": {
+                    "sdtype": "categorical"
+                },
+                "timestamp_first_active": {
+                    "datetime_format": "%Y-%m-%d %H:%M:%S",
+                    "sdtype": "datetime"
+                }
+            }
+        }
+    },
+    "relationships": [
+        {
+            "child_foreign_key": "user_id",
+            "child_table_name": "sessions",
+            "parent_primary_key": "id",
+            "parent_table_name": "users"
+        }
+    ],
+    "METADATA_SPEC_VERSION": "MULTI_TABLE_V1"
+}

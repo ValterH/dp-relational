@@ -6,3 +6,4 @@ smartnoise-synth==1.0.3
 torch
 mosek
 ipumspy
+syntherela
