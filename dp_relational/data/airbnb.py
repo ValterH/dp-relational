@@ -1,6 +1,3 @@
-import os
-
-import pandas as pd
 from pathlib import Path
 from syntherela.data import load_tables
 from syntherela.metadata import Metadata
